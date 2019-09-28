@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 5.3//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-5.3.dtd">  
+  
+ <hibernate-mapping>  
+ <class name="com.models.Role" table="role">  
+ <id name="roleId">  
+ <generator class="native"></generator>  
+ </id>  
+ <property name="roleName" column="name" type="string"></property>
+ </class> 
+         
+ </hibernate-mapping>  

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 5.3//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-5.3.dtd">  
+  
+ <hibernate-mapping>  
+ <class name="com.models.User" table="user">  
+ <id name="userId" column="userId">  
+ <generator class="native"></generator>  
+ </id>  
+ <many-to-one name="userInfo" column="infoId" class="com.models.UserInfo" lazy="false"/>
+ <many-to-one name="userRole" column="roleId" class="com.models.Role" lazy="false"/>
+ <many-to-one name="wallet" column="walletId" class="com.models.Wallet" lazy="false"/>
+ <property name="userName" column="name" type="string"></property>  
+ <property name="userPass"  column="password" type="string"></property> 
+ </class>  
+         
+ </hibernate-mapping>  
