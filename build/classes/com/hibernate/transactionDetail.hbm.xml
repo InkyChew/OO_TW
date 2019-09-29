@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 5.3//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-5.3.dtd">  
+  
+ <hibernate-mapping>  
+ <class name="com.models.TransactionDetail" table="transaction_detail">  
+ <id name="id" column="id">  
+ <generator class="native"></generator>  
+ </id>
+ <property name="walletId" column="walletId" type="integer"></property>  
+ <property name="date" column="date" type="string"></property>  
+ <property name="type" column="type" type="string"></property>  
+ <property name="amount"  column="amount" type="integer"></property> 
+ <property name="balance" column="balance" type="integer"></property>  
+ <property name="traderId" column="traderId" type="integer"></property>  
+ </class>  
+         
+ </hibernate-mapping>  
