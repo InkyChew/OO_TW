@@ -9,28 +9,28 @@
 			<result-type name="tiles" default="true"
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
-        <action name="Login" class="com.controller.controller" method="login">
+        <action name="Login" class="com.controller.facade" method="login">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
             <result name="administrator" type="tiles">administrator</result>
         </action>
-        <action name="QRpay" class="com.controller.controller" method="QRpay">
+        <action name="QRpay" class="com.controller.facade" method="QRpay">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="Payment" class="com.controller.controller" method="payment">
+        <action name="Payment" class="com.controller.facade" method="payment">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="ToPlatform" class="com.controller.controller" method="toPlatform">
+        <action name="ToPlatform" class="com.controller.facade" method="toPlatform">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="TransactionDetail" class="com.controller.controller" method="showTransaction">
+        <action name="TransactionDetail" class="com.controller.facade" method="showTransaction">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">transaction</result>
         </action>
-        <action name="readClientAll" class="com.controller.controller" method="readClientAll">
+        <action name="readClientAll" class="com.controller.facade" method="readClientAll">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">administrator</result>
         </action>

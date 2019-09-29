@@ -12,6 +12,7 @@ import com.models.Transfer;
 import com.models.Receivement;
 
 public class Receivement extends Transfer{
+	// controller
 	@Override
 	public String process(){
 		Session session = HibernateUtil.getSessionFactory().openSession();

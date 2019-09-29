@@ -14,7 +14,7 @@ import com.models.Transfer;
 import com.models.Receivement;
 
 public class Payment extends Transfer{
-	
+	// controller
 	@Override
 	public String process(){
 		// for DB
