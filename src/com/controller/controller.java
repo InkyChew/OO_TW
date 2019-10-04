@@ -18,6 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import com.models.Deposit;
 import com.models.HibernateUtil;
 import com.models.User;
 import com.models.UserInfo;
@@ -140,6 +141,16 @@ public class controller {
 		}
 		return output;
 	}
+	public String deposit() {
+		int amount= transfer.amount;
+		transfer= new Deposit();
+		transfer.setAmount(amount);
+		String output = transfer.process();
+		if (output=="success") {
+			output = toPlatform();
+		}
+		return output;
+	}
 	public String QRpay() {
 		String output="success";
 		return output;
@@ -186,37 +197,6 @@ public class controller {
 		}finally {
 			session.close(); 
 		}
-		return output;
-	}
-	public String timeSearch() {
-		String output="error";
-		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
-		try{
-	         tx = session.beginTransaction();
-    		 TransactionDetail transactionDetail;
-    		 int userId = (int) httpSession.getAttribute("userId");
-    		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
-    		 int walletId = ((User) data.get(0)).wallet.walletId;
-	         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
-	         
-	         for (int i = 0; i < data.size(); i++) {
-	        	 transactionDetail = (TransactionDetail) data.get(i);
-	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        	Date date = sdf.parse(transactionDetail.getDate());
-	        	if (date.getMonth()+1 == timeSearchMonth && date.getYear()+1900 == timeSearchYear) {
-	        		 transactionDetails.add(transactionDetail);
-	        	}
-	         }
-	 		 data.clear();
-	         tx.commit();
-	         output="success";
-	      }catch (HibernateException | ParseException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
 		return output;
 	}
 }

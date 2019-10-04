@@ -22,6 +22,10 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
+        <action name="Deposit" class="com.controller.controller" method="deposit">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">platform</result>
+        </action>
         <action name="ToPlatform" class="com.controller.controller" method="toPlatform">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>

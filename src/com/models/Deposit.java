@@ -1,6 +1,7 @@
 package com.models;
 
 import org.apache.struts2.ServletActionContext;
+import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -14,16 +15,20 @@ import com.models.Deposit;
 public class Deposit extends Transfer{
 	@Override
 	public String process(){
+		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		String output="error";
 		try{
+			 userId = (int) httpSession.getAttribute("userId");
+			 traderId = userId;
 			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
 		     User user = null; 
 		     User trader = null;
 		     if(data.size() > 0 ) {
 		    	 	type = "deposit";
 		        	user = (User) data.get(0);
+		        	trader = user;
 		        	balance = user.getWallet().getWalletMoney();
 		        	balance+=amount;
 	    		    user.wallet.walletMoney=balance;

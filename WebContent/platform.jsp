@@ -96,6 +96,22 @@
 		<h1>Receivement</h1>
 		<div class="center"><img src="https://api.qrserver.com/v1/create-qr-code/?data=<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/ToPlatform?transfer.traderId=<s:property value="user.userId"/>&amp;size=100x100" alt="" title="" /></div>	
     </div>
+		 <div class="inner_box">
+    	<h1>Deposit</h1>
+        <form action="Deposit" method="post" enctype="multipart/form-data"> 
+        <table>
+			
+			<tr>
+				<td>Amount:</td>
+				<td><input type="text" name="transfer.amount" required></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="Deposit>>" /></td>
+			</tr>
+		</table> 
+		</form>
+	</div>
     </div>
     
     </body>
