@@ -110,11 +110,11 @@ public class controller {
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
 	         if (data.size() >0) {
-	        	 user = (User) data.get(0);
-	        	 if ( user.userPass.equals(user.userPass)) {
-	        		 httpSession.setAttribute("userId", user.userId);
+	        	 User newUser = (User) data.get(0);
+	        	 if ( newUser.userPass.equals(user.userPass)) {
+	        		 httpSession.setAttribute("userId", newUser.userId);
 	        		 output="success";
-	        		 if (isAdmin(user)) {
+	        		 if (isAdmin(newUser)) {
 	        			 output = readClientAll();
 	        		 }
 		         }
