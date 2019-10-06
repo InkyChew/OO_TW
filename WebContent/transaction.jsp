@@ -31,6 +31,21 @@
     <body>
     <div>
    		 <h1>Transaction</h1>
+   		<s:set name="month" value="{1,2,3,4,5,6,7,8,9,10,11,12}"/>
+   		<form action="timeSearch" method="post">
+	   		<select name="timeSearchYear">
+	   		 	<option value="2019">2019</option>
+	   		 </select>
+	   		 year
+	   		 <select name="timeSearchMonth">
+	   		 	<s:iterator value="#month" status="status">
+	   		 		<option value="<s:property />"><s:property /></option>
+				</s:iterator>
+	   		 </select>
+	   		 month
+	   		 <input type="submit" value="Search"/>
+   		</form>
+   		 
         <table>
 					<thead>
 						<tr>

@@ -1,7 +1,6 @@
 package com.models;
 
 import org.apache.struts2.ServletActionContext;
-import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -13,6 +12,7 @@ import com.models.Transfer;
 import com.models.Deposit;
 
 public class Deposit extends Transfer{
+	// controller
 	@Override
 	public String process(){
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();

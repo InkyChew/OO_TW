@@ -18,18 +18,19 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import com.models.Deposit;
 import com.models.HibernateUtil;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
 import com.models.Transfer;
 import com.models.Payment;
+import com.models.Deposit;
 public class controller {
-	private User user= new User();
+	private User user = new User();
 	private Transfer transfer;
-	private List<TransactionDetail> transactionDetails= new ArrayList<TransactionDetail>();
-	private List<User> userList= new ArrayList<User>();
+	private TransactionDetail transactionDetail;
+	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
+	private List<User> userList = new ArrayList<User>();
 	private int timeSearchYear;
 	private int timeSearchMonth;	
 	public int getTimeSearchYear() {
@@ -69,6 +70,16 @@ public class controller {
 	}
 	public List<User> getUserList(){
 	    return userList;
+	}
+	public void SetTransferTransactionDetail(int amount, int balance,	String type, int walletId, int traderId){ // class Transfer setTransactionDetail 30 60
+		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
+		String date = dfcurrentTime.format(new java.util.Date());
+		transactionDetail.setDate(date);
+		transactionDetail.setAmount(amount);
+		transactionDetail.setBalance(balance);
+		transactionDetail.setType(type);
+		transactionDetail.setWalletId(walletId);
+		transactionDetail.setTraderId(traderId);
 	}
 	public Boolean isAdmin(User user) {
 		if (user.userRole.roleName.equals("administrator")) {
