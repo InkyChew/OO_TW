@@ -1,5 +1,6 @@
 package com.controller;
 
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.apache.struts2.ServletActionContext;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.text.DateFormat;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -30,20 +32,7 @@ public class controller {
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
 	private List<User> userList = new ArrayList<User>();
-	private int timeSearchYear;
-	private int timeSearchMonth;	
-	public int getTimeSearchYear() {
-		return timeSearchYear;
-	}
-	public void setTimeSearchYear(int timeSearchYear) {
-		this.timeSearchYear = timeSearchYear;
-	}
-	public int getTimeSearchMonth() {
-		return timeSearchMonth;
-	}
-	public void setTimeSearchMonth(int timeSearchMonth) {
-		this.timeSearchMonth = timeSearchMonth;
-	}
+	
 	Session session = null;
 	Transaction tx = null;
 	public void setUser(User user){
@@ -89,7 +78,7 @@ public class controller {
 	public String readClientAll() {
 		String output = "error";
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();;
+		Transaction tx = session.beginTransaction();
 		try{
 			if (isAdmin(user)) {
 		         List data = session.createCriteria(User.class)
@@ -115,11 +104,11 @@ public class controller {
 	public String login() {
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
-		try{	
+		HttpSession httpSession = ServletActionContext.getRequest().getSession();
+		try{
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
-	         if (data.size() >0) {
+	         if (data.size() > 0) {
 	        	 user = (User) data.get(0);
 	        	 if ( user.userPass.equals(user.userPass)) {
 	        		 httpSession.setAttribute("userId", user.userId);
@@ -197,37 +186,6 @@ public class controller {
 		}finally {
 			session.close(); 
 		}
-		return output;
-	}
-	public String timeSearch() {
-		String output="error";
-		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
-		try{
-	         tx = session.beginTransaction();
-    		 TransactionDetail transactionDetail;
-    		 int userId = (int) httpSession.getAttribute("userId");
-    		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
-    		 int walletId = ((User) data.get(0)).wallet.walletId;
-	         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
-	         
-	         for (int i = 0; i < data.size(); i++) {
-	        	 transactionDetail = (TransactionDetail) data.get(i);
-	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        	Date date = sdf.parse(transactionDetail.getDate());
-	        	if (date.getMonth()+1 == timeSearchMonth && date.getYear()+1900 == timeSearchYear) {
-	        		 transactionDetails.add(transactionDetail);
-	        	}
-	         }
-	 		 data.clear();
-	         tx.commit();
-	         output="success";
-	      }catch (HibernateException | ParseException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
 		return output;
 	}
 }
