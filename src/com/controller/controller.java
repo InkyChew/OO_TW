@@ -6,6 +6,7 @@ import org.apache.struts2.ServletActionContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -31,20 +32,7 @@ public class controller {
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
 	private List<User> userList = new ArrayList<User>();
-	private int timeSearchYear;
-	private int timeSearchMonth;	
-	public int getTimeSearchYear() {
-		return timeSearchYear;
-	}
-	public void setTimeSearchYear(int timeSearchYear) {
-		this.timeSearchYear = timeSearchYear;
-	}
-	public int getTimeSearchMonth() {
-		return timeSearchMonth;
-	}
-	public void setTimeSearchMonth(int timeSearchMonth) {
-		this.timeSearchMonth = timeSearchMonth;
-	}
+	
 	Session session = null;
 	Transaction tx = null;
 	public void setUser(User user){
@@ -71,15 +59,17 @@ public class controller {
 	public List<User> getUserList(){
 	    return userList;
 	}
-	public void SetTransferTransactionDetail(int amount, int balance,	String type, int walletId, int traderId){ // class Transfer setTransactionDetail 30 60
+	public TransactionDetail SetTransferTransactionDetail(int amount, int balance,	String type, int walletId, int traderId){ // class Transfer setTransactionDetail 30 60
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
 		String date = dfcurrentTime.format(new java.util.Date());
+		transactionDetail = new TransactionDetail();
 		transactionDetail.setDate(date);
 		transactionDetail.setAmount(amount);
 		transactionDetail.setBalance(balance);
 		transactionDetail.setType(type);
 		transactionDetail.setWalletId(walletId);
 		transactionDetail.setTraderId(traderId);
+		return transactionDetail;
 	}
 	public Boolean isAdmin(User user) {
 		if (user.userRole.roleName.equals("administrator")) {
@@ -124,6 +114,7 @@ public class controller {
 	        	 User newUser = (User) data.get(0);
 	        	 if ( newUser.userPass.equals(user.userPass)) {
 	        		 httpSession.setAttribute("userId", newUser.userId);
+	        		 user = newUser;
 	        		 output="success";
 	        		 if (isAdmin(newUser)) {
 	        			 output = readClientAll();
