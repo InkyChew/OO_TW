@@ -59,7 +59,7 @@ public class Transfer {
 	}
 	public String setTransactionDetail(int walletId) { // 跟 controller 說叫 transaction detail 做事
 		mediator.SetTransferTransactionDetail(amount, balance, type, walletId, traderId);
-		transactionDetail = new TransactionDetail();
+		// transactionDetail = new TransactionDetail();
 		// transactionDetail.setDate(date);
 		// transactionDetail.setAmount(amount);
 		// transactionDetail.setBalance(balance);

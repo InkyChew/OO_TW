@@ -7,6 +7,7 @@ import org.apache.struts2.ServletActionContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ import com.models.UserInfo;
 import com.models.TransactionDetail;
 import com.models.Transfer;
 import com.models.Payment;
+import com.models.Deposit;
 public class controller {
 	private User user = new User();
 	private Transfer transfer;
@@ -59,15 +61,17 @@ public class controller {
 	public List<User> getUserList(){
 	    return userList;
 	}
-	public void SetTransferTransactionDetail(int amount, int balance,	String type, int walletId, int traderId){ // class Transfer setTransactionDetail 30 60
+	public TransactionDetail SetTransferTransactionDetail(int amount, int balance,	String type, int walletId, int traderId){ // class Transfer setTransactionDetail 30 60
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
 		String date = dfcurrentTime.format(new java.util.Date());
+		transactionDetail = new TransactionDetail();
 		transactionDetail.setDate(date);
 		transactionDetail.setAmount(amount);
 		transactionDetail.setBalance(balance);
 		transactionDetail.setType(type);
 		transactionDetail.setWalletId(walletId);
 		transactionDetail.setTraderId(traderId);
+		return transactionDetail;
 	}
 	public Boolean isAdmin(User user) {
 		if (user.userRole.roleName.equals("administrator")) {
@@ -108,12 +112,13 @@ public class controller {
 		try{
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
-	         if (data.size() > 0) {
-	        	 user = (User) data.get(0);
-	        	 if ( user.userPass.equals(user.userPass)) {
-	        		 httpSession.setAttribute("userId", user.userId);
+	         if (data.size() >0) {
+	        	 User newUser = (User) data.get(0);
+	        	 if ( newUser.userPass.equals(user.userPass)) {
+	        		 httpSession.setAttribute("userId", newUser.userId);
+	        		 user = newUser;
 	        		 output="success";
-	        		 if (isAdmin(user)) {
+	        		 if (isAdmin(newUser)) {
 	        			 output = readClientAll();
 	        		 }
 		         }
@@ -134,6 +139,16 @@ public class controller {
 		transfer= new Payment();
 		transfer.setAmount(amount);
 		transfer.setTraderId(traderId);	
+		String output = transfer.process();
+		if (output=="success") {
+			output = toPlatform();
+		}
+		return output;
+	}
+	public String deposit() {
+		int amount= transfer.amount;
+		transfer= new Deposit();
+		transfer.setAmount(amount);
 		String output = transfer.process();
 		if (output=="success") {
 			output = toPlatform();
