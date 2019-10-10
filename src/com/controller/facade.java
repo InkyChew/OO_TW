@@ -76,7 +76,7 @@ public class facade { // 你就是個controller
 		        OTP += (char)(int)((Math.random()*26) + 97);
 		      }
 		    }
-			String address = user.getUserEmail();
+			String address = user.getUserInfo().getEmail();
 			mail.sendOTP(address, OTP);
 			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
 			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);

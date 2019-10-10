@@ -5,6 +5,7 @@ public class UserInfo {
 	public String name;
 	public String telephone;
 	public String address;
+	public String email;
 	public void setId(int id){
 	    this.id=id;
 	}
@@ -28,6 +29,12 @@ public class UserInfo {
 	}
 	public String getAddress(){
 	    return address;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
 
