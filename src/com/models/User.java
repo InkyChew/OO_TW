@@ -1,13 +1,5 @@
 package com.models;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
-import org.hibernate.HibernateException;
-import org.hibernate.criterion.Restrictions;
-
 import com.models.Role;
 import com.models.Wallet;
 import com.models.UserInfo;

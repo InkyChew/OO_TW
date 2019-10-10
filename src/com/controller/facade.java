@@ -65,32 +65,30 @@ public class facade { //GUI=V+C
 	
 	public String login() {
 		String output = "error";
-//		if(true) {
 		if(auth.createSession(user)) {
-//			if(auth.isAdmin(user)) { // account detail page
-//				Session session = HibernateUtil.getSessionFactory().openSession();
-//				Transaction tx = session.beginTransaction();
-//				try{
-//			         List data = session.createCriteria(User.class)
-//			        		 .createAlias("userRole","role")
-//			        		 .add(Restrictions.not(Restrictions.eq("role.roleName", "administrator"))).list();
-//			         for(Iterator iterator = data.iterator(); iterator.hasNext();){
-//			        	 User user = (User) iterator.next();
-//			        	 userList.add(user);
-//			         }
-//			         output = "administrator";
-//			 		 data.clear();
-//			         tx.commit();
-//			      }catch (HibernateException e) {
-//			         if (tx!=null) tx.rollback();
-//			         e.printStackTrace(); 
-//			      }finally {
-//			         session.close(); 
-//			      }
-//			}else {
-//				output = "success"; // menu
-//			}
-			output = "success";
+			if(auth.isAdmin()) { // account detail page
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction tx = session.beginTransaction();
+				try{
+			         List data = session.createCriteria(User.class)
+			        		 .createAlias("userRole","role")
+			        		 .add(Restrictions.not(Restrictions.eq("role.roleName", "administrator"))).list();
+			         for(Iterator iterator = data.iterator(); iterator.hasNext();){
+			        	 User user = (User) iterator.next();
+			        	 userList.add(user);
+			         }
+			         output = "administrator";
+			 		 data.clear();
+			         tx.commit();
+			      }catch (HibernateException e) {
+			         if (tx!=null) tx.rollback();
+			         e.printStackTrace(); 
+			      }finally {
+			         session.close(); 
+			      }
+			}else {
+				output = "success"; // menu
+			}
 		} else {
 			output = "error"; // error page
 		}
@@ -150,7 +148,8 @@ public class facade { //GUI=V+C
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();
-		if(auth.checkSession()) {
+		if(auth.checkSession(user)) {
+//		if(true) {
 			try{
 		         tx = session.beginTransaction();
 		   		 TransactionDetail transactionDetail;
@@ -173,6 +172,7 @@ public class facade { //GUI=V+C
 			         session.close(); 
 			      }
 		}
+		System.out.println(output);
 		return output;
 		
 //		if(auth.checkSession()) {

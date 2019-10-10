@@ -14,19 +14,17 @@ public class Auth {
 	Session session = null;
 	HttpSession httpSession = null;
 	Transaction tx = null;
-//	User newUser = null;
+	User newUser = null;
 
 	public boolean createSession(User user) {
-		System.out.println(user.userName + user.userPass);
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
+		httpSession = ServletActionContext.getRequest().getSession();
 		try{
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
-//	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", "u1")).list();
 	         if (data.size() > 0) {
-	        	 User newUser = (User) data.get(0);
+	        	 newUser = (User) data.get(0);
 	        	 if (newUser.userPass.equals(user.userPass)) {
 	        		 httpSession.setAttribute("userId", newUser.userId);
 	        		 user = newUser;
@@ -43,8 +41,12 @@ public class Auth {
 	      }
 		return auth;
 	}
-	public Boolean checkSession() {
-		 if(httpSession != null) { // 28
+	public Boolean checkSession(User user) {
+		httpSession = ServletActionContext.getRequest().getSession();
+		int userId = (int) httpSession.getAttribute("userId");
+//		 if(userId == user.userId) {
+		 if(userId != 0) {
+			 System.out.println(userId);
 			 return true;
 		 } else {
 			 return false;
@@ -61,8 +63,8 @@ public class Auth {
 		return false;
 	}
 	
-	public Boolean isAdmin(User user) {
-		if (user.userRole.roleName.equals("administrator")) {
+	public Boolean isAdmin() {
+		if (newUser.userRole.roleName.equals("administrator")) {
 			return true;
 		}
 		return false;

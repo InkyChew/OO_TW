@@ -30,7 +30,7 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="TransactionDetail" class="com.controller.facade" method="showTransaction">
+        <action name="TransactionDetail" class="com.controller.facade" method="checkTransactionHistory">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">transaction</result>
         </action>
