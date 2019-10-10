@@ -38,7 +38,7 @@
     }
     .center{
     	text-align: center;
-    }
+    } 
     </style>
     <body>
     <div class="outter_box">
