@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +22,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.models.HibernateUtil;
+import com.models.Mail;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
@@ -36,6 +39,7 @@ public class facade { // 你就是個controller
 	
 	Auth auth;
 	Admin admin;
+	Mail mail = new Mail();
 	
 //	facade() {
 //		auth = new Auth();
@@ -57,39 +61,53 @@ public class facade { // 你就是個controller
 		return output;
 	}
 
-	public void showPayOTPView() { // 付款人
+	public String showPayOTPView() { // 付款人
+		String output = "error";
 		if(auth.checkSession()) {
-			// send otp
-			// show pay+otp view
-		} else {
-			// error page
+			// sendOTP
+			String OTP = "";
+			for(int i = 0; i < 8; i++){
+		      int random = (int)((Math.random() * 3) + 1);
+		      if(i == 1){
+		    	OTP += (char)(int)((Math.random()*10)+48);
+		      }else if(i == 2){
+		        OTP += (char)(int)(((Math.random()*26) + 65));
+		      }else{
+		        OTP += (char)(int)((Math.random()*26) + 97);
+		      }
+		    }
+			String address = user.getUserEmail();
+			mail.sendOTP(address, OTP);
+			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+			auth.saveOTP(OTP, expire);
+			// show pay
+			return "payment";
 		}
+		return output;
 	}
-	public void transactionSuccessView() {
+	public String transactionSuccessView() {
+		String output = "error";
 		if(auth.checkSession()) {
 			// 記錄使用者輸入的值
 			int traderId=transfer.traderId;
 			int amount= transfer.amount;
+			String OTP = transfer.otp;
 			transfer= new Payment();
 			transfer.setAmount(amount);
 			transfer.setTraderId(traderId);
 			
-			if(check otp) {
+			if(auth.checkOTP(OTP)) {
 				// transaction
-				// record transaction payment&receivement
-				String output = transfer.process();
-				
-				// transaction success+transaction detail
-				if (output=="success") {
-					output = toPlatform();
-				}
-				return output;
+				// record transaction payment & receivement
+				output = transfer.process();
 			} else {
-				// error page
+				output = "error";// error page
 			}
 		} else {
-			// error page
+			output = "error";
 		}
+		return output;
 	}
 	
 	public String checkTransactionHistory() {
