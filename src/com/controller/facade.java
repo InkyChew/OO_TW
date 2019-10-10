@@ -31,98 +31,161 @@ import com.models.Payment;
 import com.models.Auth;
 import com.models.Admin;
 
-public class facade { // 你就是個controller
+public class facade { //GUI=V+C
 	private User user = new User();
 	private Transfer transfer;
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
+	private List<User> userList = new ArrayList<User>();
 	
-	Auth auth;
-	Admin admin;
+	Session session = null;
+	Transaction tx = null;
+	
+	Auth auth = new Auth();
 	Mail mail = new Mail();
 	
-//	facade() {
-//		auth = new Auth();
-//		mediator = new controller();
-//	}
+	public void setUser(User user){
+	    this.user=user;
+	}
+	public User getUser(){
+	    return user;
+	}
+	public void setTransactionDetails(List<TransactionDetail> transactionDetails){
+	    this.transactionDetails=transactionDetails;
+	}
+	public List<TransactionDetail> getTransactionDetails(){
+	    return transactionDetails;
+	}
+	public void setUserList(List<User> userList){
+	    this.userList=userList;
+	}
+	public List<User> getUserList(){
+	    return userList;
+	}
 	
 	public String login() {
 		String output = "error";
+//		if(true) {
 		if(auth.createSession(user)) {
-			if(auth.isAdmin(user)) {
-				// account detail page
-		        output = admin.readClientAll();
-			}else {
-				output = "success"; // menu
-			}
+//			if(auth.isAdmin(user)) { // account detail page
+//				Session session = HibernateUtil.getSessionFactory().openSession();
+//				Transaction tx = session.beginTransaction();
+//				try{
+//			         List data = session.createCriteria(User.class)
+//			        		 .createAlias("userRole","role")
+//			        		 .add(Restrictions.not(Restrictions.eq("role.roleName", "administrator"))).list();
+//			         for(Iterator iterator = data.iterator(); iterator.hasNext();){
+//			        	 User user = (User) iterator.next();
+//			        	 userList.add(user);
+//			         }
+//			         output = "administrator";
+//			 		 data.clear();
+//			         tx.commit();
+//			      }catch (HibernateException e) {
+//			         if (tx!=null) tx.rollback();
+//			         e.printStackTrace(); 
+//			      }finally {
+//			         session.close(); 
+//			      }
+//			}else {
+//				output = "success"; // menu
+//			}
+			output = "success";
 		} else {
 			output = "error"; // error page
 		}
 		return output;
 	}
 
-	public String showPayOTPView() { // 付款人
-		String output = "error";
-		if(auth.checkSession()) {
-			// sendOTP
-			String OTP = "";
-			for(int i = 0; i < 8; i++){
-		      int random = (int)((Math.random() * 3) + 1);
-		      if(i == 1){
-		    	OTP += (char)(int)((Math.random()*10)+48);
-		      }else if(i == 2){
-		        OTP += (char)(int)(((Math.random()*26) + 65));
-		      }else{
-		        OTP += (char)(int)((Math.random()*26) + 97);
-		      }
-		    }
-			String address = user.getUserEmail();
-			mail.sendOTP(address, OTP);
-			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
-			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
-			auth.saveOTP(OTP, expire);
-			// show pay
-			return "payment";
-		}
-		return output;
-	}
-	public String transactionSuccessView() {
-		String output = "error";
-		if(auth.checkSession()) {
-			// 記錄使用者輸入的值
-			int traderId=transfer.traderId;
-			int amount= transfer.amount;
-			String OTP = transfer.otp;
-			transfer= new Payment();
-			transfer.setAmount(amount);
-			transfer.setTraderId(traderId);
-			
-			if(auth.checkOTP(OTP)) {
-				// transaction
-				// record transaction payment & receivement
-				output = transfer.process();
-			} else {
-				output = "error";// error page
-			}
-		} else {
-			output = "error";
-		}
-		return output;
-	}
+//	public String showPayOTPView() { // 付款人
+//		String output = "error";
+//		if(auth.checkSession()) {
+//			// sendOTP
+//			String OTP = "";
+//			for(int i = 0; i < 8; i++){
+//		      int random = (int)((Math.random() * 3) + 1);
+//		      if(i == 1){
+//		    	OTP += (char)(int)((Math.random()*10)+48);
+//		      }else if(i == 2){
+//		        OTP += (char)(int)(((Math.random()*26) + 65));
+//		      }else{
+//		        OTP += (char)(int)((Math.random()*26) + 97);
+//		      }
+//		    }
+//			String address = user.getUserEmail();
+//			mail.sendOTP(address, OTP);
+//			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+//			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+//			auth.saveOTP(OTP, expire);
+//			// show pay
+//			return "payment";
+//		}
+//		return output;
+//	}
+//	public String transactionSuccessView() {
+//		String output = "error";
+//		if(auth.checkSession()) {
+//			// 記錄使用者輸入的值
+//			int traderId=transfer.traderId;
+//			int amount= transfer.amount;
+//			String OTP = transfer.otp;
+//			transfer= new Payment();
+//			transfer.setAmount(amount);
+//			transfer.setTraderId(traderId);
+//			
+//			if(auth.checkOTP(OTP)) {
+//				// transaction
+//				// record transaction payment & receivement
+//				output = transfer.process();
+//			} else {
+//				output = "error";// error page
+//			}
+//		} else {
+//			output = "error";
+//		}
+//		return output;
+//	}
 	
 	public String checkTransactionHistory() {
 		String output = "error";
+		session = HibernateUtil.getSessionFactory().openSession();
+		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		if(auth.checkSession()) {
-			output = user.showTransaction(); // transaction detail page
-		} else {
-			output = "error"; // error page
+			try{
+		         tx = session.beginTransaction();
+		   		 TransactionDetail transactionDetail;
+		   		 int userId = (int) httpSession.getAttribute("userId");
+		   		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
+		   		 int walletId = ((User) data.get(0)).wallet.walletId;
+			         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
+			         
+			         for (int i = 0; i < data.size(); i++) {
+			        	 transactionDetail = (TransactionDetail) data.get(i);
+			        	 transactionDetails.add(transactionDetail);
+			         }
+			 		 data.clear();
+			         tx.commit();
+			         output="success";
+			      }catch (HibernateException e) {
+			         if (tx!=null) tx.rollback();
+			         e.printStackTrace(); 
+			      }finally {
+			         session.close(); 
+			      }
 		}
 		return output;
+		
+//		if(auth.checkSession()) {
+//			output = transactionDetail.showTransaction(); // transaction detail page
+//		} else {
+//			output = "error"; // error page
+//		}
+//		return output;
 	}
 	
 	public String logout() {
-		auth.removeSession(user.userId);
-		String output="success";
+		auth.removeSession();
+		String output = "success";
 		return output; // login page
 	}	
 }

@@ -1,7 +1,5 @@
 package com.models;
 
-import com.models.Role;
-
 public class TransactionDetail {
 	public int id;
 	public int walletId;
