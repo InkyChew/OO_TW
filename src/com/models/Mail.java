@@ -9,8 +9,8 @@ public class Mail {
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "webmail.yuntech.edu.tw");
-		props.setProperty("mail.user", "b10623006");
-		props.setProperty("mail.password", "kue930315");
+		//props.setProperty("mail.user", "b106230**");//Sender account
+		//props.setProperty("mail.password", "*******");//Sender password
   
 		Session mailSession = Session.getDefaultInstance(props, null);
 		try {
@@ -22,7 +22,7 @@ public class Mail {
 			message.setContent("This is a test", "text/plain");
 		
 		message.addRecipient(Message.RecipientType.TO,
-			 new InternetAddress(address));
+			 new InternetAddress(address));//Recipient account
   
 		transport.connect();
 		transport.sendMessage(message,
