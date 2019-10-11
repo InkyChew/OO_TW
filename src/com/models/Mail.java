@@ -29,7 +29,7 @@ public class Mail {
 	}
 	
 	public void sendOTP(String address, String OTP) {
-		this.send(address,"","");
+		this.send(address,"Transaction Verification code","Your Verification code:"+ OTP);
 		// send OTP code format
 	}
 }
