@@ -25,7 +25,6 @@ public class Mail {
 		transport.sendMessage(message,
 			message.getRecipients(Message.RecipientType.TO));
 		transport.close();
-	  }
 	}
 	
 	public void sendOTP(String address, String OTP) {

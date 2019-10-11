@@ -63,6 +63,16 @@ public class facade { //GUI=V+C
 	    return userList;
 	}
 	
+	public String toDeposit() {
+		return "success";
+	}
+	public String toReceivement() {
+		return "success";
+	}
+	public String toInformation() {
+		return "success";
+	}
+	
 	public String login() {
 		String output = "error";
 		if(auth.createSession(user)) {
@@ -95,61 +105,60 @@ public class facade { //GUI=V+C
 		return output;
 	}
 
-	public String showPayOTPView() { // �I�ڤH
-		String output = "error";
-		if(auth.checkSession()) {
-			// sendOTP
-			String OTP = "";
-			for(int i = 0; i < 8; i++){
-		      int random = (int)((Math.random() * 3) + 1);
-		      if(i == 1){
-		    	OTP += (char)(int)((Math.random()*10)+48);
-		      }else if(i == 2){
-		        OTP += (char)(int)(((Math.random()*26) + 65));
-		      }else{
-		        OTP += (char)(int)((Math.random()*26) + 97);
-		      }
-		    }
-			String address = user.getUserInfo().getEmail();
-			mail.sendOTP(address, OTP);
-			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
-			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
-			auth.saveOTP(OTP, expire);
-			// show pay
-			return "payment";
-		}
-		return output;
-	}
-	public String transactionSuccessView() {
-		String output = "error";
-		if(auth.checkSession()) {
-			// �O���ϥΪ̿�J����
-			int traderId=transfer.traderId;
-			int amount= transfer.amount;
-			String OTP = transfer.otp;
-			transfer= new Payment();
-			transfer.setAmount(amount);
-			transfer.setTraderId(traderId);
-			
-			if(auth.checkOTP(OTP)) {
-				// transaction
-				// record transaction payment & receivement
-				output = transfer.process();
-			} else {
-				output = "error";// error page
-			}
-		} else {
-			output = "error";
-		}
-		return output;
-	}
+//	public String showPayOTPView() { // �I�ڤH
+//		String output = "error";
+//		if(auth.checkSession()) {
+//			// sendOTP
+//			String OTP = "";
+//			for(int i = 0; i < 8; i++){
+//		      int random = (int)((Math.random() * 3) + 1);
+//		      if(i == 1){
+//		    	OTP += (char)(int)((Math.random()*10)+48);
+//		      }else if(i == 2){
+//		        OTP += (char)(int)(((Math.random()*26) + 65));
+//		      }else{
+//		        OTP += (char)(int)((Math.random()*26) + 97);
+//		      }
+//		    }
+//			String address = user.getUserInfo().getEmail();
+//			mail.sendOTP(address, OTP);
+//			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+//			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+//			auth.saveOTP(OTP, expire);
+//			// show pay
+//			return "payment";
+//		}
+//		return output;
+//	}
+//	public String transactionSuccessView() {
+//		String output = "error";
+//		if(auth.checkSession()) {
+//			// �O���ϥΪ̿�J����
+//			int traderId=transfer.traderId;
+//			int amount= transfer.amount;
+//			String OTP = transfer.otp;
+//			transfer= new Payment();
+//			transfer.setAmount(amount);
+//			transfer.setTraderId(traderId);
+//			
+//			if(auth.checkOTP(OTP)) {
+//				// transaction
+//				// record transaction payment & receivement
+//				output = transfer.process();
+//			} else {
+//				output = "error";// error page
+//			}
+//		} else {
+//			output = "error";
+//		}
+//		return output;
+//	}
 	
 	public String checkTransactionHistory() {
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		if(auth.checkSession(user)) {
-//		if(true) {
 			try{
 		         tx = session.beginTransaction();
 		   		 TransactionDetail transactionDetail;
@@ -174,18 +183,30 @@ public class facade { //GUI=V+C
 		}
 		System.out.println(output);
 		return output;
-		
-//		if(auth.checkSession()) {
-//			output = transactionDetail.showTransaction(); // transaction detail page
-//		} else {
-//			output = "error"; // error page
-//		}
-//		return output;
 	}
 	
 	public String logout() {
 		auth.removeSession();
 		String output = "success";
 		return output; // login page
-	}	
+	}
+	
+	public String toPlatform() {
+		String output = "error";
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
+			int userId = (int) httpSession.getAttribute("userId");
+			List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
+			user = (User) data.get(0);
+			output = "success";
+		}catch (HibernateException e){
+			if (tx!=null) tx.rollback();
+	         e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
+		return output;
+	}
+	
 }

@@ -9,7 +9,7 @@
 			<result-type name="tiles" default="true"
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
-        <action name="Login" class="com.controller.facade" method="login">
+        <action name="ToPlatform" class="com.controller.facade" method="toPlatform">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
@@ -22,11 +22,11 @@
         <action name="ToInformation" class="com.controller.facade" method="toDeposit">
             <result name="success" type="tiles">information</result>
         </action>
-        <action name="ToTransactionDetail" class="com.controller.facade" method="showTransaction">
+        <action name="ToTransactionDetail" class="com.controller.facade" method="checkTransactionHistory">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">transaction</result>
         </action>
-       <action name="Login" class="com.controller.controller" method="login">
+       <action name="Login" class="com.controller.facade" method="login">
             <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">platform</result>
             <result name="administrator" type="tiles">administrator</result>
@@ -35,21 +35,13 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="Payment" class="com.controller.controller" method="payment">
+        <action name="Payment" class="com.controller.facade" method="payment">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
- 		<action name="Deposit" class="com.controller.controller" method="deposit">
+ 		<action name="Deposit" class="com.controller.facade" method="deposit">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
-        </action>
-        <action name="ToPlatform" class="com.controller.facade" method="toPlatform">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
-        </action>
-        <action name="TransactionDetail" class="com.controller.facade" method="checkTransactionHistory">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">transaction</result>
         </action>
         <action name="readClientAll" class="com.controller.facade" method="readClientAll">
             <result name="error" type="redirect">/error.jsp</result>
