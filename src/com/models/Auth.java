@@ -15,7 +15,22 @@ public class Auth {
 	HttpSession httpSession = null;
 	Transaction tx = null;
 	User newUser = null;
-
+	
+	//Singleton
+	private static Auth auth = null;	
+	private Auth() {	
+	}	
+	public static Auth getInstance() {
+        if (auth == null){
+            synchronized(Auth.class){
+                if(auth == null) {
+                     auth = new Auth();
+                }
+            }
+        }
+        return auth;
+    }
+	
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -41,7 +56,7 @@ public class Auth {
 	      }
 		return auth;
 	}
-	public Boolean checkSession(User user) {
+	public Boolean checkSession() {
 		httpSession = ServletActionContext.getRequest().getSession();
 		int userId = (int) httpSession.getAttribute("userId");
 //		 if(userId == user.userId) {
