@@ -2,15 +2,10 @@ package com.models;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 import com.controller.controller;
 import com.models.TransactionDetail;
@@ -20,7 +15,6 @@ public class Transfer {
 	public int userId;
 	public int traderId;
 	public String type;
-	public controller mediator;
 	
 	public TransactionDetail transactionDetail;
 	public void setAmount(int amount){
@@ -57,15 +51,16 @@ public class Transfer {
 	public String process() {
 		return "success";
 	}
-	public String setTransactionDetail(int walletId) { // 跟 controller 說叫 transaction detail 做事
-		mediator.SetTransferTransactionDetail(amount, balance, type, walletId, traderId);
-		// transactionDetail = new TransactionDetail();
-		// transactionDetail.setDate(date);
-		// transactionDetail.setAmount(amount);
-		// transactionDetail.setBalance(balance);
-		// transactionDetail.setType(type);
-		// transactionDetail.setWalletId(walletId);
-		// transactionDetail.setTraderId(traderId);
+	public String setTransactionDetail(int walletId) { // transaction detail
+		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
+		String date = dfcurrentTime.format(new java.util.Date());
+		transactionDetail = new TransactionDetail();
+		transactionDetail.setDate(date);
+		transactionDetail.setAmount(amount);
+		transactionDetail.setBalance(balance);
+		transactionDetail.setType(type);
+		transactionDetail.setWalletId(walletId);
+		transactionDetail.setTraderId(traderId);
 		return updateTransactionDetail();
 	}
 	public String updateTransactionDetail() {

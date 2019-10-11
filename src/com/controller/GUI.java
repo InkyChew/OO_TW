@@ -27,14 +27,17 @@ import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
 import com.models.Transfer;
+import com.models.AbTransfer;
 import com.models.Payment;
 import com.models.Auth;
+import com.models.Deposit;
 import com.models.Admin;
 
 // Facade+Mediator
-public class facade { //GUI=V+C
+public class GUI { //GUI=V+C
 	private User user = new User();
 	private Transfer transfer;
+	private AbTransfer abTransfer;
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
 	private List<User> userList = new ArrayList<User>();
@@ -50,6 +53,18 @@ public class facade { //GUI=V+C
 	}
 	public User getUser(){
 	    return user;
+	}
+	public void setTransfer(Transfer transfer){
+	    this.transfer=transfer;
+	}
+	public Transfer getTransfer(){
+	    return transfer;
+	}
+	public AbTransfer getAbtransfer() {
+		return abTransfer;
+	}
+	public void setAbtransfer(AbTransfer abT) {
+		abTransfer = abT;
 	}
 	public void setTransactionDetails(List<TransactionDetail> transactionDetails){
 	    this.transactionDetails=transactionDetails;
@@ -155,6 +170,20 @@ public class facade { //GUI=V+C
 		return output;
 	}
 	
+	public String deposit() {
+		HttpSession httpSession = ServletActionContext.getRequest().getSession();
+		int amount= transfer.amount;
+		int userId = (int) httpSession.getAttribute("userId");
+		abTransfer = new AbTransfer(userId, userId, amount, new Deposit());
+//		transfer = new Deposit();
+//		transfer.setAmount(amount);
+		String output = abTransfer.process();
+//		if (output=="success") {
+//			output = toPlatform();
+//		}
+		return output;
+	}
+	
 	public String checkTransactionHistory() {
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -208,6 +237,5 @@ public class facade { //GUI=V+C
 			session.close(); 
 		}
 		return output;
-	}
-	
+	}	
 }

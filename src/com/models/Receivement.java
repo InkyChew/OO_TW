@@ -8,13 +8,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import com.models.Transfer;
+import com.models.AbTransfer;
 import com.models.Receivement;
 
-public class Receivement extends Transfer{
+public class Receivement extends Transfer implements ProcessAPI{
 	// controller
 	@Override
-	public String process(){
+	public String process(int userId, int traderId, int amount, ProcessAPI processAPI){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		String output="error";

@@ -25,12 +25,12 @@ import com.models.HibernateUtil;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
-import com.models.Transfer;
+import com.models.AbTransfer;
 import com.models.Payment;
 import com.models.Deposit;
 public class controller {
 	private User user = new User();
-	private Transfer transfer;
+	private AbTransfer transfer;
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
 	private List<User> userList = new ArrayList<User>();
@@ -43,10 +43,10 @@ public class controller {
 	public User getUser(){
 	    return user;
 	}
-	public void setTransfer(Transfer transfer){
+	public void setTransfer(AbTransfer transfer){
 	    this.transfer=transfer;
 	}
-	public Transfer getTransfer(){
+	public AbTransfer getTransfer(){
 	    return transfer;
 	}
 	public void setTransactionDetails(List<TransactionDetail> transactionDetails){

@@ -10,13 +10,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import com.models.Transfer;
+import com.models.AbTransfer;
 import com.models.Deposit;
 
-public class Deposit extends Transfer{
+public class Deposit extends Transfer implements ProcessAPI{
 	// controller
 	@Override
-	public String process(){
+	public String process(int userId, int traderId, int amount, ProcessAPI processAPI){
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -28,15 +28,15 @@ public class Deposit extends Transfer{
 		     User user = null; 
 		     User trader = null;
 		     if(data.size() > 0 ) {
-		    	 	type = "deposit";
-		        	user = (User) data.get(0);
-		        	trader = user;
-		        	balance = user.getWallet().getWalletMoney();
-		        	balance+=amount;
-	    		    user.wallet.walletMoney=balance;
-	    		    setTransactionDetail(user.getWallet().getWalletId());
-	    		    tx = session.beginTransaction();
-	    		    session.merge(user);
+	    	 	type = "deposit";
+	        	user = (User) data.get(0);
+	        	trader = user;
+	        	balance = user.getWallet().getWalletMoney();
+	        	balance+=amount;
+    		    user.wallet.walletMoney=balance;
+    		    setTransactionDetail(user.getWallet().getWalletId());
+    		    tx = session.beginTransaction();
+    		    session.merge(user);
 		     }
 	 		 data.clear();
 	 		 tx.commit();
