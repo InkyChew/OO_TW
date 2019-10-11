@@ -9,110 +9,75 @@
    	text-align: center;
     }
     table{
-    width: 100%;
-    }
-    .outter_box{
-	width: 1060px;
-    margin: auto;
-    padding: 100px
-    }
-    .inner_box{
-    display: inline-block;
-    vertical-align: top;
-    min-height: 200px;
-    width: 450px;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border: 1.5px solid;
-    position: relative;
-    margin: 15px;
-    }
-    input:not([type="submit"]) {
-    width: 100%;
+   	table-layout: automatic;
+   	}
+   	input[type="submit"]{
+    background-color: #3fb6b2;
+    padding: 10px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #ffffff;
+    outline: none;
+    width:140px;
+    height:140px;
+    margin: 0;
+    font-weight: bold;
+    position:relative;
+    }	
+	tr,td{
+	text-align:center;
 	}
-    input[type="submit"]{
-    padding: 5px 20px;
-    position: absolute;
-   	bottom: 20;
-   	right: 10;
-    }
-    .center{
-    	text-align: center;
-    }
+	td{
+	width:160px;
+	height:160px;
+	}
+	.epay{
+		text-align:center;
+	}
     </style>
     <body>
-    <div class="outter_box">
-    <div class="inner_box">
-    	<h1>Pay</h1>
-        <form action="Payment" method="post" enctype="multipart/form-data"> 
-        <table>
-			<tr>
-				<td>Id:</td>
-				<td><input type="text" name="transfer.traderId" value="<s:property value="transfer.traderId"/>" required></td>
-			</tr>
-			<tr>
-				<td>Amount:</td>
-				<td><input type="text" name="transfer.amount" required></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" value="Payment>>" /></td>
-			</tr>
-		</table> 
-		</form>
-	</div>
-	<div class="inner_box">
-		<h1>Transaction Detail</h1>
-		<form action="TransactionDetail" method="post" enctype="multipart/form-data">
-			<input type="submit" value="Check>>" />
-		</form>
-	</div>
-	<div class="inner_box">
-		<h1>Information</h1>
-		<table class="center">
-			<tr>
-				<td>UserId</td>
-				<td><s:property value="user.userId" /></td>
-			</tr>
-			<tr>
-				<td>Balance</td>
-				<td><s:property value="user.wallet.walletMoney" /></td>
-			</tr>
-			<tr>
-				<td>Name</td>
-				<td><s:property value="user.userInfo.name" /></td>
-			</tr>
-			<tr>
-				<td>telephone</td>
-				<td><s:property value="user.userInfo.telephone" /></td>
-			</tr>
-			<tr>
-				<td>address</td>
-				<td><s:property value="user.userInfo.address" /></td>
-			</tr>
-		</table>
-    </div>
-    <div class="inner_box">
-		<h1>Receivement</h1>
-		<div class="center"><img src="https://api.qrserver.com/v1/create-qr-code/?data=<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/ToPlatform?transfer.traderId=<s:property value="user.userId"/>&amp;size=100x100" alt="" title="" /></div>	
-    </div>
-		 <div class="inner_box">
-    	<h1>Deposit</h1>
-        <form action="Deposit" method="post" enctype="multipart/form-data"> 
-        <table>
+    <h1>ePay</h1>
+    <div class="epay">
+    <table align="center">
 			
 			<tr>
-				<td>Amount:</td>
-				<td><input type="text" name="transfer.amount" required></td>
+				<td>
+					<form action="ToPay" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Pay" />
+					</form>
+				</td>
+				<td>
+					<form action="ToTransactionDetail" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Transaction Details" />
+					</form>
+				</td>
 			</tr>
+				<td>
+					<form action="ToReceivement" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Receivement" />
+					</form>
+				</td>
+				<td>
+					<form action="ToInformation" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Information" />
+					</form>
+				</td>
 			<tr>
-				<td></td>
-				<td><input type="submit" value="Deposit>>" /></td>
+				<td>
+					<form action="ToDeposit" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Deposit" />
+					</form>
+				</td>
+				<td>
+					<form action="LogOut" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Log Out" />
+					</form>
+				</td>
 			</tr>
 		</table> 
-		</form>
-	</div>
-    </div>
+		</div>
+    
+    
     
     </body>
 </html>

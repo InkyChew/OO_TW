@@ -45,7 +45,18 @@ public class facade { // 你就是個controller
 //		auth = new Auth();
 //		mediator = new controller();
 //	}
-	
+	public String toDeposit() {
+		return "success";
+	}
+	public String toReceivement() {
+		return "success";
+	}
+	public String toTransactionDetail() {
+		return "success";
+	}
+	public String toInformation() {
+		return "success";
+	}
 	public String login() {
 		String output = "error";
 		if(auth.createSession(user)) {
