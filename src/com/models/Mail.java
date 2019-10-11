@@ -9,8 +9,8 @@ public class Mail {
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "webmail.yuntech.edu.tw");
-		//props.setProperty("mail.user", "b106230**");//account
-		//props.setProperty("mail.password", "*******");//password
+		//props.setProperty("mail.user", "b106230**");//Sender account
+		//props.setProperty("mail.password", "*******");//Sender password
   
 		Session mailSession = Session.getDefaultInstance(props, null);
 		Transport transport = mailSession.getTransport();
@@ -19,7 +19,7 @@ public class Mail {
 		message.setSubject(subject);
 		message.setContent(content);
 		message.addRecipient(Message.RecipientType.TO,
-			 new InternetAddress(address));
+			 new InternetAddress(address));//Recipient account
   
 		transport.connect();
 		transport.sendMessage(message,
