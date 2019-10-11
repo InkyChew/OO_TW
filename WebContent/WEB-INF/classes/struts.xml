@@ -35,9 +35,9 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="Payment" class="com.controller.facade" method="payment">
+        <action name="Payment" class="com.controller.facade" method="transactionSuccessView">
             <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
+            <result name="success" type="tiles">paySuccess</result>
         </action>
  		<action name="Deposit" class="com.controller.facade" method="deposit">
             <result name="error" type="redirect">/error.jsp</result>
@@ -46,6 +46,10 @@
         <action name="readClientAll" class="com.controller.facade" method="readClientAll">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">administrator</result>
+        </action>
+        <action name="ToPay" class="com.controller.facade" method="showPayOTPView">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">pay</result>
         </action>
     </package>
 </struts>

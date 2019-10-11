@@ -10,4 +10,6 @@
 		<definition name="transaction" template="/transaction.jsp"></definition>
 		<definition name="QRpay" template="/QRpay.jsp"></definition>
 		<definition name="administrator" template="/admin.jsp"></definition>
+		<definition name="pay" template="pay.jsp"></definition>
+		<definition name="paySuccess" template="paySuccess.jsp"></definition>
 	</tiles-definitions>

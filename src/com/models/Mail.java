@@ -13,11 +13,14 @@ public class Mail {
 		props.setProperty("mail.password", "kue930315");
   
 		Session mailSession = Session.getDefaultInstance(props, null);
+		try {
 		Transport transport = mailSession.getTransport();
   
 		MimeMessage message = new MimeMessage(mailSession);
 		message.setSubject(subject);
-		message.setContent(content);
+		
+			message.setContent("This is a test", "text/plain");
+		
 		message.addRecipient(Message.RecipientType.TO,
 			 new InternetAddress(address));
   
@@ -25,10 +28,14 @@ public class Mail {
 		transport.sendMessage(message,
 			message.getRecipients(Message.RecipientType.TO));
 		transport.close();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void sendOTP(String address, String OTP) {
-		this.send(address,"Transaction Verification code","Your Verification code:"+ OTP);
+		this.send(address,"Transaction Verification code","Your Verification code is:"+ OTP);
 		// send OTP code format
 	}
 }

@@ -113,21 +113,37 @@ public class facade { //GUI=V+C
 			String OTP = "";
 			for(int i = 0; i < 8; i++){
 		      int random = (int)((Math.random() * 3) + 1);
-		      if(i == 1){
+		      if(random == 1){
 		    	OTP += (char)(int)((Math.random()*10)+48);
-		      }else if(i == 2){
+		      }else if(random == 2){
 		        OTP += (char)(int)(((Math.random()*26) + 65));
 		      }else{
 		        OTP += (char)(int)((Math.random()*26) + 97);
 		      }
 		    }
+			int userId = auth.getUserId();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction tx = session.beginTransaction();
+			try{
+		         List data = session.createCriteria(User.class)
+		        		 .add(Restrictions.eq("userId", userId)).list();
+		         for(Iterator iterator = data.iterator(); iterator.hasNext();){
+		        	 user = (User) iterator.next();
+		         }
+		 		 data.clear();
+		         tx.commit();
+		      } catch (HibernateException e) {
+		         if (tx!=null) tx.rollback();
+		         e.printStackTrace(); 
+		      } finally {
+		         session.close(); 
+		      }
 			String address = user.getUserInfo().getEmail();
 			mail.sendOTP(address, OTP);
-			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
 			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
-			auth.saveOTP(OTP, expire);
+			auth.createOTP(OTP, expire);
 			// show pay
-			return "payment";
+			return "success";
 		}
 		return output;
 	}
@@ -137,12 +153,11 @@ public class facade { //GUI=V+C
 			// �O���ϥΪ̿�J����
 			int traderId=transfer.traderId;
 			int amount= transfer.amount;
-			String OTP = transfer.otp;
 			transfer= new Payment();
 			transfer.setAmount(amount);
 			transfer.setTraderId(traderId);
-			
-			if(auth.checkOTP(OTP)) {
+			String inputOTP = "";
+			if(auth.checkOTP(inputOTP)) {
 				// transaction
 				// record transaction payment & receivement
 				output = transfer.process();

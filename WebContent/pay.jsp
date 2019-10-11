@@ -50,7 +50,7 @@ HTML DIV æ¨ç±¤ç¯ä¾
    </tr>
    <tr>
     <td align="left" valign="left">opt:</td>
-    <td align="left"><input type="text" name="transfer.amount"></td>
+    <td align="left"><input type="text" name="transfer.otp"></td>
    </tr>
    
   </table> 

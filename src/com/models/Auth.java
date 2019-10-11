@@ -1,5 +1,8 @@
 package com.models;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -71,10 +74,23 @@ public class Auth {
 		httpSession.removeAttribute("userId");
 	}
 	
-	public void createOTP() {
-		
+	public int getUserId() {
+		httpSession = ServletActionContext.getRequest().getSession();
+		return (int) httpSession.getAttribute("userId");
 	}
-	public Boolean checkOTP() {
+	
+	public void createOTP(String OTP, LocalDateTime expire) {
+		httpSession.setAttribute("OTP", OTP);
+		httpSession.setAttribute("OTPExpire", expire);
+	}
+	public Boolean checkOTP(String inputOTP) {
+		httpSession = ServletActionContext.getRequest().getSession();
+		String OTP = (String) httpSession.getAttribute("OTP");
+		LocalDateTime expire = (LocalDateTime) httpSession.getAttribute("OTPExpire");
+		final LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("+8")));
+		if(inputOTP.equals(OTP) && now.isBefore(expire)) {
+			return true;
+		}
 		return false;
 	}
 	
