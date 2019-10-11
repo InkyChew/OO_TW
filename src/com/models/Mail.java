@@ -9,8 +9,8 @@ public class Mail {
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "webmail.yuntech.edu.tw");
-		props.setProperty("mail.user", "b10623006");
-		props.setProperty("mail.password", "kue930315");
+		//props.setProperty("mail.user", "b106230**");//account
+		//props.setProperty("mail.password", "*******");//password
   
 		Session mailSession = Session.getDefaultInstance(props, null);
 		Transport transport = mailSession.getTransport();
