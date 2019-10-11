@@ -12,6 +12,23 @@
         <action name="Login" class="com.controller.facade" method="login">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
+        </action>
+        <action name="ToDeposit" class="com.controller.facade" method="toDeposit">
+            <result name="success" type="tiles">deposit</result>
+        </action>
+        <action name="ToReceivement" class="com.controller.facade" method="toDeposit">
+            <result name="success" type="tiles">receivement</result>
+        </action>
+        <action name="ToInformation" class="com.controller.facade" method="toDeposit">
+            <result name="success" type="tiles">information</result>
+        </action>
+        <action name="ToTransactionDetail" class="com.controller.facade" method="showTransaction">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">transaction</result>
+        </action>
+       <action name="Login" class="com.controller.controller" method="login">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">platform</result>
             <result name="administrator" type="tiles">administrator</result>
         </action>
         <action name="QRpay" class="com.controller.facade" method="QRpay">

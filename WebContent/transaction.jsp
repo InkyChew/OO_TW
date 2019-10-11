@@ -4,6 +4,9 @@
     <head>
         <title>ePay - Transaction</title>
         <style>
+		body{
+			text-align:center;
+		}
         table{
         	font-size: 18px;
         }
@@ -11,41 +14,34 @@
          text-align: center;
     	 border: 2px solid;
     	 border-collapse: collapse;
-   		 margin: 20px auto;
+   		 margin: 20px auto; 
         }
         div{
     	margin: auto;
     	background-color: #f0f0f0;
     	padding: 20px;
 		text-align: center;	
-		border: 1.5px solid;
+		border: 1.5px ;
+		display: inline-block;
    		}
    		td, th {
     	padding: 5px 15px;
 		}
    		input[type="submit"]{
    		padding: 5px 20px;
-    	}
+   		background-color: #3fb6b2;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    color: #ffffff;
+	    border: none;
+	    outline: none;
+	    margin: 0;
+    	}  
         </style>
     </head>
     <body>
     <div>
    		 <h1>Transaction</h1>
-   		<s:set name="month" value="{1,2,3,4,5,6,7,8,9,10,11,12}"/>
-   		<form action="timeSearch" method="post">
-	   		<select name="timeSearchYear">
-	   		 	<option value="2019">2019</option>
-	   		 </select>
-	   		 year
-	   		 <select name="timeSearchMonth">
-	   		 	<s:iterator value="#month" status="status">
-	   		 		<option value="<s:property />"><s:property /></option>
-				</s:iterator>
-	   		 </select>
-	   		 month
-	   		 <input type="submit" value="Search"/>
-   		</form>
-   		 
         <table>
 					<thead>
 						<tr>
@@ -54,22 +50,22 @@
 							<th style="width: 80px">TraderId</th>
 							<th style="width: 60px">Amount</th>
 							<th style="width: 60px">Balance</th>
-						</tr>
+						</tr> 
 					</thead>
 					<tbody>
 						<s:iterator value="transactionDetails">
 							<tr>
 								<td><s:property value="date" /></td>
 								<td><s:property value="type" /></td>
-								<td><s:property value="traderId" /></td>
+								<td><s:property value="traderId" /></td> 
 								<td><s:property value="amount" /></td>
 								<td><s:property value="balance" /></td>
 							</tr>
 						</s:iterator>
 					</tbody>
-				</table>
+				</table> 
 				<form action="ToPlatform" method="post" enctype="multipart/form-data">
-					<input type="submit" value="<<Back" />
+					<input type="submit" value="<<Back" / style="padding: 12px 45px;font-weight: bold;">
 				</form>
     </div>
         

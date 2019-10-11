@@ -4,7 +4,10 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 	<tiles-definitions>
 		<definition name="platform" template="/platform.jsp"></definition>
+		<definition name="deposit" template="/deposit.jsp"></definition>
+		<definition name="receivement" template="/receivement.jsp"></definition>
+		<definition name="information" template="/information.jsp"></definition>
+		<definition name="transaction" template="/transaction.jsp"></definition>
 		<definition name="QRpay" template="/QRpay.jsp"></definition>
 		<definition name="administrator" template="/admin.jsp"></definition>
-		<definition name="transaction" template="/transaction.jsp"></definition>
 	</tiles-definitions>
