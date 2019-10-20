@@ -7,7 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.controller.controller;
+import com.controller.GUI;
 import com.models.TransactionDetail;
 public class Transfer {
 	public int amount;
@@ -16,7 +16,9 @@ public class Transfer {
 	public int traderId;
 	public String type;
 	
-	public TransactionDetail transactionDetail;
+	public GUI gui;
+//	public TransactionDetail transactionDetail;
+	
 	public void setAmount(int amount){
 	    this.amount=amount;
 	}
@@ -54,16 +56,18 @@ public class Transfer {
 	public String setTransactionDetail(int walletId) { // transaction detail
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
 		String date = dfcurrentTime.format(new java.util.Date());
-		transactionDetail = new TransactionDetail();
-		transactionDetail.setDate(date);
-		transactionDetail.setAmount(amount);
-		transactionDetail.setBalance(balance);
-		transactionDetail.setType(type);
-		transactionDetail.setWalletId(walletId);
-		transactionDetail.setTraderId(traderId);
-		return updateTransactionDetail();
+		this.gui = new GUI();
+		return gui.setTransferDetail(this, walletId);
+//		transactionDetail = new TransactionDetail();
+//		transactionDetail.setDate(date);
+//		transactionDetail.setAmount(amount);
+//		transactionDetail.setBalance(balance);
+//		transactionDetail.setType(type);
+//		transactionDetail.setWalletId(walletId);
+//		transactionDetail.setTraderId(traderId);
+//		return updateTransactionDetail();
 	}
-	public String updateTransactionDetail() {
+	public String updateTransactionDetail(TransactionDetail transactionDetail) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String output="error";
 		Transaction tx = session.beginTransaction();

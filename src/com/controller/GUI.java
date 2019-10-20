@@ -41,12 +41,17 @@ public class GUI { //GUI=V+C
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
 	private List<User> userList = new ArrayList<User>();
+	Mail mail;
+	Auth auth;
 	
+	// DB
 	Session session = null;
 	Transaction tx = null;
 	
-	Mail mail = new Mail();
-	Auth auth = Auth.getInstance(); //Singleton
+	public GUI() {
+		this.mail = new Mail();
+		this.auth = Auth.getInstance(); //Singleton
+	}
 	
 	public void setUser(User user){
 	    this.user=user;
@@ -191,7 +196,7 @@ public class GUI { //GUI=V+C
 		if(auth.checkSession()) {
 			try{
 		         tx = session.beginTransaction();
-		   		 TransactionDetail transactionDetail;
+//		   		 TransactionDetail transactionDetail;
 		   		 int userId = (int) httpSession.getAttribute("userId");
 		   		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
 		   		 int walletId = ((User) data.get(0)).wallet.walletId;
@@ -238,4 +243,17 @@ public class GUI { //GUI=V+C
 		}
 		return output;
 	}	
+	
+	public String setTransferDetail(Transfer transfer, int walletId) {
+		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
+		String date = dfcurrentTime.format(new java.util.Date());
+		transactionDetail = new TransactionDetail();
+		transactionDetail.setDate(date);
+		transactionDetail.setAmount(transfer.amount);
+		transactionDetail.setBalance(transfer.balance);
+		transactionDetail.setType(transfer.type);
+		transactionDetail.setWalletId(walletId);
+		transactionDetail.setTraderId(transfer.traderId);
+		return transfer.updateTransactionDetail(transactionDetail);
+	}
 }
