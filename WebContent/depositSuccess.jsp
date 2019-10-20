@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>paySuccess</title>
+<title>depositSuccess</title>
 
 </head>
 <style>
@@ -40,11 +40,10 @@ HTML DIV æ¨ç±¤ç¯ä¾
 -->
 
 <body>
-<div class="pay"style="border:2px blo#3FB6B2 solid;font-size:20px; background-color:#f0f0f0;width:300px;height:600px;margin:0px auto;text-align:center;line-height:45px;">
-     <h1>SUCCESS!</h1>
-     <h4>Thank You for Your payment.</h4>
-     <img src="pay.png" width=90px align= middle align= middle><br>
-        transaction Detail
+<div class="pay"style="border:2px blo#3FB6B2 solid;font-size:20px; background-color:#f0f0f0;width:300px;height:470px;margin:0px auto;text-align:center;line-height:45px;">
+     <h1>deposit successful!</h1>
+     <img src="deposit.png" width=90px align= middle align= middle><br>
+        diposit Detail
         <form action="Payment" method="post" enctype="multipart/form-data"> 
         <table align="center">
    <tr>
@@ -55,12 +54,12 @@ HTML DIV æ¨ç±¤ç¯ä¾
    </tr>
    <tr>
     
-    <td align="left" valign="left">Type:</td>
+    <!--<td align="left" valign="left">Type:</td>-->
 <!--    <td><input type="text" name="transfer.amount"></td>-->
    </tr>
    <tr>
-    <td align="left" valign="left">TraderId:</td>
-<!--    <td align="left"><input type="text" name="transfer.amount"></td>-->
+    <!--<td align="left" valign="left">TraderId:</td>
+    <td align="left"><input type="text" name="transfer.amount"></td>-->
    </tr>
     <tr>
     <td align="left" valign="left">Amount:</td>

@@ -22,7 +22,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.models.HibernateUtil;
-import com.models.Mail;
+//import com.models.Mail;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
@@ -42,7 +42,7 @@ public class facade { //GUI=V+C
 	Session session = null;
 	Transaction tx = null;
 	
-	Mail mail = new Mail();
+	//Mail mail = new Mail();
 	Auth auth = Auth.getInstance(); //Singleton
 	
 	public void setUser(User user){
@@ -71,7 +71,11 @@ public class facade { //GUI=V+C
 		return "success";
 	}
 	public String toInformation() {
-		return "success";
+		String output = "error";
+		if ((user = auth.getCurrentUser()) != null) {
+			output = "success";
+		}
+		return output;
 	}
 	
 	public String login() {
