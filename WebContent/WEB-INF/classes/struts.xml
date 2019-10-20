@@ -19,7 +19,7 @@
         <action name="ToReceivement" class="com.controller.GUI" method="toDeposit">
             <result name="success" type="tiles">receivement</result>
         </action>
-        <action name="ToInformation" class="com.controller.GUI" method="toDeposit">
+        <action name="ToInformation" class="com.controller.GUI" method="toInformation">
             <result name="success" type="tiles">information</result>
         </action>
         <action name="ToTransactionDetail" class="com.controller.GUI" method="checkTransactionHistory">
