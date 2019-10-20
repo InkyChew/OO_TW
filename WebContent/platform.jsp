@@ -69,7 +69,7 @@
 					</form>
 				</td>
 				<td>
-					<form action="LogOut" method="post" enctype="multipart/form-data">
+					<form action="Logout" method="post" enctype="multipart/form-data">
 						<input type="submit" value="Log Out" />
 					</form>
 				</td>

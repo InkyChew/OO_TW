@@ -31,7 +31,7 @@
 	</style>
 
 <body>
-<div class="deposit" style="border:2px blo#3FB6B2 solid;font-size:18px; background-color:#f0f0f0;margin:auto;width:300px;height:210px;text-align:center;line-height:50px;">
+<div class="deposit" style="border:2px blo#3FB6B2 solid;font-size:18px; background-color:#f0f0f0;margin:auto;width:300px;height:300px;text-align:center;line-height:50px;">
     	<h1>Deposit</h1>
         <form action="Deposit" method="post" enctype="multipart/form-data"> 
         <table align="center">

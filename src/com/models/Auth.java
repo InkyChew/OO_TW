@@ -84,4 +84,31 @@ public class Auth {
 		}
 		return false;
 	}
+	public User getUser(int userId) {
+		User user = null;
+		session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			 tx = session.beginTransaction();
+			 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
+			 if (data.size() > 0) {
+				 user = (User) data.get(0);
+		     }
+			 data.clear();
+		     tx.commit();
+		 }catch (HibernateException e) {
+		     if (tx!=null) tx.rollback();
+		     e.printStackTrace(); 
+		 }finally {
+		     session.close(); 
+		 }
+		
+		return user;
+	}
+	public User getCurrentUser() {
+		User user = null;
+		httpSession = ServletActionContext.getRequest().getSession();
+		int userId = (int) httpSession.getAttribute("userId");
+		user = getUser(userId);
+		return user;
+	}
 }

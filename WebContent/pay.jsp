@@ -33,8 +33,9 @@ HTML DIV æ¨ç±¤ç¯ä¾
 -->
 
 <body>
-<div class="pay"style="border:2px blo#3FB6B2 solid;font-size:20px; background-color:#f0f0f0;width:300px;height:300px;margin:0px auto;text-align:center;line-height:50px;">
+<div class="pay"style="border:2px blo#3FB6B2 solid;font-size:20px; background-color:#f0f0f0;width:300px;height:400px;margin:0px auto;text-align:center;line-height:50px;">
      <h1>Pay</h1>
+     <img src="pay.png" width=90px align= middle align= middle><br>
         <form action="Payment" method="post" enctype="multipart/form-data"> 
         <table align="center">
    <tr>
