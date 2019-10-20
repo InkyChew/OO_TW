@@ -31,9 +31,14 @@ public class Deposit extends Transfer implements ProcessAPI{
 	    	 	type = "deposit";
 	        	user = (User) data.get(0);
 	        	trader = user;
+	        	this.userId = user.userId;
+	        	this.traderId = trader.userId;
+	        	this.amount = amount;
+	        	
 	        	balance = user.getWallet().getWalletMoney();
 	        	balance+=amount;
     		    user.wallet.walletMoney=balance;
+    		    
     		    setTransactionDetail(user.getWallet().getWalletId());
     		    tx = session.beginTransaction();
     		    session.merge(user);

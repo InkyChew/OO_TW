@@ -31,15 +31,15 @@
             <result name="success" type="tiles">platform</result>
             <result name="administrator" type="tiles">administrator</result>
         </action>
-       <action name="Logout" class="com.controller.facade" method="logout">
+       <action name="Logout" class="com.controller.GUI" method="logout">
             <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">index</result>
         </action>
-        <action name="QRpay" class="com.controller.facade" method="QRpay">
+        <action name="QRpay" class="com.controller.GUI" method="QRpay">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="Payment" class="com.controller.facade" method="showPayOTPView">
+        <action name="Payment" class="com.controller.GUI" method="showPayOTPView">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>

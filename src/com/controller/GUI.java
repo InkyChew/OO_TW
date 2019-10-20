@@ -22,7 +22,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.models.HibernateUtil;
-//import com.models.Mail;
+import com.models.Mail;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
@@ -130,54 +130,54 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 
-	public String showPayOTPView() { // �I�ڤH
-		String output = "error";
-		if(auth.checkSession()) {
-			// sendOTP
-			String OTP = "";
-			for(int i = 0; i < 8; i++){
-		      int random = (int)((Math.random() * 3) + 1);
-		      if(i == 1){
-		    	OTP += (char)(int)((Math.random()*10)+48);
-		      }else if(i == 2){
-		        OTP += (char)(int)(((Math.random()*26) + 65));
-		      }else{
-		        OTP += (char)(int)((Math.random()*26) + 97);
-		      }
-		    }
-			String address = user.getUserInfo().getEmail();
-			mail.sendOTP(address, OTP);
-			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
-			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
-			auth.saveOTP(OTP, expire);
-			// show pay
-			return "payment";
-		}
-		return output;
-	}
-	public String transactionSuccessView() {
-		String output = "error";
-		if(auth.checkSession()) {
-			// �O���ϥΪ̿�J����
-			int traderId=transfer.traderId;
-			int amount= transfer.amount;
-			String OTP = transfer.otp;
-			transfer= new Payment();
-			transfer.setAmount(amount);
-			transfer.setTraderId(traderId);
-			
-			if(auth.checkOTP(OTP)) {
-				// transaction
-				// record transaction payment & receivement
-				output = transfer.process();
-			} else {
-				output = "error";// error page
-			}
-		} else {
-			output = "error";
-		}
-		return output;
-	}
+//	public String showPayOTPView() { // �I�ڤH
+//		String output = "error";
+//		if(auth.checkSession()) {
+//			// sendOTP
+//			String OTP = "";
+//			for(int i = 0; i < 8; i++){
+//		      int random = (int)((Math.random() * 3) + 1);
+//		      if(i == 1){
+//		    	OTP += (char)(int)((Math.random()*10)+48);
+//		      }else if(i == 2){
+//		        OTP += (char)(int)(((Math.random()*26) + 65));
+//		      }else{
+//		        OTP += (char)(int)((Math.random()*26) + 97);
+//		      }
+//		    }
+//			String address = user.getUserInfo().getEmail();
+//			mail.sendOTP(address, OTP);
+//			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+//			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+//			auth.saveOTP(OTP, expire);
+//			// show pay
+//			return "payment";
+//		}
+//		return output;
+//	}
+//	public String transactionSuccessView() {
+//		String output = "error";
+//		if(auth.checkSession()) {
+//			// �O���ϥΪ̿�J����
+//			int traderId=transfer.traderId;
+//			int amount= transfer.amount;
+//			String OTP = transfer.otp;
+//			transfer= new Payment();
+//			transfer.setAmount(amount);
+//			transfer.setTraderId(traderId);
+//			
+//			if(auth.checkOTP(OTP)) {
+//				// transaction
+//				// record transaction payment & receivement
+//				output = transfer.process();
+//			} else {
+//				output = "error";// error page
+//			}
+//		} else {
+//			output = "error";
+//		}
+//		return output;
+//	}
 	
 	public String deposit() {
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();
@@ -225,7 +225,7 @@ public class GUI { //GUI=V+C
 	}
 	
 	public String logout() {
-		auth.removeSession();
+//		auth.removeSession();
 		String output = "success";
 		return output; // login page
 	}
