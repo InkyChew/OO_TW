@@ -3,6 +3,8 @@ package com.models;
 import com.models.Role;
 import com.models.Wallet;
 import com.models.UserInfo;
+import com.models.Discounter;
+
 public class User {
 	public int userId;
 	public UserInfo userInfo;
@@ -10,6 +12,10 @@ public class User {
 	public Role userRole;
 	public String userName;
 	public String userPass;
+	public int userLevel; // 0-no 1-VIP 2-VVIP
+	public Discounter levelDiscounter; // context has strategy
+	public double discount;
+	
 	public void setUserId(int userId){
 	    this.userId=userId;
 	}
@@ -45,6 +51,18 @@ public class User {
 	}
 	public String getUserPass(){
 	    return userPass;
+	}
+	public void setUserLevel(int userlevel){ // DB
+		this.userLevel = userlevel;
+	}
+	public int getUserLevel(){ // DB
+		return userLevel;
+	}
+	public void setUserLevel(Discounter lev){
+		this.levelDiscounter = lev;
+	}
+	public double getDiscount(){
+		return levelDiscounter.getDiscount(discount);
 	}
 }
 

@@ -14,7 +14,7 @@ public class AbTransfer {
 	   }
 	 
 	   public String process() {
-	      return processAPI.process(userId, traderId, amount, processAPI);
+	      return processAPI.process(userId, traderId, amount);
 	   }
 }
 

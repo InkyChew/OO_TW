@@ -16,32 +16,32 @@ import com.models.Deposit;
 public class Deposit extends Transfer implements ProcessAPI{
 	// controller
 	@Override
-	public String process(int userId, int traderId, int amount, ProcessAPI processAPI){
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
+	public String process(int userId, int traderId, int amount){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		String output="error";
 		try{
-			 userId = (int) httpSession.getAttribute("userId");
-			 traderId = userId;
+//			 traderId = userId;
 			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
 		     User user = null; 
-		     User trader = null;
+//		     User trader = null;
 		     if(data.size() > 0 ) {
 	    	 	type = "deposit";
 	        	user = (User) data.get(0);
-	        	trader = user;
-	        	this.userId = user.userId;
-	        	this.traderId = trader.userId;
+//	        	trader = user;
+	        	this.userId = userId;
+	        	this.traderId = userId; // in deposit user = trader
 	        	this.amount = amount;
 	        	
 	        	balance = user.getWallet().getWalletMoney();
 	        	balance+=amount;
-    		    user.wallet.walletMoney=balance;
+    		    user.getWallet().setWalletMoney(balance);
     		    
     		    setTransactionDetail(user.getWallet().getWalletId());
     		    tx = session.beginTransaction();
     		    session.merge(user);
+    		    
+    			System.out.println(user.getUserLevel());
 		     }
 	 		 data.clear();
 	 		 tx.commit();

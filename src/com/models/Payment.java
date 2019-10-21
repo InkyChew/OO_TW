@@ -13,7 +13,7 @@ import com.models.Receivement;
 
 public class Payment extends Transfer implements ProcessAPI{
 
-	public String process(int userId, int traderId, int amount, ProcessAPI processAPI) {
+	public String process(int userId, int traderId, int amount) {
 		// for DB
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -34,8 +34,16 @@ public class Payment extends Transfer implements ProcessAPI{
 	        	trader = (User) data2.get(0);
 	        	balance = user.getWallet().getWalletMoney();
 	        	type = "payment";
+	        	
+	        	int level = user.getUserLevel();
+	        	DiscounterFactory UserDiscountFactory = new UserDiscountFactory(level);
+	        	Discounter userLevel = UserDiscountFactory.createLevelDiscounter();
+	        	user.setUserLevel(userLevel);
+	        	double discount = user.getDiscount();
+	        	
    			 	tx = session.beginTransaction();
 	        	if (balance >= amount) {
+	        		amount = (int)(amount * discount);
 	    		    balance-=amount;
 	    		    user.wallet.walletMoney=balance;
 	    		    // for trader

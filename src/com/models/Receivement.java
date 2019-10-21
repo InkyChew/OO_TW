@@ -14,7 +14,7 @@ import com.models.Receivement;
 public class Receivement extends Transfer implements ProcessAPI{
 	// controller
 	@Override
-	public String process(int userId, int traderId, int amount, ProcessAPI processAPI){
+	public String process(int userId, int traderId, int amount){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		String output="error";

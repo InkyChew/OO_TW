@@ -41,8 +41,8 @@ public class GUI { //GUI=V+C
 	private TransactionDetail transactionDetail;
 	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
 	private List<User> userList = new ArrayList<User>();
-	Mail mail;
-	Auth auth;
+	private Mail mail;
+	private Auth auth;
 	
 	// DB
 	Session session = null;
@@ -65,11 +65,11 @@ public class GUI { //GUI=V+C
 	public Transfer getTransfer(){
 	    return transfer;
 	}
-	public AbTransfer getAbtransfer() {
-		return abTransfer;
-	}
 	public void setAbtransfer(AbTransfer abT) {
 		abTransfer = abT;
+	}
+	public AbTransfer getAbtransfer() {
+		return abTransfer;
 	}
 	public void setTransactionDetails(List<TransactionDetail> transactionDetails){
 	    this.transactionDetails=transactionDetails;
@@ -181,8 +181,8 @@ public class GUI { //GUI=V+C
 	
 	public String deposit() {
 		HttpSession httpSession = ServletActionContext.getRequest().getSession();
-		int amount= transfer.amount;
 		int userId = (int) httpSession.getAttribute("userId");
+		int amount= transfer.amount;
 		abTransfer = new AbTransfer(userId, userId, amount, new Deposit());
 //		transfer = new Deposit();
 //		transfer.setAmount(amount);
