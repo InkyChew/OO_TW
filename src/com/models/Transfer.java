@@ -16,6 +16,8 @@ public class Transfer {
 	public int traderId;
 	public String type;
 	
+	public Discounter levelDiscounter; // context has strategy
+	public final int fee = 30;
 	public GUI gui;
 //	public TransactionDetail transactionDetail;
 	
@@ -48,6 +50,12 @@ public class Transfer {
 	}
 	public String getType(){
 	   return type;
+	}
+	public void setDiscounter(Discounter lev){
+		this.levelDiscounter = lev;
+	}
+	public double getDiscount(){
+		return levelDiscounter.getDiscount(amount);
 	}
 	
 	public String process() {

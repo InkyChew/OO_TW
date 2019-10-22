@@ -1,8 +1,11 @@
 package com.models;
 
 public class VVIPLevel implements Discounter {
-	public double getDiscount(double discount){
-		discount = 0.5;
-		return  discount;
+	public double getDiscount(int amount){
+		if(amount > 100) {
+			return 0.0;
+		} else {
+			return 0.5;
+		}
 	}
 }

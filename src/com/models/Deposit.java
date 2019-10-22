@@ -40,8 +40,6 @@ public class Deposit extends Transfer implements ProcessAPI{
     		    setTransactionDetail(user.getWallet().getWalletId());
     		    tx = session.beginTransaction();
     		    session.merge(user);
-    		    
-    			System.out.println(user.getUserLevel());
 		     }
 	 		 data.clear();
 	 		 tx.commit();

@@ -35,15 +35,16 @@ public class Payment extends Transfer implements ProcessAPI{
 	        	balance = user.getWallet().getWalletMoney();
 	        	type = "payment";
 	        	
+	        	// discounter
 	        	int level = user.getUserLevel();
 	        	DiscounterFactory UserDiscountFactory = new UserDiscountFactory(level);
 	        	Discounter userLevel = UserDiscountFactory.createLevelDiscounter();
-	        	user.setUserLevel(userLevel);
-	        	double discount = user.getDiscount();
+	        	setDiscounter(userLevel);
+	        	double discount = getDiscount();
 	        	
    			 	tx = session.beginTransaction();
 	        	if (balance >= amount) {
-	        		amount = (int)(amount * discount);
+	        		amount = (int)(amount + (fee * discount));
 	    		    balance-=amount;
 	    		    user.wallet.walletMoney=balance;
 	    		    // for trader

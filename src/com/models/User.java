@@ -13,8 +13,8 @@ public class User {
 	public String userName;
 	public String userPass;
 	public int userLevel; // 0-no 1-VIP 2-VVIP
-	public Discounter levelDiscounter; // context has strategy
-	public double discount;
+//	public Discounter levelDiscounter; // context has strategy
+//	public double discount;
 	
 	public void setUserId(int userId){
 	    this.userId=userId;
@@ -58,11 +58,11 @@ public class User {
 	public int getUserLevel(){ // DB
 		return userLevel;
 	}
-	public void setUserLevel(Discounter lev){
-		this.levelDiscounter = lev;
-	}
-	public double getDiscount(){
-		return levelDiscounter.getDiscount(discount);
-	}
+//	public void setDiscounter(Discounter lev){
+//		this.levelDiscounter = lev;
+//	}
+//	public double getDiscount(){
+//		return levelDiscounter.getDiscount(discount);
+//	}
 }
 
