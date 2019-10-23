@@ -64,6 +64,13 @@ public class facade { //GUI=V+C
 	    return userList;
 	}
 	
+	public void setTransfer(Transfer transfer){
+	    this.transfer=transfer;
+	}
+	public Transfer getTransfer(){
+	    return transfer;
+	}
+	
 	public String toDeposit() {
 		return "success";
 	}
@@ -150,21 +157,27 @@ public class facade { //GUI=V+C
 	public String transactionSuccessView() {
 		String output = "error";
 		if(auth.checkSession()) {
+			System.out.println("session pass");
 			// �O���ϥΪ̿�J����
 			int traderId=transfer.traderId;
+			System.out.println("get" + transfer.traderId);
 			int amount= transfer.amount;
+			String otp = transfer.otp;
 			transfer= new Payment();
 			transfer.setAmount(amount);
 			transfer.setTraderId(traderId);
-			String inputOTP = "";
-			if(auth.checkOTP(inputOTP)) {
+			transfer.setUserId(auth.getUserId());
+			if(auth.checkOTP(otp)) {
+				System.out.println("otp pass");
 				// transaction
 				// record transaction payment & receivement
 				output = transfer.process();
 			} else {
 				output = "error";// error page
+				System.out.println("otp not pass");
 			}
 		} else {
+			System.out.println("session not pass");
 			output = "error";
 		}
 		return output;

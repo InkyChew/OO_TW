@@ -19,8 +19,13 @@ public class Transfer {
 	public int balance;
 	public int userId;
 	public int traderId;
+	public String otp;
 	public String type;
 	public controller mediator;
+	
+	public Transfer() {
+		mediator = new controller();
+	}
 	
 	public TransactionDetail transactionDetail;
 	public void setAmount(int amount){
@@ -53,12 +58,19 @@ public class Transfer {
 	public String getType(){
 	   return type;
 	}
+	public void setOtp(String otp){
+	    this.otp=otp;
+	}
+	public String getOtp(){
+	   return otp;
+	}
 	
 	public String process() {
 		return "success";
 	}
 	public String setTransactionDetail(int walletId) { // 跟 controller 說叫 transaction detail 做事
-		mediator.SetTransferTransactionDetail(amount, balance, type, walletId, traderId);
+		System.out.println(amount + " " + balance + " " + type + " " + walletId + " " + traderId);
+		transactionDetail = mediator.SetTransferTransactionDetail(amount, balance, type, walletId, traderId);
 		// transactionDetail = new TransactionDetail();
 		// transactionDetail.setDate(date);
 		// transactionDetail.setAmount(amount);

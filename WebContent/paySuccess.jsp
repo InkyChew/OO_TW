@@ -45,28 +45,28 @@ HTML DIV æ¨ç±¤ç¯ä¾
         transaction Detail
         <form action="Payment" method="post" enctype="multipart/form-data"> 
         <table align="center">
-   <tr>
+   <!-- <tr>
 
     <td align="left" valign="left">Date:</td>
-<!--    <td><input type="text" name="transfer.traderId" value="" ></td>-->
+    <td><s:property  value="transfer.date" /></td>
     
-   </tr>
+   </tr> -->
    <tr>
     
     <td align="left" valign="left">Type:</td>
-<!--    <td><input type="text" name="transfer.amount"></td>-->
+    <td><s:property  value="transfer.type" /></td>
    </tr>
    <tr>
     <td align="left" valign="left">TraderId:</td>
-<!--    <td align="left"><input type="text" name="transfer.amount"></td>-->
+    <td align="left"><s:property  value="transfer.traderId" /></td>
    </tr>
     <tr>
     <td align="left" valign="left">Amount:</td>
-<!--    <td align="left"><input type="text" name="transfer.amount"></td>-->
+    <td align="left"><s:property value="transfer.amount" /></td>
    </tr>
 	 <tr>
     <td align="left" valign="left">Balance:</td>
-<!--    <td align="left"><input type="text" name="transfer.amount"></td>-->
+    <td align="left"><s:property  value="transfer.balance" /></td>
    </tr>		
   </table> 
 
