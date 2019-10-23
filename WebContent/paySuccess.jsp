@@ -43,7 +43,7 @@ HTML DIV æ¨ç±¤ç¯ä¾
 <div class="pay"style="border:2px blo#3FB6B2 solid;font-size:20px; background-color:#f0f0f0;width:300px;height:450px;margin:0px auto;text-align:center;line-height:45px;">
      <h1>SUCCESS!</h1>
         transaction Detail
-        <form action="Payment" method="post" enctype="multipart/form-data"> 
+        <form action="ToPlatform" method="post" enctype="multipart/form-data"> 
         <table align="center">
    <!-- <tr>
 
