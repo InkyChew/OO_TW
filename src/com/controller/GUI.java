@@ -243,18 +243,9 @@ public class GUI { //GUI=V+C
 	
 	public String toPlatform() {
 		String output = "error";
-		try {
-			int userId = auth.getUserId();
-			System.out.println(userId);
-			user = auth.getUser(userId);
-			System.out.println(user);
-			output = "success";
-		}catch (HibernateException e){
-			if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-		}finally {
-			session.close(); 
-		}
+		int userId = auth.getUserId();
+		user = auth.getUser(userId);
+		output = "success";
 		return output;
 	}	
 	
