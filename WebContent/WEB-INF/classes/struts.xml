@@ -51,7 +51,7 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">administrator</result>
         </action>
-        <action name="ToPay" class="com.controller.facade" method="showPayOTPView">
+        <action name="ToPay" class="com.controller.GUI" method="showPayOTPView">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">pay</result>
         </action>
