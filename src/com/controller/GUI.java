@@ -180,7 +180,6 @@ public class GUI { //GUI=V+C
 		String output = "error";
 		if(auth.checkSession()) {
 			System.out.println("session pass");
-			// �O���ϥΪ̿�J����
 			int traderId=transfer.traderId;
 			System.out.println("get" + transfer.traderId);
 			int amount= transfer.amount;
@@ -245,11 +244,10 @@ public class GUI { //GUI=V+C
 	public String toPlatform() {
 		String output = "error";
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
-			int userId = (int) httpSession.getAttribute("userId");
-			List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
-			user = (User) data.get(0);
+			int userId = auth.getUserId();
+			System.out.println(userId);
+			user = auth.getUser(userId);
+			System.out.println(user);
 			output = "success";
 		}catch (HibernateException e){
 			if (tx!=null) tx.rollback();
