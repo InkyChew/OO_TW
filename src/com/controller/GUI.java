@@ -102,7 +102,14 @@ public class GUI { //GUI=V+C
 		}
 		return output;
 	}
-	
+	public String deposit() {
+		HttpSession httpSession = ServletActionContext.getRequest().getSession();
+		int userId = (int) httpSession.getAttribute("userId");
+		int amount= transfer.amount;
+		abTransfer = new AbTransfer(userId, userId, amount, new Deposit());
+		String output = abTransfer.process();
+		return output;
+	}
 	public String login() {
 		String output = "error";
 		if(auth.createSession(user)) {
@@ -236,7 +243,7 @@ public class GUI { //GUI=V+C
 	}
 	
 	public String logout() {
-//		auth.removeSession();
+		auth.removeSession();
 		String output = "success";
 		return output; // login page
 	}
