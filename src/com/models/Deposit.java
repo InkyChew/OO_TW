@@ -21,14 +21,10 @@ public class Deposit extends Transfer implements ProcessAPI{
 		Transaction tx = session.beginTransaction();
 		String output="error";
 		try{
-//			 traderId = userId;
-			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
-		     User user = null; 
-//		     User trader = null;
-		     if(data.size() > 0 ) {
+			 System.out.println(userId);
+			 User user = gui.getUser(userId);
+			 if(user != null) {
 	    	 	type = "deposit";
-	        	user = (User) data.get(0);
-//	        	trader = user;
 	        	this.userId = userId;
 	        	this.traderId = userId; // in deposit user = trader
 	        	this.amount = amount;
@@ -38,10 +34,8 @@ public class Deposit extends Transfer implements ProcessAPI{
     		    user.getWallet().setWalletMoney(balance);
     		    
     		    setTransactionDetail(user.getWallet().getWalletId());
-    		    tx = session.beginTransaction();
-    		    session.merge(user);
+    		    session.merge(user.getWallet());
 		     }
-	 		 data.clear();
 	 		 tx.commit();
 	         output="success";
 	      }catch (HibernateException e) {

@@ -79,6 +79,7 @@ public class Auth {
 	}
 	
 	public Boolean isAdmin() {
+		System.out.println("123");
 		if (newUser.userRole.roleName.equals("administrator")) {
 			return true;
 		}
@@ -101,7 +102,6 @@ public class Auth {
 		 }finally {
 		     session.close(); 
 		 }
-		
 		return user;
 	}
 	public User getCurrentUser() {

@@ -44,6 +44,10 @@ public class GUI { //GUI=V+C
 	private Mail mail;
 	private Auth auth;
 	
+	public User getUser(int userId) {
+		return auth.getUser(userId);
+	}
+	
 	// DB
 	Session session = null;
 	Transaction tx = null;
@@ -187,9 +191,6 @@ public class GUI { //GUI=V+C
 //		transfer = new Deposit();
 //		transfer.setAmount(amount);
 		String output = abTransfer.process();
-//		if (output=="success") {
-//			output = toPlatform();
-//		}
 		return output;
 	}
 	

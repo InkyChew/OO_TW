@@ -18,7 +18,7 @@ public class Transfer {
 	
 	public Discounter levelDiscounter; // context has strategy
 	public final int fee = 30;
-	public GUI gui;
+	public GUI gui = new GUI();
 //	public TransactionDetail transactionDetail;
 	
 	public void setAmount(int amount){
