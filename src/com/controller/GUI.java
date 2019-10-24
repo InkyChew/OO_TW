@@ -88,12 +88,6 @@ public class GUI { //GUI=V+C
 	    return userList;
 	}
 	
-	public void setTransfer(Transfer transfer){
-	    this.transfer=transfer;
-	}
-	public Transfer getTransfer(){
-	    return transfer;
-	}
 	
 	public String toDeposit() {
 		return "success";

@@ -57,6 +57,7 @@ public class Transfer {
 	}
 	public double getDiscount(){
 		return levelDiscounter.getDiscount(amount);
+	}
 	public void setOtp(String otp){
 	    this.otp=otp;
 	}
