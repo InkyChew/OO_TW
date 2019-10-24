@@ -21,12 +21,16 @@ public class Payment extends Transfer implements ProcessAPI{
 		
 		String output="error";
 		try{
-			 userId = (int) httpSession.getAttribute("userId");
+//			 userId = (int) httpSession.getAttribute("userId");
 			 
 			 // DB reaction
 			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
 			 List data2 = session.createCriteria(User.class).add(Restrictions.eq("userId",traderId)).list();
-			 
+			 System.out.println(userId);
+			 System.out.println(traderId);
+			 System.out.println(amount);
+			 System.out.println(data.size());
+			 System.out.println(data2.size());
 		     User user = null; 
 		     User trader = null;
 		     if(data.size() > 0 && data2.size() > 0) {

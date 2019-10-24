@@ -14,6 +14,7 @@ public class Transfer {
 	public int balance;
 	public int userId;
 	public int traderId;
+	public String otp;
 	public String type;
 	
 	public Discounter levelDiscounter; // context has strategy
@@ -56,6 +57,11 @@ public class Transfer {
 	}
 	public double getDiscount(){
 		return levelDiscounter.getDiscount(amount);
+	public void setOtp(String otp){
+	    this.otp=otp;
+	}
+	public String getOtp(){
+	   return otp;
 	}
 	
 	public String process() {

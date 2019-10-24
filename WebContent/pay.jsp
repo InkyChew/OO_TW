@@ -41,17 +41,17 @@ HTML DIV æ¨ç±¤ç¯ä¾
    <tr>
 
     <td align="left" valign="left">Id:</td>
-    <td><input type="text" name="transfer.traderId" value="" ></td>
+    <td><input type="text" name="transfer.traderId" value="<%= request.getParameter("transfer.traderId") %>"></td>
     
    </tr>
    <tr>
     
     <td align="left" valign="left">Amount:</td>
-    <td><input type="text" name="transfer.amount"></td>
+    <td><input type="text" name="transfer.amount" value=""></td>
    </tr>
    <tr>
     <td align="left" valign="left">opt:</td>
-    <td align="left"><input type="text" name="transfer.amount"></td>
+    <td align="left"><input type="text" name="transfer.otp"></td>
    </tr>
    
   </table> 

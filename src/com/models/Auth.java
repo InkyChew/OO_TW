@@ -1,5 +1,8 @@
 package com.models;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class Auth {
 	Session session = null;
-	HttpSession httpSession = null;
+	HttpSession httpSession = ServletActionContext.getRequest().getSession();;
 	Transaction tx = null;
 	User newUser = null;
 	
@@ -34,7 +37,6 @@ public class Auth {
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
-		httpSession = ServletActionContext.getRequest().getSession();
 		try{
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
@@ -57,24 +59,33 @@ public class Auth {
 		return auth;
 	}
 	public Boolean checkSession() {
-		httpSession = ServletActionContext.getRequest().getSession();
-		int userId = (int) httpSession.getAttribute("userId");
+		
 //		 if(userId == user.userId) {
-		 if(userId != 0) {
-			 System.out.println(userId);
-			 return true;
-		 } else {
+		 if(httpSession.getAttribute("userId") == null) {
 			 return false;
+		 } else {
+			 return true;
 		 }
 	}
 	public void removeSession() {
 		httpSession.removeAttribute("userId");
 	}
 	
-	public void createOTP() {
-		
+	public int getUserId() {
+		return (int) httpSession.getAttribute("userId");
 	}
-	public Boolean checkOTP() {
+	
+	public void createOTP(String OTP, LocalDateTime expire) {
+		httpSession.setAttribute("OTP", OTP);
+		httpSession.setAttribute("OTPExpire", expire);
+	}
+	public Boolean checkOTP(String inputOTP) {
+		String OTP = (String) httpSession.getAttribute("OTP");
+		LocalDateTime expire = (LocalDateTime) httpSession.getAttribute("OTPExpire");
+		final LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("+8")));
+		if(inputOTP.equals(OTP) && now.isBefore(expire)) {
+			return true;
+		}
 		return false;
 	}
 	

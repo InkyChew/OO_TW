@@ -41,7 +41,7 @@
         </action>
         <action name="Payment" class="com.controller.GUI" method="showPayOTPView">
             <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
+            <result name="success" type="tiles">paySuccess</result>
         </action>
  		<action name="Deposit" class="com.controller.GUI" method="deposit">
             <result name="error" type="redirect">/error.jsp</result>
@@ -50,6 +50,10 @@
         <action name="readClientAll" class="com.controller.GUI" method="readClientAll">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">administrator</result>
+        </action>
+        <action name="ToPay" class="com.controller.facade" method="showPayOTPView">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">pay</result>
         </action>
     </package>
 </struts>

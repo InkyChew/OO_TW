@@ -88,6 +88,13 @@ public class GUI { //GUI=V+C
 	    return userList;
 	}
 	
+	public void setTransfer(Transfer transfer){
+	    this.transfer=transfer;
+	}
+	public Transfer getTransfer(){
+	    return transfer;
+	}
+	
 	public String toDeposit() {
 		return "success";
 	}
@@ -134,63 +141,73 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 
-//	public String showPayOTPView() { // �I�ڤH
-//		String output = "error";
-//		if(auth.checkSession()) {
-//			// sendOTP
-//			String OTP = "";
-//			for(int i = 0; i < 8; i++){
-//		      int random = (int)((Math.random() * 3) + 1);
-//		      if(i == 1){
-//		    	OTP += (char)(int)((Math.random()*10)+48);
-//		      }else if(i == 2){
-//		        OTP += (char)(int)(((Math.random()*26) + 65));
-//		      }else{
-//		        OTP += (char)(int)((Math.random()*26) + 97);
-//		      }
-//		    }
-//			String address = user.getUserInfo().getEmail();
-//			mail.sendOTP(address, OTP);
-//			SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
-//			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
-//			auth.saveOTP(OTP, expire);
-//			// show pay
-//			return "payment";
-//		}
-//		return output;
-//	}
-//	public String transactionSuccessView() {
-//		String output = "error";
-//		if(auth.checkSession()) {
-//			// �O���ϥΪ̿�J����
-//			int traderId=transfer.traderId;
-//			int amount= transfer.amount;
-//			String OTP = transfer.otp;
-//			transfer= new Payment();
-//			transfer.setAmount(amount);
-//			transfer.setTraderId(traderId);
-//			
-//			if(auth.checkOTP(OTP)) {
-//				// transaction
-//				// record transaction payment & receivement
-//				output = transfer.process();
-//			} else {
-//				output = "error";// error page
-//			}
-//		} else {
-//			output = "error";
-//		}
-//		return output;
-//	}
-	
-	public String deposit() {
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
-		int userId = (int) httpSession.getAttribute("userId");
-		int amount= transfer.amount;
-		abTransfer = new AbTransfer(userId, userId, amount, new Deposit());
-//		transfer = new Deposit();
-//		transfer.setAmount(amount);
-		String output = abTransfer.process();
+	public String showPayOTPView() { // �I�ڤH
+		String output = "error";
+		if(auth.checkSession()) {
+			// sendOTP
+			String OTP = "";
+			for(int i = 0; i < 8; i++){
+		      int random = (int)((Math.random() * 3) + 1);
+		      if(random == 1){
+		    	OTP += (char)(int)((Math.random()*10)+48);
+		      }else if(random == 2){
+		        OTP += (char)(int)(((Math.random()*26) + 65));
+		      }else{
+		        OTP += (char)(int)((Math.random()*26) + 97);
+		      }
+		    }
+			int userId = auth.getUserId();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction tx = session.beginTransaction();
+			try{
+		         List data = session.createCriteria(User.class)
+		        		 .add(Restrictions.eq("userId", userId)).list();
+		         for(Iterator iterator = data.iterator(); iterator.hasNext();){
+		        	 user = (User) iterator.next();
+		         }
+		 		 data.clear();
+		         tx.commit();
+		      } catch (HibernateException e) {
+		         if (tx!=null) tx.rollback();
+		         e.printStackTrace(); 
+		      } finally {
+		         session.close(); 
+		      }
+			String address = user.getUserInfo().getEmail();
+			mail.sendOTP(address, OTP);
+			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+			auth.createOTP(OTP, expire);
+			// show pay
+			return "success";
+		}
+		return output;
+	}
+	public String transactionSuccessView() {
+		String output = "error";
+		if(auth.checkSession()) {
+			System.out.println("session pass");
+			// �O���ϥΪ̿�J����
+			int traderId=transfer.traderId;
+			System.out.println("get" + transfer.traderId);
+			int amount= transfer.amount;
+			String otp = transfer.otp;
+			transfer= new Payment();
+			transfer.setAmount(amount);
+			transfer.setTraderId(traderId);
+			transfer.setUserId(auth.getUserId());
+			if(auth.checkOTP(otp)) {
+				System.out.println("otp pass");
+				// transaction
+				// record transaction payment & receivement
+				output = transfer.process();
+			} else {
+				output = "error";// error page
+				System.out.println("otp not pass");
+			}
+		} else {
+			System.out.println("session not pass");
+			output = "error";
+		}
 		return output;
 	}
 	

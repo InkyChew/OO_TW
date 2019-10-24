@@ -71,6 +71,7 @@ public class controller {
 		transactionDetail.setType(type);
 		transactionDetail.setWalletId(walletId);
 		transactionDetail.setTraderId(traderId);
+		System.out.println("success");
 		return transactionDetail;
 	}
 	public Boolean isAdmin(User user) {
