@@ -29,6 +29,7 @@ import com.models.TransactionDetail;
 import com.models.Transfer;
 import com.models.AbTransfer;
 import com.models.Payment;
+import com.models.Receivement;
 import com.models.Auth;
 import com.models.Deposit;
 import com.models.Admin;
@@ -87,7 +88,6 @@ public class GUI { //GUI=V+C
 	public List<User> getUserList(){
 	    return userList;
 	}
-	
 	
 	public String toDeposit() {
 		return "success";
@@ -183,34 +183,28 @@ public class GUI { //GUI=V+C
 		}
 		return output;
 	}
-	public String transactionSuccessView() {
+	public String payment() {
 		String output = "error";
 		if(auth.checkSession()) {
 			System.out.println("session pass");
 			int traderId=transfer.traderId;
-			System.out.println("get" + transfer.traderId);
 			int amount= transfer.amount;
 			String otp = transfer.otp;
-			transfer= new Payment();
-			transfer.setAmount(amount);
-			transfer.setTraderId(traderId);
-			transfer.setUserId(auth.getUserId());
 			if(auth.checkOTP(otp)) {
-				System.out.println("otp pass");
-				// transaction
-				// record transaction payment & receivement
-				output = transfer.process();
+				abTransfer = new AbTransfer(auth.getUserId(), traderId, amount, new Payment());
+				output = abTransfer.process();
 			} else {
 				output = "error";// error page
-				System.out.println("otp not pass");
 			}
 		} else {
-			System.out.println("session not pass");
 			output = "error";
 		}
 		return output;
 	}
-	
+	public void receivement(int userId, int traderId, int amount) {
+		abTransfer = new AbTransfer(userId, traderId, amount, new Receivement());
+		abTransfer.process();
+	}
 	public String checkTransactionHistory() {
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();

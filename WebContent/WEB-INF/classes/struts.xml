@@ -39,7 +39,7 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">platform</result>
         </action>
-        <action name="Payment" class="com.controller.GUI" method="showPayOTPView">
+        <action name="Payment" class="com.controller.GUI" method="payment">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">paySuccess</result>
         </action>

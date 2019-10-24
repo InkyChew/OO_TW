@@ -15,29 +15,21 @@ public class Payment extends Transfer implements ProcessAPI{
 
 	public String process(int userId, int traderId, int amount) {
 		// for DB
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		
 		String output="error";
+		
 		try{
-//			 userId = (int) httpSession.getAttribute("userId");
 			 
-			 // DB reaction
-			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
-			 List data2 = session.createCriteria(User.class).add(Restrictions.eq("userId",traderId)).list();
-			 System.out.println(userId);
-			 System.out.println(traderId);
-			 System.out.println(amount);
-			 System.out.println(data.size());
-			 System.out.println(data2.size());
-		     User user = null; 
-		     User trader = null;
-		     if(data.size() > 0 && data2.size() > 0) {
-	        	user = (User) data.get(0);
-	        	trader = (User) data2.get(0);
-	        	balance = user.getWallet().getWalletMoney();
+			 User user = gui.getUser(userId);
+			 User trader = gui.getUser(traderId);
+		     if(user != null && trader != null) {
 	        	type = "payment";
+	        	this.amount = amount;
+	        	this.traderId = traderId;
+	        	this.userId = userId;
+	        	
+	        	balance = user.getWallet().getWalletMoney();
 	        	
 	        	// discounter
 	        	int level = user.getUserLevel();
@@ -47,25 +39,19 @@ public class Payment extends Transfer implements ProcessAPI{
 	        	double discount = getDiscount();
 	        	
    			 	tx = session.beginTransaction();
-	        	if (balance >= amount) {
-	        		amount = (int)(amount + (fee * discount));
-	    		    balance-=amount;
+   			 	System.out.println(amount);
+	        	if (balance >= (int)(amount + (fee * discount))) {
+	    		    balance-=(int)(amount + (fee * discount));
 	    		    user.wallet.walletMoney=balance;
 	    		    // for trader
-	    		    Receivement receivement = new Receivement();
-	    		    receivement.setTraderId(userId);
-	    		    receivement.setUserId(traderId);
-	    		    receivement.setAmount(amount);
-	    		    if (! receivement.process().equals("success")) {
-	    		    	return output;
-	    		    }
+	    		    gui.receivement(traderId, userId, amount);
+	    		    this.amount = (int)(amount + (fee * discount));
+	    		    
 	    		    setTransactionDetail(user.getWallet().getWalletId());
-	    		    session.merge(user);
+	    		    session.merge(user.getWallet());
 	   	         	output="success";
 	    		}
 		     }
-	 		 data.clear();
-	 		 data2.clear();
 	 		 // for DB
 	 		 tx.commit();
 	      }catch (HibernateException e) {

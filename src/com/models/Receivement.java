@@ -18,22 +18,25 @@ public class Receivement extends Transfer implements ProcessAPI{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		String output="error";
+		
 		try{
-			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
-		     User user = null; 
-		     User trader = null;
-		     if(data.size() > 0 ) {
+			System.out.println(userId);
+			 User user = gui.getUser(userId);
+			 User trader = gui.getUser(traderId);
+			 this.amount = amount;
+	        	this.traderId = traderId;
+	        	this.userId = userId;
+
+		     if(user != null && trader != null) {
 		    	 	type = "receivement";
-		        	user = (User) data.get(0);
 		        	balance = user.getWallet().getWalletMoney();
 		        	balance+=amount;
 	    		    user.wallet.walletMoney=balance;
 	    		    System.out.println("user.getWallet().getWalletId() " + user.getWallet().getWalletId());
 	    		    setTransactionDetail(user.getWallet().getWalletId());
 	    		    tx = session.beginTransaction();
-	    		    session.merge(user);
+	    		    session.merge(user.getWallet());
 		     }
-	 		 data.clear();
 	 		 tx.commit();
 	         output="success";
 	      }catch (HibernateException e) {
