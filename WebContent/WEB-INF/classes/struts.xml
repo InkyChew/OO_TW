@@ -16,7 +16,7 @@
         <action name="ToDeposit" class="com.controller.GUI" method="toDeposit">
             <result name="success" type="tiles">deposit</result>
         </action>
-        <action name="ToReceivement" class="com.controller.GUI" method="toDeposit">
+        <action name="ToReceivement" class="com.controller.GUI" method="toReceivement">
             <result name="success" type="tiles">receivement</result>
         </action>
         <action name="ToInformation" class="com.controller.GUI" method="toInformation">

@@ -90,6 +90,8 @@ public class GUI { //GUI=V+C
 		return "success";
 	}
 	public String toReceivement() {
+		int userId = auth.getUserId();
+		user = auth.getUser(userId);
 		return "success";
 	}
 	public String toInformation() {
