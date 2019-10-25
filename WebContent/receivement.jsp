@@ -44,7 +44,7 @@ HTML DIV 標籤範例
 <body>
 <div>
 		<h1>Receivement</h1>
-		<img src="https://api.qrserver.com/v1/create-qr-code/?data=<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/toPay?transfer.traderId=<s:property value="user.userId"/> &amp;size=250x250" alt="" title="" />	
+		<img src="https://api.qrserver.com/v1/create-qr-code/?data=<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/ToPay?transfer.traderId=<s:property value="user.userId"/> &amp;size=250x250" alt="" title="" />	
     <form action="ToPlatform" method="post" enctype="multipart/form-data">
 					<input type="submit" value="<<Back" /> 
 				</form>

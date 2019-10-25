@@ -89,6 +89,13 @@ public class GUI { //GUI=V+C
 	public String toDeposit() {
 		return "success";
 	}
+	public String ToScan() {
+		String output = "error";
+		if(auth.checkSession()) {
+			output = "success";
+		}
+		return output;
+	}
 	public String toReceivement() {
 		int userId = auth.getUserId();
 		user = auth.getUser(userId);

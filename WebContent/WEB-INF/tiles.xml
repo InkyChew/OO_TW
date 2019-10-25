@@ -13,4 +13,5 @@
 		<definition name="administrator" template="/admin.jsp"></definition>
 		<definition name="pay" template="pay.jsp"></definition>
 		<definition name="paySuccess" template="paySuccess.jsp"></definition>
+		<definition name="payScan" template="payScan.jsp"></definition>
 	</tiles-definitions>

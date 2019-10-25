@@ -42,7 +42,7 @@
 			
 			<tr>
 				<td>
-					<form action="ToPay" method="post" enctype="multipart/form-data">
+					<form action="ToScan" method="post" enctype="multipart/form-data">
 						<input type="submit" value="Pay" />
 					</form>
 				</td>

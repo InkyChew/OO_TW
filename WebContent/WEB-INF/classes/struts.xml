@@ -52,8 +52,12 @@
             <result name="success" type="tiles">administrator</result>
         </action>
         <action name="ToPay" class="com.controller.GUI" method="showPayOTPView">
-            <result name="error" type="redirect">/error.jsp</result>
+            <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">pay</result>
+        </action>
+        <action name="ToScan" class="com.controller.GUI" method="ToScan">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">payScan</result>
         </action>
     </package>
 </struts>

@@ -38,7 +38,7 @@ HTML DIV æ¨ç±¤ç¯ä¾
      <img src="pay.png" width=90px align= middle align= middle><br>
         <form action="Payment" method="post" enctype="multipart/form-data"> 
         <table align="center">
-   <tr>
+   <tr style="display:none;">
 
     <td align="left" valign="left">Id:</td>
     <td><input type="text" name="transfer.traderId" value="<%= request.getParameter("transfer.traderId") %>"></td>
