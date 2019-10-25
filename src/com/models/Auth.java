@@ -58,8 +58,7 @@ public class Auth {
 	      }
 		return auth;
 	}
-	public Boolean checkSession() {
-		
+	public Boolean checkSession() {		
 //		 if(userId == user.userId) {
 		 if(httpSession.getAttribute("userId") == null) {
 			 return false;
@@ -90,7 +89,6 @@ public class Auth {
 	}
 	
 	public Boolean isAdmin() {
-		System.out.println("123");
 		if (newUser.userRole.roleName.equals("administrator")) {
 			return true;
 		}

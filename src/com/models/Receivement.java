@@ -21,11 +21,11 @@ public class Receivement extends Transfer implements ProcessAPI{
 		
 		try{
 			System.out.println(userId);
-			 User user = gui.getUser(userId);
-			 User trader = gui.getUser(traderId);
-			 this.amount = amount;
-	        	this.traderId = traderId;
-	        	this.userId = userId;
+			User user = gui.getAuthUser(userId);
+			User trader = gui.getAuthUser(traderId);
+			this.amount = amount;
+			this.traderId = traderId;
+			this.userId = userId;
 
 		     if(user != null && trader != null) {
 		    	 	type = "receivement";

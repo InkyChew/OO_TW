@@ -37,6 +37,7 @@ import com.models.Admin;
 // Facade+Mediator
 public class GUI { //GUI=V+C
 	private User user = new User();
+	private Admin admin = new Admin();
 	private Transfer transfer;
 	private AbTransfer abTransfer;
 	private TransactionDetail transactionDetail;
@@ -44,10 +45,6 @@ public class GUI { //GUI=V+C
 	private List<User> userList = new ArrayList<User>();
 	private Mail mail;
 	private Auth auth;
-	
-	public User getUser(int userId) {
-		return auth.getUser(userId);
-	}
 	
 	// DB
 	Session session = null;
@@ -103,36 +100,21 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 	public String deposit() {
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
-		int userId = (int) httpSession.getAttribute("userId");
-		int amount= transfer.amount;
-		abTransfer = new AbTransfer(userId, userId, amount, new Deposit());
-		String output = abTransfer.process();
+		String output = "error";
+		if(auth.checkSession()) {
+			int userId = auth.getUserId();
+			int amount= transfer.amount;
+			abTransfer = new AbTransfer(userId, userId, amount, new Deposit());
+			output = abTransfer.process();
+		}
 		return output;
 	}
 	public String login() {
 		String output = "error";
 		if(auth.createSession(user)) {
 			if(auth.isAdmin()) { // account detail page
-				Session session = HibernateUtil.getSessionFactory().openSession();
-				Transaction tx = session.beginTransaction();
-				try{
-			         List data = session.createCriteria(User.class)
-			        		 .createAlias("userRole","role")
-			        		 .add(Restrictions.not(Restrictions.eq("role.roleName", "administrator"))).list();
-			         for(Iterator iterator = data.iterator(); iterator.hasNext();){
-			        	 User user = (User) iterator.next();
-			        	 userList.add(user);
-			         }
-			         output = "administrator";
-			 		 data.clear();
-			         tx.commit();
-			      }catch (HibernateException e) {
-			         if (tx!=null) tx.rollback();
-			         e.printStackTrace(); 
-			      }finally {
-			         session.close(); 
-			      }
+				userList = admin.getAllUser();
+				output = "administrator";
 			}else {
 				output = "success"; // menu
 			}
@@ -194,7 +176,7 @@ public class GUI { //GUI=V+C
 				abTransfer = new AbTransfer(auth.getUserId(), traderId, amount, new Payment());
 				output = abTransfer.process();
 			} else {
-				output = "error";// error page
+				output = "error";
 			}
 		} else {
 			output = "error";
@@ -261,5 +243,9 @@ public class GUI { //GUI=V+C
 		transactionDetail.setWalletId(walletId);
 		transactionDetail.setTraderId(transfer.traderId);
 		return transfer.updateTransactionDetail(transactionDetail);
+	}
+	
+	public User getAuthUser(int userId) {
+		return auth.getUser(userId);
 	}
 }

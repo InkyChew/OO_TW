@@ -19,8 +19,8 @@ public class Transfer {
 	
 	public Discounter levelDiscounter; // context has strategy
 	public final int fee = 30;
-	public GUI gui = new GUI();
-//	public TransactionDetail transactionDetail;
+	public GUI gui = new GUI(); // mediator
+	public TransactionDetail transactionDetail;
 	
 	public void setAmount(int amount){
 	    this.amount=amount;
@@ -71,7 +71,6 @@ public class Transfer {
 	public String setTransactionDetail(int walletId) { // transaction detail
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
 		String date = dfcurrentTime.format(new java.util.Date());
-		this.gui = new GUI();
 		return gui.setTransferDetail(this, walletId);
 //		transactionDetail = new TransactionDetail();
 //		transactionDetail.setDate(date);

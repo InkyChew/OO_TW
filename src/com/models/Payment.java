@@ -19,10 +19,9 @@ public class Payment extends Transfer implements ProcessAPI{
 		Transaction tx = session.beginTransaction();
 		String output="error";
 		
-		try{
-			 
-			 User user = gui.getUser(userId);
-			 User trader = gui.getUser(traderId);
+		try{			 
+			 User user = gui.getAuthUser(userId);
+			 User trader = gui.getAuthUser(traderId);
 		     if(user != null && trader != null) {
 	        	type = "payment";
 	        	this.amount = amount;
@@ -40,16 +39,23 @@ public class Payment extends Transfer implements ProcessAPI{
 	        	
    			 	tx = session.beginTransaction();
    			 	System.out.println(amount);
-	        	if (balance >= (int)(amount + (fee * discount))) {
-	    		    balance-=(int)(amount + (fee * discount));
+   			 	int totalAmount = (int)(amount + (fee * discount));
+	        	if (balance >= totalAmount) {
+	        		System.out.println("pay");	
+	    		    balance-=totalAmount;	    		    
 	    		    user.wallet.walletMoney=balance;
 	    		    // for trader
 	    		    gui.receivement(traderId, userId, amount);
-	    		    this.amount = (int)(amount + (fee * discount));
+	    		    this.amount = totalAmount;
 	    		    
 	    		    setTransactionDetail(user.getWallet().getWalletId());
 	    		    session.merge(user.getWallet());
 	   	         	output="success";
+	   	         	
+	   	         	System.out.println("fee:" + fee);
+	        		System.out.println("get discount:" + discount);
+	        		System.out.println("total:" + totalAmount);
+	        		System.out.println("balance:" + balance);
 	    		}
 		     }
 	 		 // for DB

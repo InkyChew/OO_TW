@@ -22,7 +22,7 @@ public class Deposit extends Transfer implements ProcessAPI{
 		String output="error";
 		try{
 			 System.out.println(userId);
-			 User user = gui.getUser(userId);
+			 User user = gui.getAuthUser(userId);
 			 if(user != null) {
 	    	 	type = "deposit";
 	        	this.userId = userId;
