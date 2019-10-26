@@ -69,8 +69,8 @@ public class Transfer {
 		return "success";
 	}
 	public String setTransactionDetail(int walletId) { // transaction detail
-		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
-		String date = dfcurrentTime.format(new java.util.Date());
+//		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
+//		String date = dfcurrentTime.format(new java.util.Date());
 		return gui.setTransferDetail(this, walletId);
 //		transactionDetail = new TransactionDetail();
 //		transactionDetail.setDate(date);

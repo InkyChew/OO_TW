@@ -86,8 +86,19 @@ public class GUI { //GUI=V+C
 	    return userList;
 	}
 	
+	public String toPlatform() {
+		String output = "error";
+		if(auth.checkSession()){
+			output = "success";
+		}
+		return output;
+	}	
 	public String toDeposit() {
-		return "success";
+		String output = "error";
+		if(auth.checkSession()) {
+			output = "success";
+		}
+		return output;
 	}
 	public String ToScan() {
 		String output = "error";
@@ -133,7 +144,7 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 
-	public String showPayOTPView() { // �I�ڤH
+	public String showPayOTPView() {
 		String output = "error";
 		if(auth.checkSession()) {
 			// sendOTP
@@ -199,12 +210,10 @@ public class GUI { //GUI=V+C
 	public String checkTransactionHistory() {
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		if(auth.checkSession()) {
 			try{
 		         tx = session.beginTransaction();
-//		   		 TransactionDetail transactionDetail;
-		   		 int userId = (int) httpSession.getAttribute("userId");
+		   		 int userId = auth.getUserId();
 		   		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
 		   		 int walletId = ((User) data.get(0)).wallet.walletId;
 			         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
@@ -232,14 +241,6 @@ public class GUI { //GUI=V+C
 		String output = "success";
 		return output; // login page
 	}
-	
-	public String toPlatform() {
-		String output = "error";
-		int userId = auth.getUserId();
-		user = auth.getUser(userId);
-		output = "success";
-		return output;
-	}	
 	
 	public String setTransferDetail(Transfer transfer, int walletId) {
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");

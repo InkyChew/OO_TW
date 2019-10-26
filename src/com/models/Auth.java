@@ -58,8 +58,7 @@ public class Auth {
 	      }
 		return auth;
 	}
-	public Boolean checkSession() {		
-//		 if(userId == user.userId) {
+	public Boolean checkSession() {
 		 if(httpSession.getAttribute("userId") == null) {
 			 return false;
 		 } else {
