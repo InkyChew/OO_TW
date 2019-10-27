@@ -22,7 +22,11 @@ function update(){
 		discountRateDisplay.value = discountRate * 100 + "%";
 		chargeTotal.value = 30 * (1 - discountRate);
 	}
-	total.value = parseInt(amount) + parseInt(chargeTotal.value);
+	if (amount != ""){
+		total.value = parseInt(amount) + parseInt(chargeTotal.value);
+	}else{
+		total.value = 0
+	}
 }
 function check(){
 	var total = document.getElementById("total").value;

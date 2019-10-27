@@ -86,6 +86,10 @@ HTML DIV æ¨ç±¤ç¯ä¾
 				<td><s:property value="user.userInfo.name" /></td>
 			</tr>
 			<tr>
+				<td>Email</td>
+				<td><s:property value="user.userInfo.email" /></td>
+			</tr>
+			<tr>
 				<td>telephone</td>
 				<td><s:property value="user.userInfo.telephone" /></td>
 			</tr>
