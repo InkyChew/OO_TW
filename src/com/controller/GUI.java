@@ -113,6 +113,7 @@ public class GUI { //GUI=V+C
 	public String toReceivement() {
 		String output = "error";
 		if(auth.checkSession()) {
+			user = auth.getCurrentUser();
 			output = "success";
 		}
 		return output;

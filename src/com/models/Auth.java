@@ -116,7 +116,6 @@ public class Auth {
 	}
 	public User getCurrentUser() {
 		User user = null;
-		httpSession = ServletActionContext.getRequest().getSession();
 		int userId = (int) httpSession.getAttribute("userId");
 		user = getUser(userId);
 		return user;
