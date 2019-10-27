@@ -82,7 +82,7 @@ HTML DIV æ¨ç±¤ç¯ä¾
 				<td>no</td>
 			</tr>
 			<tr>
-				<td>Normal</td>
+				<td>VVIP</td>
 				<td>
 				Service charge discount 50%, 
 				> 100 no charge
