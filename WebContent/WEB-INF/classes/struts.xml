@@ -63,5 +63,9 @@
             <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">payScan</result>
         </action>
+        <action name="ToServiceDetails" class="com.controller.GUI" method="toServiceDetails">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">serviceDetails</result>
+        </action>
     </package>
 </struts>

@@ -85,6 +85,9 @@ HTML DIV æ¨ç±¤ç¯ä¾
         <video id="preview"></video>
       </div>
     </div>
+    <form action="ToPlatform" method="post" enctype="multipart/form-data"> 
+		<input type="submit" value="< Back" />
+		</form>
     <script type="text/javascript" src="app.js"></script>     
  </div>
 </body>

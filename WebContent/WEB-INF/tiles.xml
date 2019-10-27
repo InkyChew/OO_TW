@@ -16,4 +16,5 @@
 		<definition name="pay" template="pay.jsp"></definition>
 		<definition name="paySuccess" template="paySuccess.jsp"></definition>
 		<definition name="payScan" template="payScan.jsp"></definition>
+		<definition name="serviceDetails" template="serviceDetails.jsp"></definition>
 	</tiles-definitions>

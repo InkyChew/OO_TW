@@ -125,6 +125,15 @@ public class GUI { //GUI=V+C
 		}
 		return output;
 	}
+	public String toServiceDetails() {
+		String output = "error";
+		if(auth.checkSession()) {
+			user = auth.getCurrentUser();
+			output = "success";
+		}
+		return output;
+	}
+	
 	public String deposit() {
 		String output = "error";
 		if(auth.checkSession()) {
@@ -165,23 +174,7 @@ public class GUI { //GUI=V+C
 		        OTP += (char)(int)((Math.random()*26) + 97);
 		      }
 		    }
-			int userId = auth.getUserId();
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			Transaction tx = session.beginTransaction();
-			try{
-		         List data = session.createCriteria(User.class)
-		        		 .add(Restrictions.eq("userId", userId)).list();
-		         for(Iterator iterator = data.iterator(); iterator.hasNext();){
-		        	 user = (User) iterator.next();
-		         }
-		 		 data.clear();
-		         tx.commit();
-		      } catch (HibernateException e) {
-		         if (tx!=null) tx.rollback();
-		         e.printStackTrace(); 
-		      } finally {
-		         session.close(); 
-		      }
+			user = auth.getCurrentUser();
 			String address = user.getUserInfo().getEmail();
 			mail.sendOTP(address, OTP);
 			final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);

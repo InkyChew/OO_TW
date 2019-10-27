@@ -74,6 +74,15 @@
 					</form>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<form action="ToServiceDetails" method="post" enctype="multipart/form-data">
+						<input type="submit" value="ServiceDetails" />
+					</form>
+				</td>
+				<td>
+				</td>
+			</tr>
 		</table> 
 		</div>
     
