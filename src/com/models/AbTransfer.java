@@ -1,10 +1,10 @@
 package com.models;
 
 public class AbTransfer {
-	   private int userId;
-	   private int traderId;
-	   private int amount; 
-	   private ProcessAPI processAPI;
+	   public int userId;
+	   public int traderId;
+	   public int amount; 
+	   public ProcessAPI processAPI;
 	   
 	   public AbTransfer(int userId, int traderId, int amount, ProcessAPI processAPI) {
 	      this.processAPI = processAPI;

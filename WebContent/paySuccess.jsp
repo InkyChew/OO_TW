@@ -44,7 +44,6 @@ HTML DIV æ¨ç±¤ç¯ä¾
      <h1>SUCCESS!</h1>
      <h4>Thank You for Your payment.</h4>
      <img src="pay.png" width=90px align= middle align= middle><br>
-        transaction Detail
         <form action="ToPlatform" method="post" enctype="multipart/form-data"> 
         <table align="center">
    <!-- <tr>
@@ -56,19 +55,19 @@ HTML DIV æ¨ç±¤ç¯ä¾
    <tr>
     
     <td align="left" valign="left">Type:</td>
-    <td><s:property  value="transfer.type" /></td>
+    <td><s:property  value="abTransfer.processAPI.type" /></td>
    </tr>
    <tr>
     <td align="left" valign="left">TraderId:</td>
-    <td align="left"><s:property  value="transfer.traderId" /></td>
+    <td align="left"><s:property  value="abTransfer.processAPI.traderId" /></td>
    </tr>
     <tr>
     <td align="left" valign="left">Amount:</td>
-    <td align="left"><s:property value="transfer.amount" /></td>
+    <td align="left"><s:property value="abTransfer.processAPI.amount" /></td>
    </tr>
 	 <tr>
     <td align="left" valign="left">Balance:</td>
-    <td align="left"><s:property  value="transfer.balance" /></td>
+    <td align="left"><s:property  value="abTransfer.processAPI.balance" /></td>
    </tr>		
   </table> 
 

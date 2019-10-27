@@ -67,10 +67,10 @@ public class GUI { //GUI=V+C
 	public Transfer getTransfer(){
 	    return transfer;
 	}
-	public void setAbtransfer(AbTransfer abT) {
+	public void setAbTransfer(AbTransfer abT) {
 		abTransfer = abT;
 	}
-	public AbTransfer getAbtransfer() {
+	public AbTransfer getAbTransfer() {
 		return abTransfer;
 	}
 	public void setTransactionDetails(List<TransactionDetail> transactionDetails){
@@ -90,6 +90,9 @@ public class GUI { //GUI=V+C
 		String output = "error";
 		if(auth.checkSession()){
 			output = "success";
+			if(auth.isAdmin()) {
+				output = "administrator";
+			}
 		}
 		return output;
 	}	
@@ -108,13 +111,16 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 	public String toReceivement() {
-		int userId = auth.getUserId();
-		user = auth.getUser(userId);
-		return "success";
+		String output = "error";
+		if(auth.checkSession()) {
+			output = "success";
+		}
+		return output;
 	}
 	public String toInformation() {
 		String output = "error";
-		if ((user = auth.getCurrentUser()) != null) {
+		if(auth.checkSession()) {
+			user = auth.getCurrentUser();
 			output = "success";
 		}
 		return output;
@@ -257,5 +263,16 @@ public class GUI { //GUI=V+C
 	
 	public User getAuthUser(int userId) {
 		return auth.getUser(userId);
+	}
+
+	public String readClientAll() {
+		String output = "error";
+		if (auth.checkSession()) {
+			if (auth.isAdmin()) {
+		         userList = auth.readClientAll();
+		         output = "administrator";
+			}
+		}
+		return output;
 	}
 }

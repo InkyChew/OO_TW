@@ -5,7 +5,9 @@
 	<tiles-definitions>
 		<definition name="index" template="/index.jsp"></definition>
 		<definition name="platform" template="/platform.jsp"></definition>
+		<definition name="allUser" template="/allUser.jsp"></definition>
 		<definition name="deposit" template="/deposit.jsp"></definition>
+		<definition name="depositSuccess" template="/depositSuccess.jsp"></definition>
 		<definition name="receivement" template="/receivement.jsp"></definition>
 		<definition name="information" template="/information.jsp"></definition>
 		<definition name="transaction" template="/transaction.jsp"></definition>

@@ -10,16 +10,20 @@
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
         <action name="ToPlatform" class="com.controller.GUI" method="toPlatform">
-            <result name="error" type="redirect">/error.jsp</result>
+            <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">platform</result>
+            <result name="administrator" type="tiles">administrator</result>
         </action>
         <action name="ToDeposit" class="com.controller.GUI" method="toDeposit">
+            <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">deposit</result>
         </action>
         <action name="ToReceivement" class="com.controller.GUI" method="toReceivement">
+            <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">receivement</result>
         </action>
         <action name="ToInformation" class="com.controller.GUI" method="toInformation">
+            <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">information</result>
         </action>
         <action name="ToTransactionDetail" class="com.controller.GUI" method="checkTransactionHistory">
@@ -45,11 +49,11 @@
         </action>
  		<action name="Deposit" class="com.controller.GUI" method="deposit">
             <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
+            <result name="success" type="tiles">depositSuccess</result>
         </action>
         <action name="readClientAll" class="com.controller.GUI" method="readClientAll">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">administrator</result>
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="administrator" type="tiles">allUser</result>
         </action>
         <action name="ToPay" class="com.controller.GUI" method="showPayOTPView">
             <result name="error" type="redirect">/index.jsp</result>

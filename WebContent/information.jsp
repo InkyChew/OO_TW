@@ -55,7 +55,10 @@ HTML DIV 標籤範例
 			</tr>
 			<tr>
 				<td>Balance</td>
-				<td><s:property value="user.wallet.walletMoney" /></td>
+				<td>
+				<s:if test="user.wallet == null">0</s:if>
+				<s:else><s:property value="user.wallet.walletMoney" /></s:else>
+				</td>
 			</tr>
 			<tr>
 				<td>Name</td>

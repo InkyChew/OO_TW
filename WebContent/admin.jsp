@@ -2,56 +2,71 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
     <head>
-        <title>Administrator</title>
+        <title>ePay-administrator</title>
     </head>
     <style>
+    h1{
+   	text-align: center;
+    }
     table{
-        width: 90%;
-    	text-align: center;
-   	 	margin: auto;
-    }
-    table,th,td{
-       table-layout: fixed;
-    	border: 1px solid black;
-    	border-collapse: collapse;
-    }
- 	input[type="submit"]{
-   background-color: #3fb6b2;
-    padding: 12px 45px;
-    
-    border-radius: 5px;
+   	table-layout: automatic;
+   	}
+   	input[type="submit"]{
+    background-color: #3fb6b2;
+    padding: 10px 10px;
+    border-radius: 12px;
     cursor: pointer;
     color: #ffffff;
-    border: none;
     outline: none;
+    width:140px;
+    height:140px;
     margin: 0;
     font-weight: bold;
     position:relative;
     }	
+	tr,td{
+	text-align:center;
+	}
+	td{
+	width:160px;
+	height:160px;
+	}
+	.epay{
+		text-align:center;
+	}
     </style>
     <body>
-    <div class="deposit" style="border:2px blo#3FB6B2 solid;font-size:18px; background-color:#f0f0f0;margin:auto;width:1000px;height:210px;text-align:center;line-height:50px;">
-	    <h1>Administrator</h1>
-	    <table>
-			<thead>
-				<tr>
-					<th style="width: 60px">Name</th>
-					<th style="width: 80px">Password</th>
-					<th style="width: 80px">Balance</th>
-					<th style="width: 60px">Role</th>
+    <h1>ePay-administrator</h1>
+    <div class="ePay-administrator">
+    <table align="center">
+			
+			<tr>
+			<td>
+					<form action="ToInformation" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Information" />
+					</form>
+				</td>	
+				
+			</tr>
+				
+				
+			<tr>
+			<td>
+					<form action="readClientAll" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Userinformation" />
+					</form>
+				</td>
 				</tr>
-			</thead>
-			<tbody>
-			<s:iterator value="userList">
-					<tr>
-						<td><s:property value="userName" /></td>
-						<td><s:property value="userPass" /></td>
-						<td><s:property value="wallet.walletMoney" /></td>
-						<td><s:property value="userRole.roleName" /></td>
-					</tr>
-				</s:iterator>
-			</tbody>
-		</table>
-	</div>
+				<td>
+					<form action="Logout" method="post" enctype="multipart/form-data">
+						<input type="submit" value="Log Out" />
+					</form>
+				</td>
+			</tr>
+		</table> 
+		</div>
+    
+    
+    
     </body>
 </html>
