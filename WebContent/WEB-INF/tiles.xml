@@ -3,8 +3,18 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 	<tiles-definitions>
+		<definition name="index" template="/index.jsp"></definition>
 		<definition name="platform" template="/platform.jsp"></definition>
+		<definition name="allUser" template="/allUser.jsp"></definition>
+		<definition name="deposit" template="/deposit.jsp"></definition>
+		<definition name="depositSuccess" template="/depositSuccess.jsp"></definition>
+		<definition name="receivement" template="/receivement.jsp"></definition>
+		<definition name="information" template="/information.jsp"></definition>
+		<definition name="transaction" template="/transaction.jsp"></definition>
 		<definition name="QRpay" template="/QRpay.jsp"></definition>
 		<definition name="administrator" template="/admin.jsp"></definition>
-		<definition name="transaction" template="/transaction.jsp"></definition>
+		<definition name="pay" template="pay.jsp"></definition>
+		<definition name="paySuccess" template="paySuccess.jsp"></definition>
+		<definition name="payScan" template="payScan.jsp"></definition>
+		<definition name="serviceDetails" template="serviceDetails.jsp"></definition>
 	</tiles-definitions>

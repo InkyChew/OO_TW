@@ -2,7 +2,6 @@ package com.models;
 
 import org.apache.struts2.ServletActionContext;
 import javax.servlet.http.HttpSession;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -10,52 +9,55 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import com.models.Transfer;
 import com.models.Receivement;
 
-public class Payment extends Transfer{
-	
-	@Override
-	public String process(){
+public class Payment extends Transfer implements ProcessAPI{
+
+	public String process(int userId, int traderId, int amount) {
 		// for DB
-		HttpSession httpSession = ServletActionContext.getRequest().getSession();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		
 		String output="error";
-		try{
-			 userId = (int) httpSession.getAttribute("userId");
-			 
-			 // DB reaction
-			 List data = session.createCriteria(User.class).add(Restrictions.eq("userId",userId)).list();
-			 List data2 = session.createCriteria(User.class).add(Restrictions.eq("userId",traderId)).list();
-			 
-		     User user = null; 
-		     User trader = null;
-		     if(data.size() > 0 && data2.size() > 0) {
-		        	user = (User) data.get(0);
-		        	trader = (User) data2.get(0);
-		        	balance = user.getWallet().getWalletMoney();
-		        	type = "payment";
-	   			 	tx = session.beginTransaction();
-		        	if (balance >= amount) {
-		    		    balance-=amount;
-		    		    user.wallet.walletMoney=balance;
-		    		    // for trader
-		    		    Receivement receivement = new Receivement();
-		    		    receivement.setTraderId(userId);
-		    		    receivement.setUserId(traderId);
-		    		    receivement.setAmount(amount);
-		    		    if (! receivement.process().equals("success")) {
-		    		    	return output;
-		    		    }
-		    		    setTransactionDetail(user.getWallet().getWalletId());
-		    		    session.merge(user);
-		   	         	output="success";
-		    		}
+		
+		try{			 
+			 User user = gui.getAuthUser(userId);
+			 User trader = gui.getAuthUser(traderId);
+		     if(user != null && trader != null) {
+	        	type = "payment";
+	        	this.amount = amount;
+	        	this.traderId = traderId;
+	        	this.userId = userId;
+	        	
+	        	balance = user.getWallet().getWalletMoney();
+	        	
+	        	// discounter
+	        	int level = user.getUserLevel();
+	        	DiscounterFactory UserDiscountFactory = new UserDiscountFactory(level);
+	        	Discounter userLevel = UserDiscountFactory.createLevelDiscounter();
+	        	setDiscounter(userLevel);
+	        	double discount = getDiscount();
+	        	
+   			 	tx = session.beginTransaction();
+   			 	System.out.println(amount);
+   			 	int totalAmount = (int)(amount + (fee * discount));
+	        	if (balance >= totalAmount) {
+	        		System.out.println("pay");	
+	    		    balance-=totalAmount;	    		    
+	    		    user.wallet.walletMoney=balance;
+	    		    // for trader
+	    		    gui.receivement(traderId, userId, amount);
+	    		    this.amount = totalAmount;
+	    		    
+	    		    setTransactionDetail(user.getWallet().getWalletId());
+	    		    session.merge(user.getWallet());
+	   	         	output="success";
+	   	         	
+	   	         	System.out.println("fee:" + fee);
+	        		System.out.println("get discount:" + discount);
+	        		System.out.println("total:" + totalAmount);
+	        		System.out.println("balance:" + balance);
+	    		}
 		     }
-	 		 data.clear();
-	 		 data2.clear();
 	 		 // for DB
 	 		 tx.commit();
 	      }catch (HibernateException e) {

@@ -9,34 +9,63 @@
 			<result-type name="tiles" default="true"
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
-        <action name="Login" class="com.controller.controller" method="login">
-            <result name="error" type="redirect">/error.jsp</result>
+        <action name="ToPlatform" class="com.controller.GUI" method="toPlatform">
+            <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">platform</result>
             <result name="administrator" type="tiles">administrator</result>
         </action>
-        <action name="QRpay" class="com.controller.controller" method="QRpay">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
+        <action name="ToDeposit" class="com.controller.GUI" method="toDeposit">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">deposit</result>
         </action>
-        <action name="Payment" class="com.controller.controller" method="payment">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
+        <action name="ToReceivement" class="com.controller.GUI" method="toReceivement">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">receivement</result>
         </action>
-        <action name="ToPlatform" class="com.controller.controller" method="toPlatform">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">platform</result>
+        <action name="ToInformation" class="com.controller.GUI" method="toInformation">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">information</result>
         </action>
-        <action name="TransactionDetail" class="com.controller.controller" method="showTransaction">
+        <action name="ToTransactionDetail" class="com.controller.GUI" method="checkTransactionHistory">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">transaction</result>
         </action>
-        <action name="readClientAll" class="com.controller.controller" method="readClientAll">
-            <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">administrator</result>
+       <action name="Login" class="com.controller.GUI" method="login">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">platform</result>
+            <result name="administrator" type="tiles">administrator</result>
         </action>
-        <action name="timeSearch" class="com.controller.controller" method="timeSearch">
+       <action name="Logout" class="com.controller.GUI" method="logout">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">index</result>
+        </action>
+        <action name="QRpay" class="com.controller.GUI" method="QRpay">
             <result name="error" type="redirect">/error.jsp</result>
-            <result name="success" type="tiles">transaction</result>
+            <result name="success" type="tiles">platform</result>
+        </action>
+        <action name="Payment" class="com.controller.GUI" method="payment">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">paySuccess</result>
+        </action>
+ 		<action name="Deposit" class="com.controller.GUI" method="deposit">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">depositSuccess</result>
+        </action>
+        <action name="readClientAll" class="com.controller.GUI" method="readClientAll">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="administrator" type="tiles">allUser</result>
+        </action>
+        <action name="ToPay" class="com.controller.GUI" method="showPayOTPView">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">pay</result>
+        </action>
+        <action name="ToScan" class="com.controller.GUI" method="ToScan">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">payScan</result>
+        </action>
+        <action name="ToServiceDetails" class="com.controller.GUI" method="toServiceDetails">
+            <result name="error" type="redirect">/index.jsp</result>
+            <result name="success" type="tiles">serviceDetails</result>
         </action>
     </package>
 </struts>

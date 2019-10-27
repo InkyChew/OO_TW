@@ -2,24 +2,26 @@ package com.models;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
+import com.controller.GUI;
 import com.models.TransactionDetail;
 public class Transfer {
 	public int amount;
 	public int balance;
 	public int userId;
 	public int traderId;
+	public String otp;
 	public String type;
+	
+	public Discounter levelDiscounter; // context has strategy
+	public final int fee = 30;
+	public GUI gui = new GUI(); // mediator
 	public TransactionDetail transactionDetail;
+	
 	public void setAmount(int amount){
 	    this.amount=amount;
 	}
@@ -50,36 +52,49 @@ public class Transfer {
 	public String getType(){
 	   return type;
 	}
+	public void setDiscounter(Discounter lev){
+		this.levelDiscounter = lev;
+	}
+	public double getDiscount(){
+		return levelDiscounter.getDiscount(amount);
+	}
+	public void setOtp(String otp){
+	    this.otp=otp;
+	}
+	public String getOtp(){
+	   return otp;
+	}
 	
 	public String process() {
 		return "success";
 	}
-	public String setTransactionDetail(int walletId) {
-		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
-		String date = dfcurrentTime.format(new java.util.Date());
-		transactionDetail = new TransactionDetail();
-		transactionDetail.setDate(date);
-		transactionDetail.setAmount(amount);
-		transactionDetail.setBalance(balance);
-		transactionDetail.setType(type);
-		transactionDetail.setWalletId(walletId);
-		transactionDetail.setTraderId(traderId);
-		return updateTransactionDetail();
+	public String setTransactionDetail(int walletId) { // transaction detail
+//		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
+//		String date = dfcurrentTime.format(new java.util.Date());
+		return gui.setTransferDetail(this, walletId);
+//		transactionDetail = new TransactionDetail();
+//		transactionDetail.setDate(date);
+//		transactionDetail.setAmount(amount);
+//		transactionDetail.setBalance(balance);
+//		transactionDetail.setType(type);
+//		transactionDetail.setWalletId(walletId);
+//		transactionDetail.setTraderId(traderId);
+//		return updateTransactionDetail();
 	}
-	public String updateTransactionDetail() {
+	public String updateTransactionDetail(TransactionDetail transactionDetail) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String output="error";
 		Transaction tx = session.beginTransaction();
 		try{
-		     session.merge(transactionDetail);
-	 		 tx.commit();
-	         output="success";
-	      }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
+			session.merge(transactionDetail);
+			tx.commit();
+			output="success";
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
 		return output;
 	}
 }

@@ -12,7 +12,8 @@
  <many-to-one name="userRole" column="roleId" class="com.models.Role" lazy="false"/>
  <many-to-one name="wallet" column="walletId" class="com.models.Wallet" lazy="false"/>
  <property name="userName" column="name" type="string"></property>  
- <property name="userPass"  column="password" type="string"></property> 
+ <property name="userPass"  column="password" type="string"></property>
+ <property name="userLevel"  column="userlevel" type="integer"></property>
  </class>  
          
  </hibernate-mapping>  

@@ -1,11 +1,13 @@
 package com.controller;
 
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.apache.struts2.ServletActionContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.text.DateFormat;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,27 +25,16 @@ import com.models.HibernateUtil;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
-import com.models.Transfer;
+import com.models.AbTransfer;
 import com.models.Payment;
+import com.models.Deposit;
 public class controller {
-	private User user= new User();
-	private Transfer transfer;
-	private List<TransactionDetail> transactionDetails= new ArrayList<TransactionDetail>();
-	private List<User> userList= new ArrayList<User>();
-	private int timeSearchYear;
-	private int timeSearchMonth;	
-	public int getTimeSearchYear() {
-		return timeSearchYear;
-	}
-	public void setTimeSearchYear(int timeSearchYear) {
-		this.timeSearchYear = timeSearchYear;
-	}
-	public int getTimeSearchMonth() {
-		return timeSearchMonth;
-	}
-	public void setTimeSearchMonth(int timeSearchMonth) {
-		this.timeSearchMonth = timeSearchMonth;
-	}
+	private User user = new User();
+	private AbTransfer transfer;
+	private TransactionDetail transactionDetail;
+	private List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
+	private List<User> userList = new ArrayList<User>();
+	
 	Session session = null;
 	Transaction tx = null;
 	public void setUser(User user){
@@ -51,10 +43,10 @@ public class controller {
 	public User getUser(){
 	    return user;
 	}
-	public void setTransfer(Transfer transfer){
+	public void setTransfer(AbTransfer transfer){
 	    this.transfer=transfer;
 	}
-	public Transfer getTransfer(){
+	public AbTransfer getTransfer(){
 	    return transfer;
 	}
 	public void setTransactionDetails(List<TransactionDetail> transactionDetails){
@@ -69,6 +61,19 @@ public class controller {
 	public List<User> getUserList(){
 	    return userList;
 	}
+	public TransactionDetail SetTransferTransactionDetail(int amount, int balance,	String type, int walletId, int traderId){ // class Transfer setTransactionDetail 30 60
+		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
+		String date = dfcurrentTime.format(new java.util.Date());
+		transactionDetail = new TransactionDetail();
+		transactionDetail.setDate(date);
+		transactionDetail.setAmount(amount);
+		transactionDetail.setBalance(balance);
+		transactionDetail.setType(type);
+		transactionDetail.setWalletId(walletId);
+		transactionDetail.setTraderId(traderId);
+		System.out.println("success");
+		return transactionDetail;
+	}
 	public Boolean isAdmin(User user) {
 		if (user.userRole.roleName.equals("administrator")) {
 			return true;
@@ -78,7 +83,7 @@ public class controller {
 	public String readClientAll() {
 		String output = "error";
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();;
+		Transaction tx = session.beginTransaction();
 		try{
 			if (isAdmin(user)) {
 		         List data = session.createCriteria(User.class)
@@ -104,16 +109,17 @@ public class controller {
 	public String login() {
 		String output = "error";
 		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
-		try{	
+		HttpSession httpSession = ServletActionContext.getRequest().getSession();
+		try{
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
 	         if (data.size() >0) {
-	        	 user = (User) data.get(0);
-	        	 if ( user.userPass.equals(user.userPass)) {
-	        		 httpSession.setAttribute("userId", user.userId);
+	        	 User newUser = (User) data.get(0);
+	        	 if ( newUser.userPass.equals(user.userPass)) {
+	        		 httpSession.setAttribute("userId", newUser.userId);
+	        		 user = newUser;
 	        		 output="success";
-	        		 if (isAdmin(user)) {
+	        		 if (isAdmin(newUser)) {
 	        			 output = readClientAll();
 	        		 }
 		         }
@@ -134,6 +140,16 @@ public class controller {
 		transfer= new Payment();
 		transfer.setAmount(amount);
 		transfer.setTraderId(traderId);	
+		String output = transfer.process();
+		if (output=="success") {
+			output = toPlatform();
+		}
+		return output;
+	}
+	public String deposit() {
+		int amount= transfer.amount;
+		transfer= new Deposit();
+		transfer.setAmount(amount);
 		String output = transfer.process();
 		if (output=="success") {
 			output = toPlatform();
@@ -186,37 +202,6 @@ public class controller {
 		}finally {
 			session.close(); 
 		}
-		return output;
-	}
-	public String timeSearch() {
-		String output="error";
-		session = HibernateUtil.getSessionFactory().openSession();
-		HttpSession httpSession = ServletActionContext.getRequest().getSession(); 
-		try{
-	         tx = session.beginTransaction();
-    		 TransactionDetail transactionDetail;
-    		 int userId = (int) httpSession.getAttribute("userId");
-    		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
-    		 int walletId = ((User) data.get(0)).wallet.walletId;
-	         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
-	         
-	         for (int i = 0; i < data.size(); i++) {
-	        	 transactionDetail = (TransactionDetail) data.get(i);
-	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        	Date date = sdf.parse(transactionDetail.getDate());
-	        	if (date.getMonth()+1 == timeSearchMonth && date.getYear()+1900 == timeSearchYear) {
-	        		 transactionDetails.add(transactionDetail);
-	        	}
-	         }
-	 		 data.clear();
-	         tx.commit();
-	         output="success";
-	      }catch (HibernateException | ParseException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
 		return output;
 	}
 }

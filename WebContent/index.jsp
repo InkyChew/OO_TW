@@ -4,52 +4,46 @@
 <html>
     <head>
         <title>ePay - Login</title>
+        <style>
+	    table,th,td{
+	   table-layout: fixed;
+		   
+	    }
+	 	input[type="submit"]{
+	   background-color: #3fb6b2;
+	    padding: 12px 45px;
+	    
+	    border-radius: 5px;
+	    cursor: pointer;
+	    color: #ffffff;
+	    border: none;
+	    outline: none;
+	    margin: 0;
+	    font-weight: bold;
+	    position:relative;
+	    }	
+	    </style>
     </head>
-    <style>
-    table{
-   	width: 100%;
-   	}
-   	h1{
-   	text-align: center;
-   	}
-    div{
-    width: 300px;
-    min-height: 200px;
-    margin: auto;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border: 1.5px solid;
-    position: relative;
-    }
-    input:not([type="submit"]) {
-    width: 100%;
-	}
-    input[type="submit"]{
-    padding: 5px 20px;
-    position: absolute;
-   	bottom: 20;
-   	right: 10;
-    }
-    </style>
     <body>
-    <div>
+    <div class="deposit" style="border:2px blo#3FB6B2 solid;font-size:18px; background-color:#f0f0f0;margin:auto;width:300px;height:300px;text-align:center;line-height:50px;">
     	<h1>Login</h1>
+    	<img src="login.png" width=90px align= middle align= middle><br>
    	 	<form action="Login" method="post" enctype="multipart/form-data">  
-   	 	<table>
+   	 	<table align="center">
 			<tr>
-				<td>Name:</td>
+				<td align="left">Name:</td>
 				<td><input type="text" name="user.userName" required/> </td>
 			</tr>
 			<tr>
-				<td>Password:</td>
+				<td align="left">Password:</td>
 				<td><input type="password" name="user.userPass" required/> </td>
 			</tr>
 			<tr>
-				<td></td>
+				<td align="left"></td>
 				<td><input type="submit" value="login>>"/> </td>
 			</tr>
 		</table>
 		</form>  
-    </div>
+	</div>
     </body>
 </html>
