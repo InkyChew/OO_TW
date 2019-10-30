@@ -2,35 +2,35 @@ package test;
 
 import static org.junit.Assert.*;
 
-import org.apache.struts2.ServletActionContext;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.models.Auth;
 import com.models.User;
+import javax.servlet.http.HttpSession;
 
-import org.junit.Test;
-import org.junit.Before;
-
+import static org.mockito.Mockito.*;
 public class AuthTest {
-	Auth auth = Auth.getInstance();
-	
-//	@Before public void beforeTest() { // when login
-//	  System.out.println("Before");
-//	  auth.createSession(User user);
-//	 }
-//	@Test
-//	public void checkSession_Login_returnTrue() {
-//		assertFalse(auth.checkSession());
-//	}
-	@Before public void beforeTest() { // when login
-		request.getRequestURL("http://localhost:8080/test/");
+	Auth auth;
+	@Before
+	public void setup() {
+		HttpSession httpSession = mock(HttpSession.class);
+		auth = Auth.getInstance(httpSession);
 	}
+	
 	@Test
-	public void checkSession_noLogin_returnFalse() {
-		assertFalse(auth.checkSession());
-	}
-	
+    public void createSession_returnTrue() throws Exception {
+		User user = new User();
+		user.userName = "u1";
+		user.userPass = "u1";
+		assertTrue(auth.createSession(user));
+    }
+	@Test
+    public void createSession_returnFalse() throws Exception {
+		User user = new User();
+		user.userName = "u1";
+		user.userPass = "u2";
+		assertFalse(auth.createSession(user));
+    }
+
 }

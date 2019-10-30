@@ -17,7 +17,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class Auth {
 	Session session = null;
-	HttpSession httpSession = ServletActionContext.getRequest().getSession();
+	static HttpSession httpSession;
 	Transaction tx = null;
 	User newUser = null;
 	
@@ -30,12 +30,24 @@ public class Auth {
             synchronized(Auth.class){
                 if(auth == null) {
                      auth = new Auth();
+                     httpSession = ServletActionContext.getRequest().getSession();
                 }
             }
         }
         return auth;
     }
-	
+	//for test
+	public static Auth getInstance(HttpSession hs) {
+        if (auth == null){
+            synchronized(Auth.class){
+                if(auth == null) {
+                     auth = new Auth();
+                     httpSession = hs;
+                }
+            }
+        }
+        return auth;
+    }
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
