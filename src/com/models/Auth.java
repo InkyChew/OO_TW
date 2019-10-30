@@ -17,7 +17,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class Auth {
 	Session session = null;
-	HttpSession httpSession = ServletActionContext.getRequest().getSession();;
+	HttpSession httpSession = ServletActionContext.getRequest().getSession();
 	Transaction tx = null;
 	User newUser = null;
 	
