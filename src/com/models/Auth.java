@@ -38,11 +38,12 @@ public class Auth {
     }
 	//for test
 	public static Auth getInstance(HttpSession hs) {
+		httpSession = hs;
         if (auth == null){
             synchronized(Auth.class){
                 if(auth == null) {
                      auth = new Auth();
-                     httpSession = hs;
+                     
                 }
             }
         }
@@ -58,6 +59,12 @@ public class Auth {
 	        	 newUser = (User) data.get(0);
 	        	 if (newUser.userPass.equals(user.userPass)) {
 	        		 httpSession.setAttribute("userId", newUser.userId);
+	        		 System.out.println("getUserId()");
+	        		 System.out.println(newUser.userId);
+	        		 System.out.println(httpSession.getAttribute("userId"));
+	        		 System.out.println(getUserId());
+
+	        		 System.out.println("getUserId()End");
 	        		 user = newUser;
 	        		 auth = true;
 		         }
@@ -84,7 +91,10 @@ public class Auth {
 	}
 	
 	public int getUserId() {
-		return (int) httpSession.getAttribute("userId");
+		if (httpSession.getAttribute("userId") != null) {
+			return (int) httpSession.getAttribute("userId");
+		}
+		return 0;
 	}
 	
 	public void createOTP(String OTP, LocalDateTime expire) {
@@ -128,7 +138,10 @@ public class Auth {
 	}
 	public User getCurrentUser() {
 		User user = null;
-		int userId = (int) httpSession.getAttribute("userId");
+		int userId = 0;
+		if (httpSession.getAttribute("userId")!= null) {
+			userId = (int) httpSession.getAttribute("userId");
+		}
 		user = getUser(userId);
 		return user;
 	}
