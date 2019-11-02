@@ -145,25 +145,4 @@ public class Auth {
 		user = getUser(userId);
 		return user;
 	}
-	public List readClientAll() {
-		List<User> userList = new ArrayList<User>();
-		session = HibernateUtil.getSessionFactory().openSession();
-		try{
-			List data = session.createCriteria(User.class)
-		       		 .createAlias("userRole","role")
-		       		 .add(Restrictions.not(Restrictions.eq("role.roleName", "administrator"))).list();
-	        for(Iterator iterator = data.iterator(); iterator.hasNext();){
-		       	 User user = (User) iterator.next();
-		       	 userList.add(user);
-	        }
-	        data.clear();
-		 }catch (HibernateException e) {
-		     if (tx!=null) tx.rollback();
-		     e.printStackTrace(); 
-		 }finally {
-		     session.close(); 
-		 }
-		
-        return userList;
-	}
 }
