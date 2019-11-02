@@ -17,7 +17,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class Auth {
 	Session session = null;
-	HttpSession httpSession = ServletActionContext.getRequest().getSession();;
+	static HttpSession httpSession;
 	Transaction tx = null;
 	User newUser = null;
 	
@@ -30,12 +30,25 @@ public class Auth {
             synchronized(Auth.class){
                 if(auth == null) {
                      auth = new Auth();
+                     httpSession = ServletActionContext.getRequest().getSession();
                 }
             }
         }
         return auth;
     }
-	
+	//for test
+	public static Auth getInstance(HttpSession hs) {
+		httpSession = hs;
+        if (auth == null){
+            synchronized(Auth.class){
+                if(auth == null) {
+                     auth = new Auth();
+                     
+                }
+            }
+        }
+        return auth;
+    }
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -46,6 +59,12 @@ public class Auth {
 	        	 newUser = (User) data.get(0);
 	        	 if (newUser.userPass.equals(user.userPass)) {
 	        		 httpSession.setAttribute("userId", newUser.userId);
+	        		 System.out.println("getUserId()");
+	        		 System.out.println(newUser.userId);
+	        		 System.out.println(httpSession.getAttribute("userId"));
+	        		 System.out.println(getUserId());
+
+	        		 System.out.println("getUserId()End");
 	        		 user = newUser;
 	        		 auth = true;
 		         }
@@ -72,7 +91,10 @@ public class Auth {
 	}
 	
 	public int getUserId() {
-		return (int) httpSession.getAttribute("userId");
+		if (httpSession.getAttribute("userId") != null) {
+			return (int) httpSession.getAttribute("userId");
+		}
+		return 0;
 	}
 	
 	public void createOTP(String OTP, LocalDateTime expire) {
@@ -116,29 +138,11 @@ public class Auth {
 	}
 	public User getCurrentUser() {
 		User user = null;
-		int userId = (int) httpSession.getAttribute("userId");
+		int userId = 0;
+		if (httpSession.getAttribute("userId")!= null) {
+			userId = (int) httpSession.getAttribute("userId");
+		}
 		user = getUser(userId);
 		return user;
-	}
-	public List readClientAll() {
-		List<User> userList = new ArrayList<User>();
-		session = HibernateUtil.getSessionFactory().openSession();
-		try{
-			List data = session.createCriteria(User.class)
-		       		 .createAlias("userRole","role")
-		       		 .add(Restrictions.not(Restrictions.eq("role.roleName", "administrator"))).list();
-	        for(Iterator iterator = data.iterator(); iterator.hasNext();){
-		       	 User user = (User) iterator.next();
-		       	 userList.add(user);
-	        }
-	        data.clear();
-		 }catch (HibernateException e) {
-		     if (tx!=null) tx.rollback();
-		     e.printStackTrace(); 
-		 }finally {
-		     session.close(); 
-		 }
-		
-        return userList;
 	}
 }

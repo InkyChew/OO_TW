@@ -263,7 +263,7 @@ public class GUI { //GUI=V+C
 		String output = "error";
 		if (auth.checkSession()) {
 			if (auth.isAdmin()) {
-		         userList = auth.readClientAll();
+		         userList = admin.getAllUser();
 		         output = "administrator";
 			}
 		}
