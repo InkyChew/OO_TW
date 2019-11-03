@@ -71,30 +71,42 @@ public class Auth {
 		 }
 	}
 	
+	public boolean checkStr(String str) {
+		boolean result = false;
+		if (str != null && str.length() > 0 && str.length() <= 10) {
+			result = true;
+		}
+		return result;
+	}
+	
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
 		try{
-	         tx = session.beginTransaction();
-	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
-	         int failTimes = this.getFailTimes();
+			 int failTimes = this.getFailTimes();
 	         if (failTimes != 3) {
-	        	 if (data.size() > 0) {
-		        	 newUser = (User) data.get(0);
-		        	 if (newUser.userPass.equals(user.userPass)) {
-		        		 httpSession.setAttribute("userId", newUser.userId);
-		        		 user = newUser;
-		        		 auth = true;
-			         } else {
-			        	 failTimes += 1;
-			         }
-		         } else {
-		        	 failTimes += 1;
-		         }
+	        	 if (this.checkStr(user.userPass) && this.checkStr(user.userName)) {
+		        	 tx = session.beginTransaction();
+		        	 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
+		        		 if (data.size() > 0) {
+				        	 newUser = (User) data.get(0);
+				        	 if (newUser.userPass.equals(user.userPass)) {
+				        		 httpSession.setAttribute("userId", newUser.userId);
+				        		 user = newUser;
+				        		 auth = true;
+					         } else {
+					        	 failTimes += 1;
+					         }
+				         } else {
+				        	 failTimes += 1;
+				         }
+		        	 data.clear();
+		        	 tx.commit();
+	        	 } else {
+	        		 failTimes += 1;
+	        	 }
 	         }
 	         this.setFailTimes(failTimes);
-	 		 data.clear();
-	         tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace(); 

@@ -20,7 +20,6 @@ public class Receivement extends Transfer implements ProcessAPI{
 		String output="error";
 		
 		try{
-			System.out.println(userId);
 			User user = gui.getAuthUser(userId);
 			User trader = gui.getAuthUser(traderId);
 			this.amount = amount;
@@ -32,7 +31,6 @@ public class Receivement extends Transfer implements ProcessAPI{
 		        	balance = user.getWallet().getWalletMoney();
 		        	balance+=amount;
 	    		    user.wallet.walletMoney=balance;
-	    		    System.out.println("user.getWallet().getWalletId() " + user.getWallet().getWalletId());
 	    		    setTransactionDetail(user.getWallet().getWalletId());
 	    		    tx = session.beginTransaction();
 	    		    session.merge(user.getWallet());

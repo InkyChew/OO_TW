@@ -21,7 +21,6 @@ public class Deposit extends Transfer implements ProcessAPI{
 		Transaction tx = session.beginTransaction();
 		String output="error";
 		try{
-			 System.out.println(userId);
 			 User user = gui.getAuthUser(userId);
 			 if(user != null) {
 	    	 	type = "deposit";
