@@ -42,6 +42,16 @@
 				<td align="left"></td>
 				<td><input type="submit" value="login>>"/> </td>
 			</tr>
+			
+			<s:if test="#session['failTimes'] == 1">
+				<div style="color: red;">Fail 1 time, if more than 3 then you will be blocked for 10 minutes</div>
+			</s:if>
+    		<s:elseif test="#session['failTimes'] == 2">
+				<div style="color: red;">Fail 2 times, if more than 3 then you will be blocked for 10 minutes</div>
+			</s:elseif>
+    		<s:elseif test="#session['failTimes'] == 3">
+				<div style="color: red;">Fail 3 times, you will be blocked for 10 minutes</div>
+			</s:elseif>
 		</table>
 		</form>  
 	</div>
