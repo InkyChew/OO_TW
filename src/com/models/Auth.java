@@ -36,6 +36,7 @@ public class Auth {
         }
         return auth;
     }
+	
 	//for test
 	public static Auth getInstance(HttpSession hs) {
 		httpSession = hs;
@@ -49,26 +50,49 @@ public class Auth {
         }
         return auth;
     }
+	
+	public void setFailTimes(int failTimes) {
+		httpSession.setAttribute("failTimes", failTimes);
+		final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+		httpSession.setAttribute("failTimesExpire", expire);
+	}
+	
+	public int getFailTimes() {
+		if(httpSession.getAttribute("failTimes") == null || httpSession.getAttribute("failTimesExpire") == null) {
+			 return 0;
+		 } else {
+			 int failTimes = (int) httpSession.getAttribute("failTimes");
+			 LocalDateTime expire = (LocalDateTime) httpSession.getAttribute("failTimesExpire");
+			 final LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("+8")));
+				if(now.isBefore(expire)) {
+					return failTimes;
+				}
+			 return 0;
+		 }
+	}
+	
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
 		try{
 	         tx = session.beginTransaction();
 	         List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
-	         if (data.size() > 0) {
-	        	 newUser = (User) data.get(0);
-	        	 if (newUser.userPass.equals(user.userPass)) {
-	        		 httpSession.setAttribute("userId", newUser.userId);
-	        		 System.out.println("getUserId()");
-	        		 System.out.println(newUser.userId);
-	        		 System.out.println(httpSession.getAttribute("userId"));
-	        		 System.out.println(getUserId());
-
-	        		 System.out.println("getUserId()End");
-	        		 user = newUser;
-	        		 auth = true;
+	         int failTimes = this.getFailTimes();
+	         if (failTimes != 3) {
+	        	 if (data.size() > 0) {
+		        	 newUser = (User) data.get(0);
+		        	 if (newUser.userPass.equals(user.userPass)) {
+		        		 httpSession.setAttribute("userId", newUser.userId);
+		        		 user = newUser;
+		        		 auth = true;
+			         } else {
+			        	 failTimes += 1;
+			         }
+		         } else {
+		        	 failTimes += 1;
 		         }
 	         }
+	         this.setFailTimes(failTimes);
 	 		 data.clear();
 	         tx.commit();
 	      }catch (HibernateException e) {
@@ -79,6 +103,7 @@ public class Auth {
 	      }
 		return auth;
 	}
+	
 	public Boolean checkSession() {
 		 if(httpSession.getAttribute("userId") == null) {
 			 return false;
@@ -86,6 +111,7 @@ public class Auth {
 			 return true;
 		 }
 	}
+	
 	public void removeSession() {
 		httpSession.removeAttribute("userId");
 	}
@@ -101,6 +127,7 @@ public class Auth {
 		httpSession.setAttribute("OTP", OTP);
 		httpSession.setAttribute("OTPExpire", expire);
 	}
+	
 	public Boolean checkOTP(String inputOTP) {
 		String OTP = (String) httpSession.getAttribute("OTP");
 		LocalDateTime expire = (LocalDateTime) httpSession.getAttribute("OTPExpire");

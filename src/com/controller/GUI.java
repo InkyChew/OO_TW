@@ -188,7 +188,6 @@ public class GUI { //GUI=V+C
 	public String payment() {
 		String output = "error";
 		if(auth.checkSession()) {
-			System.out.println("session pass");
 			int traderId=transfer.traderId;
 			int amount= transfer.amount;
 			String otp = transfer.otp;
@@ -232,7 +231,6 @@ public class GUI { //GUI=V+C
 			         session.close(); 
 			      }
 		}
-		System.out.println(output);
 		return output;
 	}
 	
