@@ -38,10 +38,8 @@ public class Payment extends Transfer implements ProcessAPI{
 	        	double discount = getDiscount();
 	        	
    			 	tx = session.beginTransaction();
-   			 	System.out.println(amount);
    			 	int totalAmount = (int)(amount + (fee * discount));
 	        	if (balance >= totalAmount) {
-	        		System.out.println("pay");	
 	    		    balance-=totalAmount;	    		    
 	    		    user.wallet.walletMoney=balance;
 	    		    // for trader

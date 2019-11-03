@@ -12,7 +12,6 @@ public class Mail {
 		props.setProperty("mail.host", "webmail.yuntech.edu.tw");
 		props.setProperty("mail.user", "*****");//Sender account
 		props.setProperty("mail.password", "*****");//Sender password
-		System.out.println(address + content);
 		Session mailSession = Session.getDefaultInstance(props, null);
 		try {
 		Transport transport = mailSession.getTransport();
@@ -32,7 +31,6 @@ public class Mail {
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("error");
 		}
 	}
 	
