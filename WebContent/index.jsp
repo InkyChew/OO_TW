@@ -25,18 +25,18 @@
 	    </style>
     </head>
     <body>
-    <div class="deposit" style="border:2px blo#3FB6B2 solid;font-size:18px; background-color:#f0f0f0;margin:auto;width:300px;height:300px;text-align:center;line-height:50px;">
+    <div class="deposit" style="border:2px blo#3FB6B2 solid;font-size:18px; background-color:#f0f0f0;margin:auto;width:300px;text-align:center;line-height:50px;">
     	<h1>Login</h1>
     	<img src="login.png" width=90px align= middle align= middle><br>
    	 	<form action="Login" method="post" enctype="multipart/form-data">  
    	 	<table align="center">
 			<tr>
 				<td align="left">Name:</td>
-				<td><input type="text" name="user.userName" required/> </td>
+				<td><input type="text" name="user.userName" maxlength="10" required/> </td>
 			</tr>
 			<tr>
 				<td align="left">Password:</td>
-				<td><input type="password" name="user.userPass" required/> </td>
+				<td><input type="password" name="user.userPass" maxlength="10" required/> </td>
 			</tr>
 			<tr>
 				<td align="left"></td>
