@@ -51,11 +51,6 @@ public class Payment extends Transfer implements ProcessAPI{
 	    		    setTransactionDetail(user.getWallet().getWalletId());
 	    		    session.merge(user.getWallet());
 	   	         	output="success";
-	   	         	
-	   	         	System.out.println("fee:" + fee);
-	        		System.out.println("get discount:" + discount);
-	        		System.out.println("total:" + totalAmount);
-	        		System.out.println("balance:" + balance);
 	    		}
 		     }
 	 		 // for DB
