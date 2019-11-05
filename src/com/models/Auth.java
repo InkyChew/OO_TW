@@ -84,7 +84,7 @@ public class Auth {
 		session = HibernateUtil.getSessionFactory().openSession();
 		try{
 			 int failTimes = this.getFailTimes();
-	         if (failTimes != 3) {
+	         if (failTimes < 3) {
 	        	 if (this.checkStr(user.userPass) && this.checkStr(user.userName)) {
 		        	 tx = session.beginTransaction();
 		        	 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
@@ -94,6 +94,7 @@ public class Auth {
 				        		 httpSession.setAttribute("userId", newUser.userId);
 				        		 user = newUser;
 				        		 auth = true;
+				        		 failTimes = 0;
 					         } else {
 					        	 failTimes += 1;
 					         }
