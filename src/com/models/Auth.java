@@ -131,7 +131,7 @@ public class Auth {
 	}
 	
 	public Boolean isAdmin() {
-		if (newUser.userRole.roleName.equals("administrator")) {
+		if (getCurrentUser().userRole.roleName.equals("administrator")) {
 			return true;
 		}
 		return false;
