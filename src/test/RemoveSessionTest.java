@@ -17,7 +17,7 @@ public class RemoveSessionTest {
 	@Test
     public void removeSession_returnVoid() throws Exception {
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		auth.removeSession();
     }
 

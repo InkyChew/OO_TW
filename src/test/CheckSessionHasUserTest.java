@@ -19,7 +19,7 @@ public class CheckSessionHasUserTest {
     public void checkSession_hasUser_returnTrue(){
 		httpSession = mock(HttpSession.class);
 		when(httpSession.getAttribute("userId")).thenReturn(1);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		assertTrue(auth.checkSession());
     }
 

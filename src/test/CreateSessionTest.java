@@ -20,7 +20,7 @@ public class CreateSessionTest {
 
 	public Boolean userLogin(String userName, String userPass){
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		User user = new User();
 		user.userName = userName;
 		user.userPass = userPass;

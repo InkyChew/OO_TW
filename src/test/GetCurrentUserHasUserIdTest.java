@@ -16,7 +16,7 @@ public class GetCurrentUserHasUserIdTest {
 
 	public Boolean userLogin(String userName, String userPass){
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		User user = new User();
 		user.userName = userName;
 		user.userPass = userPass;
@@ -28,7 +28,7 @@ public class GetCurrentUserHasUserIdTest {
 		userLogin("u1", "u1");
 		httpSession = mock(HttpSession.class);
 		when(httpSession.getAttribute("userId")).thenReturn(1);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		assertNotEquals(null,auth.getCurrentUser());
     }
 

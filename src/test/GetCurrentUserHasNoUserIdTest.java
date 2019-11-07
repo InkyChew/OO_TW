@@ -18,7 +18,7 @@ public class GetCurrentUserHasNoUserIdTest {
     public void getCurrentUser_hasNoUserId_returnNull() {
 		httpSession = mock(HttpSession.class);
 		when(httpSession.getAttribute("userId")).thenReturn(null);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		auth.removeSession();
 		assertEquals(null,auth.getCurrentUser());
     }
