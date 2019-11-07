@@ -21,35 +21,14 @@ public class Auth {
 	Transaction tx = null;
 	User newUser = null;
 	
-	//Singleton
-	private static Auth auth = null;	
-	private Auth() {	
-	}	
-	public static Auth getInstance() {
-        if (auth == null){
-            synchronized(Auth.class){
-                if(auth == null) {
-                     auth = new Auth();
-                     httpSession = ServletActionContext.getRequest().getSession();
-                }
-            }
-        }
-        return auth;
-    }
+	public Auth(){
+		httpSession = ServletActionContext.getRequest().getSession();
+	}
 	
-	//for test
-	public static Auth getInstance(HttpSession hs) {
+	// for test
+	public Auth(HttpSession hs){
 		httpSession = hs;
-        if (auth == null){
-            synchronized(Auth.class){
-                if(auth == null) {
-                     auth = new Auth();
-                     
-                }
-            }
-        }
-        return auth;
-    }
+	}
 	
 	public void setFailTimes(int failTimes) {
 		httpSession.setAttribute("failTimes", failTimes);

@@ -51,8 +51,8 @@ public class GUI { //GUI=V+C
 	Transaction tx = null;
 	
 	public GUI() {
-		this.mail = new Mail();
-		this.auth = Auth.getInstance(); //Singleton
+		this.mail = Mail.getInstance(); //Singleton
+		this.auth = new Auth();
 	}
 	
 	public void setUser(User user){
@@ -149,7 +149,7 @@ public class GUI { //GUI=V+C
 		String output = "error";
 		if(auth.createSession(user)) {
 			if(auth.isAdmin()) { // account detail page
-				userList = admin.getAllUser();
+//				userList = admin.getAllUser();
 				output = "administrator";
 			}else {
 				output = "success"; // menu

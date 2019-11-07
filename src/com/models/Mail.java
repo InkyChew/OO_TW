@@ -2,11 +2,28 @@ package com.models;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+import org.apache.struts2.ServletActionContext;
+
 import java.util.Date;
 import java.util.Properties;
 public class Mail {
 	
-	public void send(String address, String subject, String content) {
+	//Singleton
+	private static Mail mail = null;	
+	private Mail() {	
+	}	
+	public static Mail getInstance() {
+        if (mail == null){
+            synchronized(Mail.class){
+                if(mail == null) {
+                	mail = new Mail();
+                }
+            }
+        }
+        return mail;
+    }
+	
+	public void send(String address, String subject, String content) {		
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "webmail.yuntech.edu.tw");
