@@ -3,7 +3,6 @@ package test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
@@ -11,7 +10,7 @@ import org.junit.Test;
 import com.models.Auth;
 import com.models.User;
 
-public class IsAdminTest {
+public class GetCurrentUserHasUserTest {
 	Auth auth;
 	HttpSession httpSession;	
 
@@ -25,12 +24,12 @@ public class IsAdminTest {
     }
 	
 	@Test
-    public void isAdmin_isAdmin_returnTrue(){
-		userLogin("admin", "admin");
+    public void getCurrentUser_hasUserId_returnUser(){
+		userLogin("u1", "u1");
 		httpSession = mock(HttpSession.class);
-		when(httpSession.getAttribute("userId")).thenReturn(3);
+		when(httpSession.getAttribute("userId")).thenReturn(1);
 		auth = new Auth(httpSession);
-		assertTrue(auth.isAdmin());
+		assertNotEquals(null,auth.getCurrentUser());
     }
 
 }

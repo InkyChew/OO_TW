@@ -35,8 +35,7 @@ public class CheckOTPTest {
 	    }
 		expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
 		auth.createOTP(OTP, expire);
-	}
-	
+	}	
 	@Test
     public void checkOTP_correctOTP_returnTrue(){
 		setupOTP();
@@ -56,5 +55,4 @@ public class CheckOTPTest {
 		auth = new Auth(httpSession);
 		assertFalse(auth.checkOTP(""));
     }
-
 }

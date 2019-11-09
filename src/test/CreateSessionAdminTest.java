@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.models.Auth;
 import com.models.User;
 
-public class CreateSessionTest {
+public class CreateSessionAdminTest {
 	Auth auth;
 	HttpSession httpSession;	
 
@@ -29,16 +29,7 @@ public class CreateSessionTest {
 
 	@Test
     public void createSession_rightLoginData_returnTrue(){
-		assertTrue(userLogin("u1", "u1"));
-		assertTrue(userLogin("u2", "u2"));
-    }
-	@Test
-    public void createSession_wrongLoginPassword_returnFalse(){
-		assertFalse(userLogin("u1", "u2"));
-    }
-	@Test
-    public void createSession_wrongLoginAccount_returnFalse(){
-		assertFalse(userLogin("u6", "u6"));
+		assertTrue(userLogin("admin", "admin"));
     }
 
 }

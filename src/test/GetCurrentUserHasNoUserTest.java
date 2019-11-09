@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.models.Auth;
 
-public class GetCurrentUserHasNoUserIdTest {
+public class GetCurrentUserHasNoUserTest {
 	Auth auth;
 	HttpSession httpSession;
 

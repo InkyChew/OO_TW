@@ -19,13 +19,15 @@ import com.models.User;
 
 @RunWith(Suite.class)
 
-@SuiteClasses({ 	
+@SuiteClasses({ 
+	// login_fail
+	CreateSessionWrongTest.class,
 	// login_normal_user
-	CreateSessionTest.class,
+	CreateSessionNormalTest.class,
 	CheckSessionHasUserTest.class,
 	GetUserIdHasUserIdTest.class,
 	GetUserExistedUserTest.class,
-	GetCurrentUserHasUserIdTest.class,
+	GetCurrentUserHasUserTest.class,
 	IsNotAdminTest.class,
 	CreateOTPTest.class,
 	CheckOTPTest.class,
@@ -35,10 +37,10 @@ import com.models.User;
 	CheckSessionHasNoUserTest.class,
 	GetUserIdHasNoUserIdTest.class,
 	GetUserNotExistedUserTest.class,
-	GetCurrentUserHasNoUserIdTest.class,
+	GetCurrentUserHasNoUserTest.class,
 	
 	//login_admin_user
-	CreateSessionTest.class,
+	CreateSessionAdminTest.class,
 	IsAdminTest.class
 })
 

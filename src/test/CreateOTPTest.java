@@ -20,8 +20,6 @@ public class CreateOTPTest {
 	String OTP;
 	LocalDateTime expire;
 
-
-
 	@Test
     public void createOTP() throws Exception {
 		httpSession = mock(HttpSession.class);
