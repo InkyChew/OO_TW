@@ -18,7 +18,7 @@ public class CheckSessionHasNoUserTest {
     public void checkSession_hasNoUser_returnFalse(){
 		httpSession = mock(HttpSession.class);
 		when(httpSession.getAttribute("userId")).thenReturn(null);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		assertFalse(auth.checkSession());
     }
 

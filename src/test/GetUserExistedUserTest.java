@@ -18,7 +18,7 @@ public class GetUserExistedUserTest {
     public void getUser_existedUser_returnUser(){
 		int userId = 1;
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		assertNotEquals(null,auth.getUser(userId));
     }
 

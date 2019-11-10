@@ -14,13 +14,13 @@ import org.junit.Test;
 import com.models.Auth;
 import com.models.User;
 
-public class CreateSessionTest {
+public class CreateSessionAdminTest {
 	Auth auth;
 	HttpSession httpSession;	
 
 	public Boolean userLogin(String userName, String userPass){
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		User user = new User();
 		user.userName = userName;
 		user.userPass = userPass;
@@ -29,16 +29,7 @@ public class CreateSessionTest {
 
 	@Test
     public void createSession_rightLoginData_returnTrue(){
-		assertTrue(userLogin("u1", "u1"));
-		assertTrue(userLogin("u2", "u2"));
-    }
-	@Test
-    public void createSession_wrongLoginPassword_returnFalse(){
-		assertFalse(userLogin("u1", "u2"));
-    }
-	@Test
-    public void createSession_wrongLoginAccount_returnFalse(){
-		assertFalse(userLogin("u6", "u6"));
+		assertTrue(userLogin("admin", "admin"));
     }
 
 }

@@ -20,12 +20,10 @@ public class CreateOTPTest {
 	String OTP;
 	LocalDateTime expire;
 
-
-
 	@Test
     public void createOTP() throws Exception {
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		for(int i = 0; i < 8; i++){
 	      int random = (int)((Math.random() * 3) + 1);
 	      if(random == 1){

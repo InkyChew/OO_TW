@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +17,7 @@ public class IsNotAdminTest {
 
 	public Boolean userLogin(String userName, String userPass){
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		User user = new User();
 		user.userName = userName;
 		user.userPass = userPass;
@@ -26,6 +27,9 @@ public class IsNotAdminTest {
 	@Test
     public void isAdmin_isNotAdmin_returnFalse() {
 		userLogin("u1", "u1");
+		httpSession = mock(HttpSession.class);
+		when(httpSession.getAttribute("userId")).thenReturn(1);
+		auth = new Auth(httpSession);
 		assertFalse(auth.isAdmin());
     }
 

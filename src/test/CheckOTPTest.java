@@ -22,7 +22,7 @@ public class CheckOTPTest {
 
 	public void setupOTP() {
 		httpSession = mock(HttpSession.class);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		for(int i = 0; i < 8; i++){
 	      int random = (int)((Math.random() * 3) + 1);
 	      if(random == 1){
@@ -35,15 +35,14 @@ public class CheckOTPTest {
 	    }
 		expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
 		auth.createOTP(OTP, expire);
-	}
-	
+	}	
 	@Test
     public void checkOTP_correctOTP_returnTrue(){
 		setupOTP();
 		httpSession = mock(HttpSession.class);
 		when(httpSession.getAttribute("OTP")).thenReturn(OTP);
 		when(httpSession.getAttribute("OTPExpire")).thenReturn(expire);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		assertTrue(auth.checkOTP(OTP));
 		
     }
@@ -53,8 +52,7 @@ public class CheckOTPTest {
 		httpSession = mock(HttpSession.class);
 		when(httpSession.getAttribute("OTP")).thenReturn(OTP);
 		when(httpSession.getAttribute("OTPExpire")).thenReturn(expire);
-		auth = Auth.getInstance(httpSession);
+		auth = new Auth(httpSession);
 		assertFalse(auth.checkOTP(""));
     }
-
 }

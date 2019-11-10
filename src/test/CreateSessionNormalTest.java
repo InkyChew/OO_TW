@@ -2,7 +2,10 @@ package test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +14,7 @@ import org.junit.Test;
 import com.models.Auth;
 import com.models.User;
 
-public class IsAdminTest {
+public class CreateSessionNormalTest {
 	Auth auth;
 	HttpSession httpSession;	
 
@@ -23,14 +26,11 @@ public class IsAdminTest {
 		user.userPass = userPass;
 		return auth.createSession(user);
     }
-	
+
 	@Test
-    public void isAdmin_isAdmin_returnTrue(){
-		userLogin("admin", "admin");
-		httpSession = mock(HttpSession.class);
-		when(httpSession.getAttribute("userId")).thenReturn(3);
-		auth = new Auth(httpSession);
-		assertTrue(auth.isAdmin());
+    public void createSession_rightLoginData_returnTrue(){
+		assertTrue(userLogin("u1", "u1"));
+		assertTrue(userLogin("u2", "u2"));
     }
 
 }
