@@ -1,0 +1,11 @@
+.login-center {
+  height: 100vh;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.btn-height-150 {
+  height: 150px;
+}
