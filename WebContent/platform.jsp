@@ -26,7 +26,7 @@ prefix="s" uri="/struts-tags"%>
             <td>
               <form action="ToScan" method="post" enctype="multipart/form-data">
                 <input
-                  class="btn btn-info btn-lg btn-block btn-height-150"
+                  class="btn btn-info  btn-block btn-height-150"
                   type="submit"
                   value="Pay"
                 />
@@ -39,7 +39,7 @@ prefix="s" uri="/struts-tags"%>
                 enctype="multipart/form-data"
               >
                 <input
-                  class="btn btn-info btn-lg btn-block btn-height-150"
+                  class="btn btn-info  btn-block btn-height-150"
                   type="submit"
                   value="Transaction Details"
                 />
@@ -53,7 +53,7 @@ prefix="s" uri="/struts-tags"%>
               enctype="multipart/form-data"
             >
               <input
-                class="btn btn-info btn-lg btn-block btn-height-150"
+                class="btn btn-info  btn-block btn-height-150"
                 type="submit"
                 value="Receivement"
               />
@@ -66,7 +66,7 @@ prefix="s" uri="/struts-tags"%>
               enctype="multipart/form-data"
             >
               <input
-                class="btn btn-info btn-lg btn-block btn-height-150"
+                class="btn btn-info  btn-block btn-height-150"
                 type="submit"
                 value="Information"
               />
@@ -80,7 +80,7 @@ prefix="s" uri="/struts-tags"%>
                 enctype="multipart/form-data"
               >
                 <input
-                  class="btn btn-info btn-lg btn-block btn-height-150"
+                  class="btn btn-info  btn-block btn-height-150"
                   type="submit"
                   value="Deposit"
                 />
@@ -93,7 +93,7 @@ prefix="s" uri="/struts-tags"%>
                 enctype="multipart/form-data"
               >
                 <input
-                  class="btn btn-info btn-lg btn-block btn-height-150"
+                  class="btn btn-info  btn-block btn-height-150"
                   type="submit"
                   value="ServiceDetails"
                 />
@@ -104,7 +104,7 @@ prefix="s" uri="/struts-tags"%>
             <td colspan="2">
               <form action="Logout" method="post" enctype="multipart/form-data">
                 <input
-                  class="btn btn-danger btn-lg btn-block btn-height-150"
+                  class="btn btn-danger  btn-block btn-height-150"
                   type="submit"
                   value="Log Out"
                 />
