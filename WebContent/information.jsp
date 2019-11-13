@@ -23,7 +23,7 @@ prefix="s" uri="/struts-tags"%>
         style="background-color:#f0f0f0;"
       >
         <h1>Information</h1>
-        <table class="text-center table" align="center">
+        <table class="text-center table table-responsive-sm" align="center">
           <tr>
             <td>Level</td>
             <td>
