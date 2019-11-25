@@ -17,11 +17,11 @@ prefix="s" uri="/struts-tags"%>
   <body>
     <div class="row align-items-center justify-content-center login-center">
       <div
-        class="text-center col-10 col-md-7 col-lg-5 col-lg-xl-3"
+        class="text-center col-11 col-md-10 col-lg-8"
         style="background-color:#f0f0f0;"
       >
         <h1>Administrator</h1>
-        <table class="table table-responsive m-auto">
+        <table class="table table-responsive-md m-auto">
           <thead>
             <tr>
               <th>Name</th>
