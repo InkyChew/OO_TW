@@ -99,4 +99,3 @@ prefix="s" uri="/struts-tags"%>
     ></script>
   </body>
 </html>
-
