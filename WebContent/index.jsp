@@ -68,6 +68,9 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="s" uri="/struts-tags"%>
             </s:elseif>
           </div>
         </form>
+        <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
+        	<button type="submit" class="btn btn-dark">Register</button>
+        </form>
       </div>
     </div>
 

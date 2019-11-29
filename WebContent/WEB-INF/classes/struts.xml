@@ -67,5 +67,22 @@
             <result name="error" type="redirect">/index.jsp</result>
             <result name="success" type="tiles">serviceDetails</result>
         </action>
+        
+        <action name="ToRegisterContract" class="com.controller.GUI" method="toRegisterContract">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">register-contract</result>
+        </action>
+        <action name="ToRegisterInfo" class="com.controller.GUI" method="toRegisterInfo">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">register-info</result>
+        </action>
+        <action name="ToRegisterPassword" class="com.controller.GUI" method="toRegisterPassword">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">register-password</result>
+        </action>
+        <action name="ToRegisterDone" class="com.controller.GUI" method="toRegisterDone">
+            <result name="error" type="redirect">/error.jsp</result>
+            <result name="success" type="tiles">register-done</result>
+        </action>
     </package>
 </struts>

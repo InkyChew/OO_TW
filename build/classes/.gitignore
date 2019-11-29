@@ -1,4 +1,5 @@
-/com/
-/test/
-/log4j.properties
 /GetCurrentUserHasUserIdTest.class
+/com/
+/hibernate.cfg.xml
+/log4j.properties
+/test/
