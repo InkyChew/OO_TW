@@ -24,10 +24,9 @@
       >
         <h1>Contract</h1>
         <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
-        <input type="text" name="test" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           <div class="container text-left">
             <div class="text-center mb-2 mt-2">
-              <button type="submit" class="btn btn-info">I have read and agreed to the above contract.</button>
+              <button type="submit" class="btn btn-info" name="type" value="next">I have read and agreed to the above contract.</button>
             </div>
           </div>
         </form>

@@ -50,8 +50,8 @@ public class GUI { //GUI=V+C
 	private Mail mail;
 	private Auth auth;
 	
-	private RegisterOriginator registerOriginator;
-	private RegisterCareTaker registerCareTaker;
+	static private RegisterOriginator registerOriginator;
+	static private RegisterCareTaker registerCareTaker;
 	
 	// DB
 	Session session = null;
@@ -275,16 +275,33 @@ public class GUI { //GUI=V+C
 	}
 	
 	public String toRegisterContract() {
+		String result = "error";
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
-		String METHOD = (String) httpRequest.getMethod();
-		if (METHOD.equals("POST")) {
-			this.
-		} else {
-			return "success";
+		String method = (String) httpRequest.getMethod();
+		String type = (String)httpRequest.getParameter("type");
+		System.out.println("Method: " + method);
+		System.out.println("Type: " + type);
+		if (method.equals("POST")) {
+			this.registerOriginator.setContract(true);
+			this.registerOriginator.setState(1);
+			this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+			result = "next";
+		} else { // GET
+			if (this.registerOriginator == null) {
+				this.registerOriginator = new RegisterOriginator();
+				this.registerCareTaker = new RegisterCareTaker();
+				System.out.println("123");
+				result = "success";
+			} else {
+				if (this.registerOriginator.getState() != 0) {
+					result = "next";
+				} else {
+					result = "success";
+				}
+			}
 		}
-
-		System.out.println((String)httpRequest.getParameter("test"));
-		return "next";
+		System.out.println(result);
+		return result;
 	}
 	
 	public String toRegisterInfo() {

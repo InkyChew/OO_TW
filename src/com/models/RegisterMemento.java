@@ -9,9 +9,10 @@ public class RegisterMemento {
 	private String email;
 	private String username;
 	private String password;
+	private int state;
 	
 	public RegisterMemento(boolean contract, String name, String telephone,
-			String address, String email, String username, String password) {
+			String address, String email, String username, String password, int state) {
 		this.setContract(contract);
 		this.setAddress(address);
 		this.setEmail(email);
@@ -19,9 +20,12 @@ public class RegisterMemento {
 		this.setTelephone(telephone);
 		this.setUsername(username);
 		this.setPassword(password);
+		this.setState(state);
 	}
 	
-	
+	public void setState(int state) {
+		this.state = state;
+	}
 	/**
 	 * @param address the address to set
 	 */
@@ -63,6 +67,9 @@ public class RegisterMemento {
 	 */
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public int getState() {
+		return state;
 	}
 	/**
 	 * @return the contract
