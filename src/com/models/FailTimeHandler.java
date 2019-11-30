@@ -19,7 +19,7 @@ public class FailTimeHandler extends LoginHandler {
 		if(canHandle()) {
 			setFailTimes(failTimes); 
 			lock(); // lock
-			setErrorMsg("fail more than 3 times. Lock for 10 mins.");
+			setErrorMsg("Fail more than 3 times. Lock for 10 mins.");
 		} else {
 			super.handleRequest();
 		}

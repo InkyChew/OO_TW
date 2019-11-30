@@ -213,21 +213,21 @@ public class GUI { //GUI=V+C
 		   		 int userId = auth.getUserId();
 		   		 List data = session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).list();
 		   		 int walletId = ((User) data.get(0)).wallet.walletId;
-			         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
-			         
-			         for (int i = 0; i < data.size(); i++) {
-			        	 transactionDetail = (TransactionDetail) data.get(i);
-			        	 transactionDetails.add(transactionDetail);
-			         }
-			 		 data.clear();
-			         tx.commit();
-			         output="success";
-			      }catch (HibernateException e) {
-			         if (tx!=null) tx.rollback();
-			         e.printStackTrace(); 
-			      }finally {
-			         session.close(); 
-			      }
+		         data = session.createCriteria(TransactionDetail.class).add(Restrictions.eq("walletId", walletId)).list();
+		         
+		         for (int i = 0; i < data.size(); i++) {
+		        	 transactionDetail = (TransactionDetail) data.get(i);
+		        	 transactionDetails.add(transactionDetail);
+		         }
+		 		 data.clear();
+		         tx.commit();
+		         output="success";
+		      }catch (HibernateException e) {
+		         if (tx!=null) tx.rollback();
+		         e.printStackTrace(); 
+		      }finally {
+		         session.close(); 
+		      }
 		}
 		return output;
 	}

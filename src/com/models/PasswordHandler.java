@@ -24,7 +24,7 @@ public class PasswordHandler extends LoginHandler {
 		if(canHandle()) {
 			failTimes += 1;
 			setFailTimes(failTimes);
-			setErrorMsg("password is wrong.");
+			setErrorMsg("Password is wrong.");
 		} else {
 			super.handleRequest();
 		}

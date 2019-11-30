@@ -33,7 +33,7 @@ public class AccountHandler extends LoginHandler {
 		if(canHandle()) {
 			failTimes += 1;
 			setFailTimes(failTimes);
-			setErrorMsg("account is not available.");
+			setErrorMsg("Account is not available.");
 		} else {
 			super.handleRequest();
 		}

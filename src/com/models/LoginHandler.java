@@ -12,7 +12,7 @@ public abstract class LoginHandler{
 	static HttpSession httpSession = ServletActionContext.getRequest().getSession();
 	LoginHandler successor;
 	protected User user;
-	protected User newUser; // get from db
+	protected User newUser;
 	int failTimes = this.getFailTimes();
 	
 	LoginHandler(LoginHandler s){
@@ -28,7 +28,6 @@ public abstract class LoginHandler{
         }else{
         	httpSession.setAttribute("userId", newUser.userId);
 	   		user = newUser;
-//	   		auth = true;
 	   		failTimes = 0;
 	   		setFailTimes(failTimes);
             System.out.println("login success.");
