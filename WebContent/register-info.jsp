@@ -1,11 +1,12 @@
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%> <%@ taglib
-prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>ePay - Administrator</title>
+    <title>ePay - Register</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -14,43 +15,25 @@ prefix="s" uri="/struts-tags"%>
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
     <div class="row align-items-center justify-content-center login-center">
       <div
-        class="text-center col-11 col-md-10 col-lg-8"
+        class="text-center col-10 col-md-7 col-lg-5 col-lg-xl-3"
         style="background-color:#f0f0f0;"
       >
-        <h1>Administrator</h1>
-        <table class="table table-responsive-md m-auto">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Telephone</th>
-              <th>Address</th>
-              <th>Password</th>
-              <th>Balance</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <s:iterator value="userList">
-              <tr>
-                <td><s:property value="userName"/></td>
-                <td><s:property value="userInfo.email"/></td>
-                <td><s:property value="userInfo.telephone"/></td>
-                <td><s:property value="userInfo.address"/></td>
-                <td><s:property value="userPass"/></td>
-                <td><s:property value="wallet.walletMoney"/></td>
-                <td><s:property value="userRole.roleName"/></td>
-              </tr>
-            </s:iterator>
-          </tbody>
-        </table>
-        <form action="ToPlatform" method="post" enctype="multipart/form-data">
+        <h1>Info</h1>
+        <form action="ToRegisterPassword" method="post" enctype="multipart/form-data">
           <div class="container text-left">
-            <div class="text-center mb-2">
-              <button type="submit" class="btn btn-info">&lt;&lt;Back</button>
+            <div class="text-center mb-2 mt-2">
+              <button type="submit" class="btn btn-info">Next</button>
+            </div>
+          </div>
+        </form>
+        <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
+          <div class="container text-left">
+            <div class="text-center mb-2 mt-2">
+              <button type="submit" class="btn btn-secondary">&lt;&lt;Back</button>
             </div>
           </div>
         </form>

@@ -17,4 +17,9 @@
 		<definition name="paySuccess" template="paySuccess.jsp"></definition>
 		<definition name="payScan" template="payScan.jsp"></definition>
 		<definition name="serviceDetails" template="serviceDetails.jsp"></definition>
+		
+		<definition name="register-contract" template="register-contract.jsp"></definition>
+		<definition name="register-info" template="register-info.jsp"></definition>
+		<definition name="register-password" template="register-password.jsp"></definition>
+		<definition name="register-done" template="register-done.jsp"></definition>
 	</tiles-definitions>

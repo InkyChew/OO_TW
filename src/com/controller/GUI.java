@@ -85,7 +85,6 @@ public class GUI { //GUI=V+C
 	public List<User> getUserList(){
 	    return userList;
 	}
-	
 	public String toPlatform() {
 		String output = "error";
 		if(auth.checkSession()){
@@ -266,5 +265,21 @@ public class GUI { //GUI=V+C
 			}
 		}
 		return output;
+	}
+	
+	public String toRegisterContract() {
+		return "success";
+	}
+	
+	public String toRegisterInfo() {
+		return "success";
+	}
+	
+	public String toRegisterPassword() {
+		return "success";
+	}
+	
+	public String toRegisterDone() {
+		return "success";
 	}
 }
