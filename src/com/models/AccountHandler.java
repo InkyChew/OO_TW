@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class AccountHandler extends LoginHandler {
-	Session session = null;
+	Session session = HibernateUtil.getSessionFactory().openSession();
 	
 	AccountHandler(LoginHandler s){
 		super(s);

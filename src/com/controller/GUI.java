@@ -146,9 +146,8 @@ public class GUI { //GUI=V+C
 	}
 	public String login() {
 		String output = "error";
-		if(auth.createSession(user)) {
+		if(auth.createSession()) {
 			if(auth.isAdmin()) { // account detail page
-//				userList = admin.getAllUser();
 				output = "administrator";
 			}else {
 				output = "success"; // menu

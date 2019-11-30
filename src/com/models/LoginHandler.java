@@ -25,6 +25,7 @@ public abstract class LoginHandler{
 	   		user = newUser;
 //	   		auth = true;
 	   		failTimes = 0;
+	   		setFailTimes(failTimes);
             System.out.println("login success.");
         }
     }

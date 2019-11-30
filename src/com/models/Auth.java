@@ -58,43 +58,54 @@ public class Auth {
 		return result;
 	}
 	
-	public boolean createSession(User user) {
-		boolean auth = false;
-		session = HibernateUtil.getSessionFactory().openSession();
-		try{
-			 int failTimes = this.getFailTimes();
-	         if (failTimes < 3) {
-	        	 if (this.checkStr(user.userPass) && this.checkStr(user.userName)) {
-		        	 tx = session.beginTransaction();
-		        	 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
-		        		 if (data.size() > 0) {
-				        	 newUser = (User) data.get(0);
-				        	 if (newUser.userPass.equals(user.userPass)) {
-				        		 httpSession.setAttribute("userId", newUser.userId);
-				        		 user = newUser;
-				        		 auth = true;
-				        		 failTimes = 0;
-					         } else {
-					        	 failTimes += 1;
-					         }
-				         } else {
-				        	 failTimes += 1;
-				         }
-		        	 data.clear();
-		        	 tx.commit();
-	        	 } else {
-	        		 failTimes += 1;
-	        	 }
-	         }
-	         this.setFailTimes(failTimes);
-	      }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-		return auth;
+	public boolean createSession() {
+		LoginHandler pasHandler = new PasswordHandler(null);
+		LoginHandler accHandler = new AccountHandler(pasHandler);
+		LoginHandler inpHandler = new InputHandler(accHandler);
+		LoginHandler failHandler = new failTimeHandler(inpHandler);
+		
+		failHandler.handleRequest();
+
+		return checkSession();
 	}
+	
+//	public boolean createSession(User user) {
+//		boolean auth = false;
+//		session = HibernateUtil.getSessionFactory().openSession();
+//		try{
+//			 int failTimes = this.getFailTimes();
+//	         if (failTimes < 3) {
+//	        	 if (this.checkStr(user.userPass) && this.checkStr(user.userName)) {
+//		        	 tx = session.beginTransaction();
+//		        	 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
+//		        		 if (data.size() > 0) {
+//				        	 newUser = (User) data.get(0);
+//				        	 if (newUser.userPass.equals(user.userPass)) {
+//				        		 httpSession.setAttribute("userId", newUser.userId);
+//				        		 user = newUser;
+//				        		 auth = true;
+//				        		 failTimes = 0;
+//					         } else {
+//					        	 failTimes += 1;
+//					         }
+//				         } else {
+//				        	 failTimes += 1;
+//				         }
+//		        	 data.clear();
+//		        	 tx.commit();
+//	        	 } else {
+//	        		 failTimes += 1;
+//	        	 }
+//	         }
+//	         this.setFailTimes(failTimes);
+//	      }catch (HibernateException e) {
+//	         if (tx!=null) tx.rollback();
+//	         e.printStackTrace(); 
+//	      }finally {
+//	         session.close(); 
+//	      }
+//		return auth;
+//	}
 	
 	public Boolean checkSession() {
 		 if(httpSession.getAttribute("userId") == null) {
