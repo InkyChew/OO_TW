@@ -71,14 +71,17 @@
         <action name="ToRegisterContract" class="com.controller.GUI" method="toRegisterContract">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">register-contract</result>
+            <result name="next" type="redirect">/ToRegisterInfo</result>
         </action>
         <action name="ToRegisterInfo" class="com.controller.GUI" method="toRegisterInfo">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">register-info</result>
+            <result name="next" type="redirect">/ToRegisterPassword</result>
         </action>
         <action name="ToRegisterPassword" class="com.controller.GUI" method="toRegisterPassword">
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">register-password</result>
+            <result name="next" type="redirect">/ToRegisterDone</result>
         </action>
         <action name="ToRegisterDone" class="com.controller.GUI" method="toRegisterDone">
             <result name="error" type="redirect">/error.jsp</result>

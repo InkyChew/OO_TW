@@ -23,7 +23,8 @@
         style="background-color:#f0f0f0;"
       >
         <h1>Contract</h1>
-        <form action="ToRegisterInfo" method="post" enctype="multipart/form-data">
+        <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
+        <input type="text" name="test" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           <div class="container text-left">
             <div class="text-center mb-2 mt-2">
               <button type="submit" class="btn btn-info">I have read and agreed to the above contract.</button>

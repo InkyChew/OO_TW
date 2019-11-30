@@ -2,7 +2,9 @@ package com.controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+
 import org.apache.struts2.ServletActionContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
@@ -30,6 +32,8 @@ import com.models.Transfer;
 import com.models.AbTransfer;
 import com.models.Payment;
 import com.models.Receivement;
+import com.models.RegisterCareTaker;
+import com.models.RegisterOriginator;
 import com.models.Auth;
 import com.models.Deposit;
 import com.models.Admin;
@@ -45,6 +49,9 @@ public class GUI { //GUI=V+C
 	private List<User> userList = new ArrayList<User>();
 	private Mail mail;
 	private Auth auth;
+	
+	private RegisterOriginator registerOriginator;
+	private RegisterCareTaker registerCareTaker;
 	
 	// DB
 	Session session = null;
@@ -268,7 +275,16 @@ public class GUI { //GUI=V+C
 	}
 	
 	public String toRegisterContract() {
-		return "success";
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String METHOD = (String) httpRequest.getMethod();
+		if (METHOD.equals("POST")) {
+			this.
+		} else {
+			return "success";
+		}
+
+		System.out.println((String)httpRequest.getParameter("test"));
+		return "next";
 	}
 	
 	public String toRegisterInfo() {
