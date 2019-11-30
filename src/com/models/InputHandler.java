@@ -15,12 +15,10 @@ public class InputHandler extends LoginHandler {
 		if(canHandle()) {
 			failTimes += 1;
 			setFailTimes(failTimes);
+			setErrorMsg("Input cannot more than 10.");
 		} else {
 			super.handleRequest();
 		}
-	}
-	public void setUser(User user) {
-		this.user = user;
 	}
 	public boolean checkStr(String str) {
 		boolean result = false;

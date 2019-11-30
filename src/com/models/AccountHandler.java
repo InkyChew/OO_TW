@@ -18,7 +18,7 @@ public class AccountHandler extends LoginHandler {
 		Transaction tx = session.beginTransaction();
 		List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", user.userName)).list();
 		try {
-			if(data.size() < 0) {
+			if(data.size() <= 0) {
 				isValid = true;
 			}
 		}catch(HibernateException e) {
@@ -33,6 +33,7 @@ public class AccountHandler extends LoginHandler {
 		if(canHandle()) {
 			failTimes += 1;
 			setFailTimes(failTimes);
+			setErrorMsg("account is not available.");
 		} else {
 			super.handleRequest();
 		}

@@ -62,7 +62,7 @@ public class Auth {
 		LoginHandler pasHandler = new PasswordHandler(null);
 		LoginHandler accHandler = new AccountHandler(pasHandler);
 		LoginHandler inpHandler = new InputHandler(accHandler);
-		LoginHandler failHandler = new failTimeHandler(inpHandler);
+		LoginHandler failHandler = new FailTimeHandler(inpHandler);
 		
 		failHandler.handleRequest();
 

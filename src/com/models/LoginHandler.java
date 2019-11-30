@@ -6,6 +6,7 @@ import java.time.ZoneId;
 
 import org.apache.struts2.ServletActionContext;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 public abstract class LoginHandler{
 	static HttpSession httpSession = ServletActionContext.getRequest().getSession();
@@ -16,6 +17,10 @@ public abstract class LoginHandler{
 	
 	LoginHandler(LoginHandler s){
         this.successor = s;
+        HttpServletRequest httpServletRequest = ServletActionContext.getRequest();
+        user = new User();
+        user.userName = (String) httpServletRequest.getAttribute("user.userName");
+        user.userPass = (String) httpServletRequest.getAttribute("user.userPass");
     }
 	public void handleRequest(){
         if(successor != null){
@@ -44,6 +49,9 @@ public abstract class LoginHandler{
 	}
 	public void setFailTimes(int failTimes) {
 		httpSession.setAttribute("failTimes", failTimes);
+	}
+	public void setErrorMsg(String error) {
+		httpSession.setAttribute("errorMsg", error);
 	}
     public abstract boolean canHandle();
 }
