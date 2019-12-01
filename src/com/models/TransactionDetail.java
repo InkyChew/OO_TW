@@ -1,6 +1,10 @@
 package com.models;
 
-public class TransactionDetail {
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+public class TransactionDetail implements Cloneable {
 	public int id;
 	public int walletId;
 	public String date;
@@ -49,6 +53,31 @@ public class TransactionDetail {
 	}
 	public int getTraderId(){
 	    return traderId;
+	}
+	public String updateTransactionDetail() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String output="error";
+		Transaction tx = session.beginTransaction();
+		try{
+			session.merge(this);
+			tx.commit();
+			output="success";
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
+		return output;
+	}
+	public Object clone() {
+		Object clone = null;
+		try {
+			super.clone();
+		}catch(CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return clone;
 	}
 }
 

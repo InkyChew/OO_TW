@@ -248,14 +248,17 @@ public class GUI { //GUI=V+C
 	public String setTransferDetail(Transfer transfer, int walletId) {
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
 		String date = dfcurrentTime.format(new java.util.Date());
-		transactionDetail = new TransactionDetail();
+		if(transactionDetail == null) {
+			transactionDetail = new TransactionDetail();
+		}
+		transactionDetail = (TransactionDetail)transactionDetail.clone();
 		transactionDetail.setDate(date);
 		transactionDetail.setAmount(transfer.amount);
 		transactionDetail.setBalance(transfer.balance);
 		transactionDetail.setType(transfer.type);
 		transactionDetail.setWalletId(walletId);
 		transactionDetail.setTraderId(transfer.traderId);
-		return transfer.updateTransactionDetail(transactionDetail);
+		return transactionDetail.updateTransactionDetail();
 	}
 	
 	public User getAuthUser(int userId) {

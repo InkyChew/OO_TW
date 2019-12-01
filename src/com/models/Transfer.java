@@ -81,21 +81,21 @@ public class Transfer {
 //		transactionDetail.setTraderId(traderId);
 //		return updateTransactionDetail();
 	}
-	public String updateTransactionDetail(TransactionDetail transactionDetail) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		String output="error";
-		Transaction tx = session.beginTransaction();
-		try{
-			session.merge(transactionDetail);
-			tx.commit();
-			output="success";
-		}catch (HibernateException e) {
-			if (tx!=null) tx.rollback();
-			e.printStackTrace(); 
-		}finally {
-			session.close(); 
-		}
-		return output;
-	}
+//	public String updateTransactionDetail(TransactionDetail transactionDetail) {
+//		Session session = HibernateUtil.getSessionFactory().openSession();
+//		String output="error";
+//		Transaction tx = session.beginTransaction();
+//		try{
+//			session.merge(transactionDetail);
+//			tx.commit();
+//			output="success";
+//		}catch (HibernateException e) {
+//			if (tx!=null) tx.rollback();
+//			e.printStackTrace(); 
+//		}finally {
+//			session.close(); 
+//		}
+//		return output;
+//	}
 }
 
