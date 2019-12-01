@@ -26,7 +26,6 @@ public class UserList implements Aggregate{
         return users.length;
     }
     public Iterator iterator() {
-    	UserIterator a = new UserIterator(null);
         return new UserIterator(this);
     }
 }

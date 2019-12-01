@@ -105,15 +105,12 @@
     ></script>
     <script>
       function update() {
-        var amount = document.getElementById("amount").value;
-        var discountRate = document.getElementById("discountRate").value;
-        var freeBound = document.getElementById("freeBound").value;
-        var discountRateDisplay = document.getElementById(
-          "discountRateDisplay"
-        );
+        var amount = parseInt(document.getElementById("amount").value);
+        var discountRate = parseInt(document.getElementById("discountRate").value);
+        var freeBound = parseInt(document.getElementById("freeBound").value);
+        var discountRateDisplay = document.getElementById("discountRateDisplay");
         var chargeTotal = document.getElementById("chargeTotal");
         var total = document.getElementById("total");
-
         if (amount > freeBound) {
           discountRateDisplay.value = "100%";
           chargeTotal.value = 30 * (1 - 1);
