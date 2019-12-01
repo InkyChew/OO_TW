@@ -8,14 +8,16 @@ public class RegisterOriginator {
 	private String email;
 	private String username;
 	private String password;
+	private int state;
 	
 	public RegisterOriginator() {
 		this.setContract(false);
+		this.setState(0);
 	}
 	
 	public RegisterMemento saveToMemento() {
 		return new RegisterMemento(contract, name, telephone,
-			address, email, username, password);
+			address, email, username, password, state);
 	}
 	
 	public void restoreFromMemento(RegisterMemento m) {
@@ -26,9 +28,12 @@ public class RegisterOriginator {
 		this.setPassword(m.getPassword());
 		this.setTelephone(m.getTelephone());
 		this.setUsername(m.getUsername());
+		this.setState(m.getState());
 	}
 	
-	
+	public void setState(int state) {
+		this.state = state;
+	}
 	/**
 	 * @param address the address to set
 	 */
@@ -70,6 +75,9 @@ public class RegisterOriginator {
 	 */
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public int getState() {
+		return state;
 	}
 	/**
 	 * @return the contract

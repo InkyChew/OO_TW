@@ -2,7 +2,9 @@ package com.controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+
 import org.apache.struts2.ServletActionContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
@@ -30,6 +32,8 @@ import com.models.Transfer;
 import com.models.AbTransfer;
 import com.models.Payment;
 import com.models.Receivement;
+import com.models.RegisterCareTaker;
+import com.models.RegisterOriginator;
 import com.models.Auth;
 import com.models.Deposit;
 import com.models.Admin;
@@ -45,6 +49,9 @@ public class GUI { //GUI=V+C
 	private List<User> userList = new ArrayList<User>();
 	private Mail mail;
 	private Auth auth;
+	
+	static private RegisterOriginator registerOriginator;
+	static private RegisterCareTaker registerCareTaker;
 	
 	// DB
 	Session session = null;
@@ -267,7 +274,33 @@ public class GUI { //GUI=V+C
 	}
 	
 	public String toRegisterContract() {
-		return "success";
+		String result = "error";
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String method = (String) httpRequest.getMethod();
+		String type = (String)httpRequest.getParameter("type");
+		System.out.println("Method: " + method);
+		System.out.println("Type: " + type);
+		if (method.equals("POST")) {
+			this.registerOriginator.setContract(true);
+			this.registerOriginator.setState(1);
+			this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+			result = "next";
+		} else { // GET
+			if (this.registerOriginator == null) {
+				this.registerOriginator = new RegisterOriginator();
+				this.registerCareTaker = new RegisterCareTaker();
+				System.out.println("123");
+				result = "success";
+			} else {
+				if (this.registerOriginator.getState() != 0) {
+					result = "next";
+				} else {
+					result = "success";
+				}
+			}
+		}
+		System.out.println(result);
+		return result;
 	}
 	
 	public String toRegisterInfo() {
