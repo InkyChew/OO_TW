@@ -11,7 +11,7 @@ public class RegisterCareTaker {
 	}
 	
 	public RegisterMemento getLastMemento() {
-		RegisterMemento registerMemento = memList.get(memList.size() - 1);
+		RegisterMemento registerMemento = memList.get(memList.size() - 2);
 		memList.remove(memList.size() - 1);
 		return registerMemento;
 	}

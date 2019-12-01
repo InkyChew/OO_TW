@@ -25,6 +25,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.models.HibernateUtil;
 import com.models.Mail;
+import com.models.OrCtStored;
 import com.models.User;
 import com.models.UserInfo;
 import com.models.TransactionDetail;
@@ -50,8 +51,9 @@ public class GUI { //GUI=V+C
 	private Mail mail;
 	private Auth auth;
 	
-	static private RegisterOriginator registerOriginator;
-	static private RegisterCareTaker registerCareTaker;
+	private RegisterOriginator registerOriginator;
+	private RegisterCareTaker registerCareTaker;
+	private OrCtStored orCtStored;
 	
 	// DB
 	Session session = null;
@@ -274,25 +276,50 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 	
+	private void setOrCt(String key) {
+		this.registerOriginator = this.orCtStored.getRegisterOriginator(key);
+		this.registerCareTaker = this.orCtStored.getRegisterCareTaker(key);
+		System.out.println(this.registerOriginator);
+		System.out.println(this.registerCareTaker);
+	}
+	
 	public String toRegisterContract() {
+		this.orCtStored = OrCtStored.getInstance();
 		String result = "error";
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		String method = (String) httpRequest.getMethod();
 		String type = (String)httpRequest.getParameter("type");
+		String key = this.auth.getOrCTID();
+		System.out.println("Key: " + key);
 		System.out.println("Method: " + method);
 		System.out.println("Type: " + type);
+		System.out.println(this.orCtStored);
 		if (method.equals("POST")) {
-			this.registerOriginator.setContract(true);
-			this.registerOriginator.setState(1);
-			this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
-			result = "next";
+			if (type.equals("back")) {
+				this.registerCareTaker = null;
+				this.registerOriginator = null;
+				this.orCtStored.removeOrCT(key);
+				this.auth.clearOrCTID();
+				result = "back";
+			} else {
+				this.setOrCt(key);
+				this.registerOriginator.setContract(true);
+				this.registerOriginator.setState(1);
+				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+				result = "next";
+			}
 		} else { // GET
-			if (this.registerOriginator == null) {
-				this.registerOriginator = new RegisterOriginator();
-				this.registerCareTaker = new RegisterCareTaker();
-				System.out.println("123");
+			if (key == null) {
+				key = this.auth.CreatOrCTID();
+				while(!this.orCtStored.OrCTIDIsEmpty(key)) {
+					key = this.auth.CreatOrCTID();
+				}
+				this.registerOriginator = this.orCtStored.addRegisterOriginator(key);
+				this.registerCareTaker = this.orCtStored.addRegisterCareTaker(key);
+				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
 				result = "success";
 			} else {
+				this.setOrCt(key);
 				if (this.registerOriginator.getState() != 0) {
 					result = "next";
 				} else {
@@ -300,16 +327,91 @@ public class GUI { //GUI=V+C
 				}
 			}
 		}
-		System.out.println(result);
+		System.out.println("result: " + result);
+		System.out.println("==================");
 		return result;
 	}
 	
 	public String toRegisterInfo() {
-		return "success";
+		this.orCtStored = OrCtStored.getInstance();
+		String result = "error";
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String method = (String) httpRequest.getMethod();
+		String type = (String)httpRequest.getParameter("type");
+		String key = this.auth.getOrCTID();
+		System.out.println("Key: " + key);
+		System.out.println("Method: " + method);
+		System.out.println("Type: " + type);
+		System.out.println(this.orCtStored);
+		if (method.equals("POST")) {
+			this.setOrCt(key);
+			if (type.equals("back")) {
+				this.registerOriginator.restoreFromMemento(this.registerCareTaker.getLastMemento());
+				result = "back";
+			} else {
+				this.registerOriginator.setState(2);
+				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+				result = "next";
+			}
+		} else { // GET
+			if (key == null) {
+				result = "back";
+			} else {
+				this.setOrCt(key);
+				if (this.registerOriginator.getState() > 1) {
+					result = "next";
+				} else if (this.registerOriginator.getState() < 1) {
+					result = "back";
+				} else {
+					result = "success";
+				}
+			}
+		}
+		System.out.println("result: " + result);
+		System.out.println("==================");
+		return result;
 	}
 	
 	public String toRegisterPassword() {
-		return "success";
+		this.orCtStored = OrCtStored.getInstance();
+		String result = "error";
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String method = (String) httpRequest.getMethod();
+		String type = (String)httpRequest.getParameter("type");
+		String key = this.auth.getOrCTID();
+		System.out.println("Key: " + key);
+		System.out.println("Method: " + method);
+		System.out.println("Type: " + type);
+		System.out.println(this.orCtStored);
+		if (method.equals("POST")) {
+			this.setOrCt(key);
+			if (type.equals("back")) {
+				this.registerOriginator.restoreFromMemento(this.registerCareTaker.getLastMemento());
+				result = "back";
+			} else {
+				this.registerCareTaker = null;
+				this.registerOriginator = null;
+				this.orCtStored.removeOrCT(key);
+				this.auth.clearOrCTID();
+				result = "next";
+			}
+		} else { // GET
+			if (key == null) {
+				result = "back";
+			} else {
+				this.setOrCt(key);
+				if (this.registerOriginator.getState() > 2) {
+					result = "next";
+				} else if (this.registerOriginator.getState() < 2) {
+					result = "back";
+				} else {
+					result = "success";
+				}
+			}
+		}
+		System.out.println("result: " + result);
+		System.out.println("==================");
+		return result;
 	}
 	
 	public String toRegisterDone() {

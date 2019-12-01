@@ -164,4 +164,32 @@ public class Auth {
 		user = getUser(userId);
 		return user;
 	}
+	
+	public String CreatOrCTID() {
+		String OrCTID = "";
+		for(int i = 0; i < 8; i++){
+	      int random = (int)((Math.random() * 3) + 1);
+	      if(random == 1){
+	    	  OrCTID += (char)(int)((Math.random()*10)+48);
+	      }else if(random == 2){
+	    	  OrCTID += (char)(int)(((Math.random()*26) + 65));
+	      }else{
+	    	  OrCTID += (char)(int)((Math.random()*26) + 97);
+	      }
+	    }
+		httpSession.setAttribute("OrCTID", OrCTID);
+		return OrCTID;
+	}
+	
+	public String getOrCTID() {
+		if (httpSession.getAttribute("OrCTID") != null) {
+			return (String) httpSession.getAttribute("OrCTID");
+		} else {
+			return null;
+		}
+	}
+	
+	public void clearOrCTID() {
+		httpSession.removeAttribute("OrCTID");
+	}
 }

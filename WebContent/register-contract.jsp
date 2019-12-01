@@ -26,14 +26,8 @@
         <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
           <div class="container text-left">
             <div class="text-center mb-2 mt-2">
+            	<button type="submit" class="btn btn-secondary" name="type" value="back">Back</button>
               <button type="submit" class="btn btn-info" name="type" value="next">I have read and agreed to the above contract.</button>
-            </div>
-          </div>
-        </form>
-        <form action="Logout" method="post" enctype="multipart/form-data">
-          <div class="container text-left">
-            <div class="text-center mb-2 mt-2">
-              <button type="submit" class="btn btn-secondary">&lt;&lt;Back</button>
             </div>
           </div>
         </form>

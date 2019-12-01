@@ -72,6 +72,7 @@
             <result name="error" type="redirect">/error.jsp</result>
             <result name="success" type="tiles">register-contract</result>
             <result name="next" type="redirect">/ToRegisterInfo</result>
+            <result name="back" type="redirect">/index.jsp</result>
         </action>
         <action name="ToRegisterInfo" class="com.controller.GUI" method="toRegisterInfo">
             <result name="error" type="redirect">/error.jsp</result>

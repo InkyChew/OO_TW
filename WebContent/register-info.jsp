@@ -23,17 +23,12 @@
         style="background-color:#f0f0f0;"
       >
         <h1>Info</h1>
-        <form action="ToRegisterPassword" method="post" enctype="multipart/form-data">
+        <form action="ToRegisterInfo" method="post" enctype="multipart/form-data">
           <div class="container text-left">
             <div class="text-center mb-2 mt-2">
-              <button type="submit" class="btn btn-info">Next</button>
-            </div>
-          </div>
-        </form>
-        <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
-          <div class="container text-left">
-            <div class="text-center mb-2 mt-2">
-              <button type="submit" class="btn btn-secondary">&lt;&lt;Back</button>
+            <button type="submit" class="btn btn-secondary" name="type" value="back">Back</button>
+              <button type="submit" class="btn btn-info" name="type" value="next">Next</button>
+              
             </div>
           </div>
         </form>
