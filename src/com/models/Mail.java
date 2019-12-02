@@ -55,4 +55,9 @@ public class Mail {
 		this.send(address,"Transaction Verification code","This is your tranction Verification code:"+ OTP + "\nPlease verify it in 10 minutes.\n\nHave a good day~ epay");
 		// send OTP code format
 	}
+	
+	public void sendConfirmMail(String address, String OTP) {
+		this.send(address,"Email confirm code","This is your Email confirm code:"+ OTP + "\nPlease verify it in 10 minutes.\n\nHave a good day~ epay");
+		// send OTP code format
+	}
 }

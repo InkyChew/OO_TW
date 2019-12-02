@@ -279,8 +279,6 @@ public class GUI { //GUI=V+C
 	private void setOrCt(String key) {
 		this.registerOriginator = this.orCtStored.getRegisterOriginator(key);
 		this.registerCareTaker = this.orCtStored.getRegisterCareTaker(key);
-		System.out.println(this.registerOriginator);
-		System.out.println(this.registerCareTaker);
 	}
 	
 	public String toRegisterContract() {
@@ -290,10 +288,6 @@ public class GUI { //GUI=V+C
 		String method = (String) httpRequest.getMethod();
 		String type = (String)httpRequest.getParameter("type");
 		String key = this.auth.getOrCTID();
-		System.out.println("Key: " + key);
-		System.out.println("Method: " + method);
-		System.out.println("Type: " + type);
-		System.out.println(this.orCtStored);
 		if (method.equals("POST")) {
 			if (type.equals("back")) {
 				this.registerCareTaker = null;
@@ -303,9 +297,15 @@ public class GUI { //GUI=V+C
 				result = "back";
 			} else {
 				this.setOrCt(key);
-				this.registerOriginator.setContract(true);
-				this.registerOriginator.setState(1);
+				String contract = (String)httpRequest.getParameter("contract");
+				if (contract == null) {
+					httpRequest.setAttribute("msg", "please accept the contract.");
+					return "wrong";
+				} else {
+					this.registerOriginator.setContract(true);
+				}
 				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+				this.registerOriginator.setState(1);
 				result = "next";
 			}
 		} else { // GET
@@ -316,19 +316,17 @@ public class GUI { //GUI=V+C
 				}
 				this.registerOriginator = this.orCtStored.addRegisterOriginator(key);
 				this.registerCareTaker = this.orCtStored.addRegisterCareTaker(key);
-				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
 				result = "success";
 			} else {
 				this.setOrCt(key);
 				if (this.registerOriginator.getState() != 0) {
 					result = "next";
 				} else {
+					httpRequest.setAttribute("contract", this.registerOriginator.getContract());
 					result = "success";
 				}
 			}
 		}
-		System.out.println("result: " + result);
-		System.out.println("==================");
 		return result;
 	}
 	
@@ -339,18 +337,46 @@ public class GUI { //GUI=V+C
 		String method = (String) httpRequest.getMethod();
 		String type = (String)httpRequest.getParameter("type");
 		String key = this.auth.getOrCTID();
-		System.out.println("Key: " + key);
-		System.out.println("Method: " + method);
-		System.out.println("Type: " + type);
-		System.out.println(this.orCtStored);
 		if (method.equals("POST")) {
 			this.setOrCt(key);
 			if (type.equals("back")) {
 				this.registerOriginator.restoreFromMemento(this.registerCareTaker.getLastMemento());
 				result = "back";
 			} else {
-				this.registerOriginator.setState(2);
+				String email = (String) httpRequest.getParameter("email");
+				String username = (String) httpRequest.getParameter("username");
+				String name = (String) httpRequest.getParameter("name");
+				String telephone = (String) httpRequest.getParameter("telephone");
+				String address = (String) httpRequest.getParameter("address");
+				if(email.equals("") || username.equals("") || name.equals("") || telephone.equals("") || address.equals("")) {
+					httpRequest.setAttribute("msg", "All fields are required.");
+					return "wrong";
+				} else if (username.length() > 10) {
+					httpRequest.setAttribute("msg", "Your username must be under or equal than 10 characters long.");
+					return "wrong";
+				}
+				this.registerOriginator.setEmail(email);
+				this.registerOriginator.setUsername(username);
+				this.registerOriginator.setName(name);
+				this.registerOriginator.setTelephone(telephone);
+				this.registerOriginator.setAddress(address);
+				// sendOTP
+				String OTP = "";
+				for(int i = 0; i < 8; i++){
+			      int random = (int)((Math.random() * 3) + 1);
+			      if(random == 1){
+			    	OTP += (char)(int)((Math.random()*10)+48);
+			      }else if(random == 2){
+			        OTP += (char)(int)(((Math.random()*26) + 65));
+			      }else{
+			        OTP += (char)(int)((Math.random()*26) + 97);
+			      }
+			    }
+				mail.sendConfirmMail(email, OTP);
+				final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+				auth.createOTP(OTP, expire);
 				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+				this.registerOriginator.setState(2);
 				result = "next";
 			}
 		} else { // GET
@@ -363,12 +389,15 @@ public class GUI { //GUI=V+C
 				} else if (this.registerOriginator.getState() < 1) {
 					result = "back";
 				} else {
+					httpRequest.setAttribute("email", this.registerOriginator.getEmail());
+					httpRequest.setAttribute("username", this.registerOriginator.getUsername());
+					httpRequest.setAttribute("name", this.registerOriginator.getName());
+					httpRequest.setAttribute("telephone", this.registerOriginator.getTelephone());
+					httpRequest.setAttribute("address", this.registerOriginator.getAddress());
 					result = "success";
 				}
 			}
 		}
-		System.out.println("result: " + result);
-		System.out.println("==================");
 		return result;
 	}
 	
@@ -379,16 +408,28 @@ public class GUI { //GUI=V+C
 		String method = (String) httpRequest.getMethod();
 		String type = (String)httpRequest.getParameter("type");
 		String key = this.auth.getOrCTID();
-		System.out.println("Key: " + key);
-		System.out.println("Method: " + method);
-		System.out.println("Type: " + type);
-		System.out.println(this.orCtStored);
 		if (method.equals("POST")) {
 			this.setOrCt(key);
 			if (type.equals("back")) {
 				this.registerOriginator.restoreFromMemento(this.registerCareTaker.getLastMemento());
 				result = "back";
 			} else {
+				String inputOTP = (String) httpRequest.getParameter("OTP");
+				String password = (String) httpRequest.getParameter("password");
+				String confirmPassword = (String) httpRequest.getParameter("confirmPassword");
+				if(this.auth.checkOTP(inputOTP)) {
+					if (password.equals("") || confirmPassword.equals("") || password.length() > 10 || confirmPassword.length() > 10) {
+						httpRequest.setAttribute("msg", "Password & confirm password is required and must be under or equal than 10 characters long.");
+						return "wrong";
+					} else if (!password.equals(confirmPassword)) {
+						httpRequest.setAttribute("msg", "Password & confirm password must be the same.");
+						return "wrong";
+					}
+				} else {
+					httpRequest.setAttribute("msg", "OTP code is incorrect.");
+					return "wrong";
+				}
+				
 				this.registerCareTaker = null;
 				this.registerOriginator = null;
 				this.orCtStored.removeOrCT(key);
@@ -409,8 +450,6 @@ public class GUI { //GUI=V+C
 				}
 			}
 		}
-		System.out.println("result: " + result);
-		System.out.println("==================");
 		return result;
 	}
 	

@@ -25,10 +25,42 @@
         <h1>Info</h1>
         <form action="ToRegisterInfo" method="post" enctype="multipart/form-data">
           <div class="container text-left">
+          <% if (request.getAttribute("msg") != null){ %>
+				<div class="alert alert-danger" role="alert">
+					<%= request.getAttribute("msg") %>
+				</div>
+			<% } %>
+          	  <div class="form-group">
+			    <label for="exampleInputEmail1">Email address</label>
+			    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" 
+			    value="<% if (request.getAttribute("email") != null){ %><%= request.getAttribute("email") %><% } %>">
+			    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+			  </div>
+			  <div class="form-group">
+			    <label for="InputUsername">Username</label>
+			    <input type="text" class="form-control" id="InputUsername" name="username" 
+			    value="<% if (request.getAttribute("username") != null){ %><%= request.getAttribute("username") %><% } %>">
+			    <small id="UsernameHelpBlock" class="form-text text-muted">
+				  Your username must be under or equal than 10 characters long.
+				</small>
+			  </div>
+			  <div class="form-group">
+			    <label for="InputName">Name</label>
+			    <input type="text" class="form-control" id="InputName" name="name" 
+			    value="<% if (request.getAttribute("name") != null){ %><%= request.getAttribute("name") %><% } %>">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputTelephone">Telephone</label>
+			    <input type="text" class="form-control" id="InputTelephone" name="telephone" 
+			    value="<% if (request.getAttribute("telephone") != null){ %><%= request.getAttribute("telephone") %><% } %>">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputAddress">Address</label>
+			    <input type="text" class="form-control" id="InputAddress" name="address" value="<% if (request.getAttribute("address") != null){ %><%= request.getAttribute("address") %><% } %>">
+			  </div>
             <div class="text-center mb-2 mt-2">
-            <button type="submit" class="btn btn-secondary" name="type" value="back">Back</button>
+              <button type="submit" class="btn btn-secondary" name="type" value="back">Back</button>
               <button type="submit" class="btn btn-info" name="type" value="next">Next</button>
-              
             </div>
           </div>
         </form>

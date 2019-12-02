@@ -25,9 +25,20 @@
         <h1>Contract</h1>
         <form action="ToRegisterContract" method="post" enctype="multipart/form-data">
           <div class="container text-left">
+	    	<% if (request.getAttribute("msg") != null){ %>
+				<div class="alert alert-danger" role="alert">
+					<%= request.getAttribute("msg") %>
+				</div>
+			<% } %>
+	          <div class="form-group form-check">
+			    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="contract" <% if (request.getAttribute("contract") != null && (boolean) request.getAttribute("contract") == true){ %>checked<% } %>>
+			    <label class="form-check-label" for="exampleCheck1">
+			    	I have read and agreed to the above contract.
+			    </label>
+			  </div>
             <div class="text-center mb-2 mt-2">
             	<button type="submit" class="btn btn-secondary" name="type" value="back">Back</button>
-              <button type="submit" class="btn btn-info" name="type" value="next">I have read and agreed to the above contract.</button>
+              <button type="submit" class="btn btn-info" name="type" value="next">Next</button>
             </div>
           </div>
         </form>

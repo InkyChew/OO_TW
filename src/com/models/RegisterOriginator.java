@@ -21,6 +21,7 @@ public class RegisterOriginator {
 	}
 	
 	public void restoreFromMemento(RegisterMemento m) {
+		System.out.println("123: " + contract + state);
 		this.setAddress(m.getAddress());
 		this.setContract(m.getContract());
 		this.setEmail(m.getEmail());
@@ -29,6 +30,7 @@ public class RegisterOriginator {
 		this.setTelephone(m.getTelephone());
 		this.setUsername(m.getUsername());
 		this.setState(m.getState());
+		System.out.println("123: " + contract + state);
 	}
 	
 	public void setState(int state) {
