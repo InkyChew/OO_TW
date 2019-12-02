@@ -61,7 +61,11 @@ public class GUI { //GUI=V+C
 		this.mail = Mail.getInstance(); //Singleton
 		this.auth = new Auth();
 	}
-	
+	// for testing
+	public GUI(HttpSession hs) {
+		this.mail = Mail.getInstance(); //Singleton
+		this.auth = new Auth(hs); // testing
+	}
 	public void setUser(User user){
 	    this.user=user;
 	}
@@ -209,6 +213,11 @@ public class GUI { //GUI=V+C
 	}
 	public void receivement(int userId, int traderId, int amount) {
 		abTransfer = new AbTransfer(userId, traderId, amount, new Receivement());
+		abTransfer.process();
+	}
+	// for testing
+	public void receivement(int userId, int traderId, int amount, HttpSession hs) {
+		abTransfer = new AbTransfer(userId, traderId, amount, new Receivement(hs));
 		abTransfer.process();
 	}
 	public String checkTransactionHistory() {

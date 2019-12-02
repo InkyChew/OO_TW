@@ -73,7 +73,7 @@ public class TransactionDetail implements Cloneable {
 	public Object clone() {
 		Object clone = null;
 		try {
-			super.clone();
+			clone = super.clone();
 		}catch(CloneNotSupportedException e) {
 			e.printStackTrace();
 		}

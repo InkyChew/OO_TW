@@ -15,6 +15,14 @@ import com.models.Deposit;
 
 public class Deposit extends Transfer implements ProcessAPI{
 	// controller
+	
+	// for testing
+	public Deposit() {
+		super();
+	}
+	public Deposit(HttpSession hs) {
+		super(hs);
+	}
 	@Override
 	public String process(int userId, int traderId, int amount){
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -44,6 +52,6 @@ public class Deposit extends Transfer implements ProcessAPI{
 	         session.close(); 
 	      }
 		return output;
-	}
+	}	
 }
 
