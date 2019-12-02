@@ -28,6 +28,7 @@ import com.models.Mail;
 import com.models.OrCtStored;
 import com.models.User;
 import com.models.UserInfo;
+import com.models.Wallet;
 import com.models.TransactionDetail;
 import com.models.Transfer;
 import com.models.AbTransfer;
@@ -429,7 +430,12 @@ public class GUI { //GUI=V+C
 					httpRequest.setAttribute("msg", "OTP code is incorrect.");
 					return "wrong";
 				}
-				
+				String email = this.registerOriginator.getEmail();
+				String username = this.registerOriginator.getUsername();
+				String name = this.registerOriginator.getName();
+				String telephone = this.registerOriginator.getTelephone();
+				String address = this.registerOriginator.getAddress();
+				auth.createUser(email, username, telephone, address, password, name);
 				this.registerCareTaker = null;
 				this.registerOriginator = null;
 				this.orCtStored.removeOrCT(key);

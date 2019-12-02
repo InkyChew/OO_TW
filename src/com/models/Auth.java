@@ -192,4 +192,31 @@ public class Auth {
 	public void clearOrCTID() {
 		httpSession.removeAttribute("OrCTID");
 	}
+	
+	public void createUser(String email, String username, String telephone,
+			String address, String password, String name) {
+		UserInfo userinfo = new UserInfo();
+		userinfo.setTelephone(telephone);
+		userinfo.setEmail(email);
+		userinfo.setName(name);
+		userinfo.setAddress(address);
+		Wallet wallet = new Wallet();
+		User newUser = new User();
+		newUser.setUserRole(1);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			session.merge(userinfo);
+			session.merge(wallet);
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
+		System.out.println(userinfo.getId());
+		System.out.println(wallet.getWalletId());
+	}
 }
