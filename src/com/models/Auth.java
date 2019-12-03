@@ -58,6 +58,7 @@ public class Auth {
 		return result;
 	}
 	
+	
 	public boolean createSession(User user) {
 		boolean auth = false;
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -155,6 +156,26 @@ public class Auth {
 		 }
 		return user;
 	}
+	public boolean userExist(String username) {
+		boolean result = false;
+		session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			 tx = session.beginTransaction();
+			 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", username)).list();
+			 if (data.size() > 0) {
+				 result = true;
+		     }
+			 data.clear();
+		     tx.commit();
+		 }catch (HibernateException e) {
+		     if (tx!=null) tx.rollback();
+		     e.printStackTrace(); 
+		 }finally {
+		     session.close(); 
+		 }
+		return result;
+	}
+	
 	public User getCurrentUser() {
 		User user = null;
 		int userId = 0;
@@ -225,7 +246,5 @@ public class Auth {
 		}finally {
 			session.close(); 
 		}
-		System.out.println(userinfo.getId());
-		System.out.println(wallet.getWalletId());
 	}
 }

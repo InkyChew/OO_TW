@@ -349,18 +349,21 @@ public class GUI { //GUI=V+C
 				String name = (String) httpRequest.getParameter("name");
 				String telephone = (String) httpRequest.getParameter("telephone");
 				String address = (String) httpRequest.getParameter("address");
+				this.registerOriginator.setEmail(email);
+				this.registerOriginator.setUsername(username);
+				this.registerOriginator.setName(name);
+				this.registerOriginator.setTelephone(telephone);
+				this.registerOriginator.setAddress(address);
 				if(email.equals("") || username.equals("") || name.equals("") || telephone.equals("") || address.equals("")) {
 					httpRequest.setAttribute("msg", "All fields are required.");
 					return "wrong";
 				} else if (username.length() > 10) {
 					httpRequest.setAttribute("msg", "Your username must be under or equal than 10 characters long.");
 					return "wrong";
+				} else if (auth.userExist(username)) {
+					httpRequest.setAttribute("msg", "This username has been used.");
+					return "wrong";
 				}
-				this.registerOriginator.setEmail(email);
-				this.registerOriginator.setUsername(username);
-				this.registerOriginator.setName(name);
-				this.registerOriginator.setTelephone(telephone);
-				this.registerOriginator.setAddress(address);
 				// sendOTP
 				String OTP = "";
 				for(int i = 0; i < 8; i++){
