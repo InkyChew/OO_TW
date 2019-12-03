@@ -202,13 +202,22 @@ public class Auth {
 		userinfo.setAddress(address);
 		Wallet wallet = new Wallet();
 		User newUser = new User();
-		newUser.setUserRole(1);
+		newUser.setUserName(username);
+		newUser.setUserPass(password);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try{
-			session.merge(userinfo);
-			session.merge(wallet);
+			userinfo = (UserInfo) session.merge(userinfo);
+			wallet = (Wallet)session.merge(wallet);
+			newUser.setWallet(wallet);
+			newUser.setUserInfo(userinfo);
+			Role role;
+			List<Role> data = session.createCriteria(Role.class).add(Restrictions.eq("roleId", 1)).list();
+			role = (Role) data.get(0);
+			newUser.setUserRole(role);
+			newUser = (User) session.merge(newUser);
+			data.clear();
 			tx.commit();
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
