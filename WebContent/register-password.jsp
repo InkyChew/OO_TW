@@ -23,17 +23,32 @@
         style="background-color:#f0f0f0;"
       >
         <h1>Password</h1>
-        <form action="ToRegisterDone" method="post" enctype="multipart/form-data">
+        <form action="ToRegisterPassword" method="post" enctype="multipart/form-data">
           <div class="container text-left">
+          <% if (request.getAttribute("msg") != null){ %>
+				<div class="alert alert-danger" role="alert">
+					<%= request.getAttribute("msg") %>
+				</div>
+			<% } %>
+          	  <div class="form-group">
+			    <label for="exampleInputEmail1">OTP code</label>
+			    <input type="text" class="form-control" id="exampleInputEmail1" name="OTP">
+			    <small id="otpHelp" class="form-text text-muted">Please receive your OTP code in your email in 10 minute.</small>
+			  </div>
+			  <div class="form-group">
+			    <label for="InputPassword">Password</label>
+			    <input type="password" class="form-control" id="InputPassword" name="password">
+			    <small id="PasswordHelpBlock" class="form-text text-muted">
+				  Your password must be under or equal than 10 characters long.
+				</small>
+			  </div>
+			  <div class="form-group">
+			    <label for="InputConfirmPassword">Confirm Password</label>
+			    <input type="password" class="form-control" id="InputConfirmPassword" name="confirmPassword">
+			  </div>
             <div class="text-center mb-2 mt-2">
-              <button type="submit" class="btn btn-info">Next</button>
-            </div>
-          </div>
-        </form>
-        <form action="ToRegisterInfo" method="post" enctype="multipart/form-data">
-          <div class="container text-left">
-            <div class="text-center mb-2 mt-2">
-              <button type="submit" class="btn btn-secondary">&lt;&lt;Back</button>
+            <button type="submit" class="btn btn-secondary" name="type" value="back">Back</button>
+              <button type="submit" class="btn btn-info" name="type" value="next">Next</button>
             </div>
           </div>
         </form>

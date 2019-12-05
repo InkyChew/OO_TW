@@ -128,6 +128,26 @@ public class Auth {
 		 }
 		return user;
 	}
+	public boolean userExist(String username) {
+		boolean result = false;
+		session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			 tx = session.beginTransaction();
+			 List<User> data = session.createCriteria(User.class).add(Restrictions.eq("userName", username)).list();
+			 if (data.size() > 0) {
+				 result = true;
+		     }
+			 data.clear();
+		     tx.commit();
+		 }catch (HibernateException e) {
+		     if (tx!=null) tx.rollback();
+		     e.printStackTrace(); 
+		 }finally {
+		     session.close(); 
+		 }
+		return result;
+	}
+	
 	public User getCurrentUser() {
 		User user = null;
 		int userId = 0;
@@ -136,5 +156,67 @@ public class Auth {
 		}
 		user = getUser(userId);
 		return user;
+	}
+	
+	public String CreatOrCTID() {
+		String OrCTID = "";
+		for(int i = 0; i < 8; i++){
+	      int random = (int)((Math.random() * 3) + 1);
+	      if(random == 1){
+	    	  OrCTID += (char)(int)((Math.random()*10)+48);
+	      }else if(random == 2){
+	    	  OrCTID += (char)(int)(((Math.random()*26) + 65));
+	      }else{
+	    	  OrCTID += (char)(int)((Math.random()*26) + 97);
+	      }
+	    }
+		httpSession.setAttribute("OrCTID", OrCTID);
+		return OrCTID;
+	}
+	
+	public String getOrCTID() {
+		if (httpSession.getAttribute("OrCTID") != null) {
+			return (String) httpSession.getAttribute("OrCTID");
+		} else {
+			return null;
+		}
+	}
+	
+	public void clearOrCTID() {
+		httpSession.removeAttribute("OrCTID");
+	}
+	
+	public void createUser(String email, String username, String telephone,
+			String address, String password, String name) {
+		UserInfo userinfo = new UserInfo();
+		userinfo.setTelephone(telephone);
+		userinfo.setEmail(email);
+		userinfo.setName(name);
+		userinfo.setAddress(address);
+		Wallet wallet = new Wallet();
+		User newUser = new User();
+		newUser.setUserName(username);
+		newUser.setUserPass(password);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			userinfo = (UserInfo) session.merge(userinfo);
+			wallet = (Wallet)session.merge(wallet);
+			newUser.setWallet(wallet);
+			newUser.setUserInfo(userinfo);
+			Role role;
+			List<Role> data = session.createCriteria(Role.class).add(Restrictions.eq("roleId", 1)).list();
+			role = (Role) data.get(0);
+			newUser.setUserRole(role);
+			newUser = (User) session.merge(newUser);
+			data.clear();
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
 	}
 }

@@ -25,8 +25,10 @@ import org.hibernate.criterion.Restrictions;
 
 import com.models.HibernateUtil;
 import com.models.Mail;
+import com.models.OrCtStored;
 import com.models.User;
 import com.models.UserInfo;
+import com.models.Wallet;
 import com.models.TransactionDetail;
 import com.models.Transfer;
 import com.models.AbTransfer;
@@ -50,8 +52,9 @@ public class GUI { //GUI=V+C
 	private Mail mail;
 	private Auth auth;
 	
-	static private RegisterOriginator registerOriginator;
-	static private RegisterCareTaker registerCareTaker;
+	private RegisterOriginator registerOriginator;
+	private RegisterCareTaker registerCareTaker;
+	private OrCtStored orCtStored;
 	
 	// DB
 	Session session = null;
@@ -276,42 +279,189 @@ public class GUI { //GUI=V+C
 		return output;
 	}
 	
+	private void setOrCt(String key) {
+		this.registerOriginator = this.orCtStored.getRegisterOriginator(key);
+		this.registerCareTaker = this.orCtStored.getRegisterCareTaker(key);
+	}
+	
 	public String toRegisterContract() {
+		this.orCtStored = OrCtStored.getInstance();
 		String result = "error";
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		String method = (String) httpRequest.getMethod();
 		String type = (String)httpRequest.getParameter("type");
-		System.out.println("Method: " + method);
-		System.out.println("Type: " + type);
+		String key = this.auth.getOrCTID();
 		if (method.equals("POST")) {
-			this.registerOriginator.setContract(true);
-			this.registerOriginator.setState(1);
-			this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
-			result = "next";
+			if (type.equals("back")) {
+				this.registerCareTaker = null;
+				this.registerOriginator = null;
+				this.orCtStored.removeOrCT(key);
+				this.auth.clearOrCTID();
+				result = "back";
+			} else {
+				this.setOrCt(key);
+				String contract = (String)httpRequest.getParameter("contract");
+				if (contract == null) {
+					httpRequest.setAttribute("msg", "please accept the contract.");
+					return "wrong";
+				} else {
+					this.registerOriginator.setContract(true);
+				}
+				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+				this.registerOriginator.setState(1);
+				result = "next";
+			}
 		} else { // GET
-			if (this.registerOriginator == null) {
-				this.registerOriginator = new RegisterOriginator();
-				this.registerCareTaker = new RegisterCareTaker();
-				System.out.println("123");
+			if (key == null) {
+				key = this.auth.CreatOrCTID();
+				while(!this.orCtStored.OrCTIDIsEmpty(key)) {
+					key = this.auth.CreatOrCTID();
+				}
+				this.registerOriginator = this.orCtStored.addRegisterOriginator(key);
+				this.registerCareTaker = this.orCtStored.addRegisterCareTaker(key);
 				result = "success";
 			} else {
+				this.setOrCt(key);
 				if (this.registerOriginator.getState() != 0) {
 					result = "next";
+				} else {
+					httpRequest.setAttribute("contract", this.registerOriginator.getContract());
+					result = "success";
+				}
+			}
+		}
+		return result;
+	}
+	
+	public String toRegisterInfo() {
+		this.orCtStored = OrCtStored.getInstance();
+		String result = "error";
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String method = (String) httpRequest.getMethod();
+		String type = (String)httpRequest.getParameter("type");
+		String key = this.auth.getOrCTID();
+		if (method.equals("POST")) {
+			this.setOrCt(key);
+			if (type.equals("back")) {
+				this.registerOriginator.restoreFromMemento(this.registerCareTaker.getLastMemento());
+				result = "back";
+			} else {
+				String email = (String) httpRequest.getParameter("email");
+				String username = (String) httpRequest.getParameter("username");
+				String name = (String) httpRequest.getParameter("name");
+				String telephone = (String) httpRequest.getParameter("telephone");
+				String address = (String) httpRequest.getParameter("address");
+				this.registerOriginator.setEmail(email);
+				this.registerOriginator.setUsername(username);
+				this.registerOriginator.setName(name);
+				this.registerOriginator.setTelephone(telephone);
+				this.registerOriginator.setAddress(address);
+				if(email.equals("") || username.equals("") || name.equals("") || telephone.equals("") || address.equals("")) {
+					httpRequest.setAttribute("msg", "All fields are required.");
+					return "wrong";
+				} else if (username.length() > 10) {
+					httpRequest.setAttribute("msg", "Your username must be under or equal than 10 characters long.");
+					return "wrong";
+				} else if (auth.userExist(username)) {
+					httpRequest.setAttribute("msg", "This username has been used.");
+					return "wrong";
+				}
+				// sendOTP
+				String OTP = "";
+				for(int i = 0; i < 8; i++){
+			      int random = (int)((Math.random() * 3) + 1);
+			      if(random == 1){
+			    	OTP += (char)(int)((Math.random()*10)+48);
+			      }else if(random == 2){
+			        OTP += (char)(int)(((Math.random()*26) + 65));
+			      }else{
+			        OTP += (char)(int)((Math.random()*26) + 97);
+			      }
+			    }
+				mail.sendConfirmMail(email, OTP);
+				final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+				auth.createOTP(OTP, expire);
+				this.registerCareTaker.addMemento(this.registerOriginator.saveToMemento());
+				this.registerOriginator.setState(2);
+				result = "next";
+			}
+		} else { // GET
+			if (key == null) {
+				result = "back";
+			} else {
+				this.setOrCt(key);
+				if (this.registerOriginator.getState() > 1) {
+					result = "next";
+				} else if (this.registerOriginator.getState() < 1) {
+					result = "back";
+				} else {
+					httpRequest.setAttribute("email", this.registerOriginator.getEmail());
+					httpRequest.setAttribute("username", this.registerOriginator.getUsername());
+					httpRequest.setAttribute("name", this.registerOriginator.getName());
+					httpRequest.setAttribute("telephone", this.registerOriginator.getTelephone());
+					httpRequest.setAttribute("address", this.registerOriginator.getAddress());
+					result = "success";
+				}
+			}
+		}
+		return result;
+	}
+	
+	public String toRegisterPassword() {
+		this.orCtStored = OrCtStored.getInstance();
+		String result = "error";
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String method = (String) httpRequest.getMethod();
+		String type = (String)httpRequest.getParameter("type");
+		String key = this.auth.getOrCTID();
+		if (method.equals("POST")) {
+			this.setOrCt(key);
+			if (type.equals("back")) {
+				this.registerOriginator.restoreFromMemento(this.registerCareTaker.getLastMemento());
+				result = "back";
+			} else {
+				String inputOTP = (String) httpRequest.getParameter("OTP");
+				String password = (String) httpRequest.getParameter("password");
+				String confirmPassword = (String) httpRequest.getParameter("confirmPassword");
+				if(this.auth.checkOTP(inputOTP)) {
+					if (password.equals("") || confirmPassword.equals("") || password.length() > 10 || confirmPassword.length() > 10) {
+						httpRequest.setAttribute("msg", "Password & confirm password is required and must be under or equal than 10 characters long.");
+						return "wrong";
+					} else if (!password.equals(confirmPassword)) {
+						httpRequest.setAttribute("msg", "Password & confirm password must be the same.");
+						return "wrong";
+					}
+				} else {
+					httpRequest.setAttribute("msg", "OTP code is incorrect.");
+					return "wrong";
+				}
+				String email = this.registerOriginator.getEmail();
+				String username = this.registerOriginator.getUsername();
+				String name = this.registerOriginator.getName();
+				String telephone = this.registerOriginator.getTelephone();
+				String address = this.registerOriginator.getAddress();
+				auth.createUser(email, username, telephone, address, password, name);
+				this.registerCareTaker = null;
+				this.registerOriginator = null;
+				this.orCtStored.removeOrCT(key);
+				this.auth.clearOrCTID();
+				result = "next";
+			}
+		} else { // GET
+			if (key == null) {
+				result = "back";
+			} else {
+				this.setOrCt(key);
+				if (this.registerOriginator.getState() > 2) {
+					result = "next";
+				} else if (this.registerOriginator.getState() < 2) {
+					result = "back";
 				} else {
 					result = "success";
 				}
 			}
 		}
-		System.out.println(result);
 		return result;
-	}
-	
-	public String toRegisterInfo() {
-		return "success";
-	}
-	
-	public String toRegisterPassword() {
-		return "success";
 	}
 	
 	public String toRegisterDone() {
