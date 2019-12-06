@@ -28,10 +28,10 @@ public abstract class LoginHandler{
 			setFailTimes(failTimes);
 			setErrorMsg(msg);
 		} else {
-			nextHandle();
+			goNext();
 		}
 	}
-	public void nextHandle(){
+	public void goNext(){
         if(successor != null){
             successor.handleRequest();
         }else{
