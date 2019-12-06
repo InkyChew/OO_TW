@@ -3,6 +3,8 @@ package com.models;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpSession;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,9 +21,15 @@ public class Transfer {
 	
 	public Discounter levelDiscounter; // context has strategy
 	public final int fee = 30;
-	public GUI gui = new GUI(); // mediator
+	public GUI gui;
 	public TransactionDetail transactionDetail;
-	
+	public Transfer(){
+		gui = new GUI(); // mediator
+	}
+	// for testing
+	public Transfer(HttpSession hs){
+		gui = new GUI(hs); // mediator
+	}
 	public void setAmount(int amount){
 	    this.amount=amount;
 	}
