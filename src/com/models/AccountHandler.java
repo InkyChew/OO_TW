@@ -30,12 +30,6 @@ public class AccountHandler extends LoginHandler {
 		return isValid;
 	}
 	public void handleRequest() {
-		if(canHandle()) {
-			failTimes += 1;
-			setFailTimes(failTimes);
-			setErrorMsg("Account is not available.");
-		} else {
-			super.handleRequest();
-		}
+		super.handleTemplate("Account is not available.");
 	}
 }

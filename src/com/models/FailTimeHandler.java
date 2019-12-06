@@ -16,15 +16,10 @@ public class FailTimeHandler extends LoginHandler {
 		}
 	}
 	public void handleRequest() {
-		if(canHandle()) {
-			setFailTimes(failTimes); 
-			lock(); // lock
-			setErrorMsg("Fail more than 3 times. Lock for 10 mins.");
-		} else {
-			super.handleRequest();
-		}
-	}
-	public void lock() {
+		super.handleTemplate("Fail more than 3 times. Lock for 10 mins.");
+	}	
+	@Override
+	public void handleFail() { // Lock
 		final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
 		httpSession.setAttribute("failTimesExpire", expire);
 	}
