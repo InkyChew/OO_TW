@@ -50,14 +50,6 @@ public class Auth {
 		 }
 	}
 	
-	public boolean checkStr(String str) {
-		boolean result = false;
-		if (str != null && str.length() > 0 && str.length() <= 10) {
-			result = true;
-		}
-		return result;
-	}
-	
 	public boolean createSession() {
 		LoginHandler pasHandler = new PasswordHandler(null);
 		LoginHandler accHandler = new AccountHandler(pasHandler);
@@ -187,7 +179,7 @@ public class Auth {
 	}
 	
 	public void createUser(String email, String username, String telephone,
-			String address, String password, String name) {
+		String address, String password, String name) {
 		UserInfo userinfo = new UserInfo();
 		userinfo.setTelephone(telephone);
 		userinfo.setEmail(email);
