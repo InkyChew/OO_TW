@@ -35,6 +35,7 @@ public abstract class LoginHandler{
         if(successor != null){
             successor.handleRequest();
         }else{
+        	httpSession = ServletActionContext.getRequest().getSession();
         	httpSession.setAttribute("userId", newUser.userId);
 	   		user = newUser;
 	   		failTimes = 0;

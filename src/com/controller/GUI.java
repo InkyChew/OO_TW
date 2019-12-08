@@ -160,14 +160,15 @@ public class GUI { //GUI=V+C
 	}
 	public String login() {
 		String output = "error";
+		System.out.println(this);
 		if(auth.createSession()) {
-			if(auth.isAdmin()) { // account detail page
+			if(auth.isAdmin()) {
 				output = "administrator";
 			}else {
-				output = "success"; // menu
+				output = "success";
 			}
 		} else {
-			output = "error"; // error page
+			output = "error";
 		}
 		return output;
 	}
@@ -260,10 +261,7 @@ public class GUI { //GUI=V+C
 	public String setTransferDetail(Transfer transfer, int walletId) {
 		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
 		String date = dfcurrentTime.format(new java.util.Date());
-		if(transactionDetail == null) {
-			transactionDetail = new TransactionDetail();
-		}
-		transactionDetail = (TransactionDetail)transactionDetail.clone();
+		transactionDetail = new TransactionDetail();
 		transactionDetail.setDate(date);
 		transactionDetail.setAmount(transfer.amount);
 		transactionDetail.setBalance(transfer.balance);

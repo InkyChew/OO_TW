@@ -4,7 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class TransactionDetail implements Cloneable {
+public class TransactionDetail {
 	public int id;
 	public int walletId;
 	public String date;
@@ -69,15 +69,6 @@ public class TransactionDetail implements Cloneable {
 			session.close(); 
 		}
 		return output;
-	}
-	public Object clone() {
-		Object clone = null;
-		try {
-			clone = super.clone();
-		}catch(CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return clone;
 	}
 }
 

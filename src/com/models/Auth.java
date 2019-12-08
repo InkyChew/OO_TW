@@ -57,7 +57,6 @@ public class Auth {
 		LoginHandler failHandler = new FailTimeHandler(inpHandler);
 		
 		failHandler.handleRequest();
-
 		return checkSession();
 	}
 	
@@ -74,6 +73,7 @@ public class Auth {
 	}
 	
 	public int getUserId() {
+		httpSession = ServletActionContext.getRequest().getSession();
 		if (httpSession.getAttribute("userId") != null) {
 			return (int) httpSession.getAttribute("userId");
 		}

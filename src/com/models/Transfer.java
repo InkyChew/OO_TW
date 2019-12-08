@@ -76,34 +76,8 @@ public class Transfer {
 	public String process() {
 		return "success";
 	}
-	public String setTransactionDetail(int walletId) { // transaction detail
-//		DateFormat dfcurrentTime = new SimpleDateFormat("yyyyMMddHHmmss");
-//		String date = dfcurrentTime.format(new java.util.Date());
+	public String setTransactionDetail(int walletId) {
 		return gui.setTransferDetail(this, walletId);
-//		transactionDetail = new TransactionDetail();
-//		transactionDetail.setDate(date);
-//		transactionDetail.setAmount(amount);
-//		transactionDetail.setBalance(balance);
-//		transactionDetail.setType(type);
-//		transactionDetail.setWalletId(walletId);
-//		transactionDetail.setTraderId(traderId);
-//		return updateTransactionDetail();
 	}
-//	public String updateTransactionDetail(TransactionDetail transactionDetail) {
-//		Session session = HibernateUtil.getSessionFactory().openSession();
-//		String output="error";
-//		Transaction tx = session.beginTransaction();
-//		try{
-//			session.merge(transactionDetail);
-//			tx.commit();
-//			output="success";
-//		}catch (HibernateException e) {
-//			if (tx!=null) tx.rollback();
-//			e.printStackTrace(); 
-//		}finally {
-//			session.close(); 
-//		}
-//		return output;
-//	}
 }
 
