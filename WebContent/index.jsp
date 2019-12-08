@@ -49,6 +49,14 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="s" uri="/struts-tags"%>
             <div class="text-center mb-2">
               <button type="submit" class="btn btn-info">Login&gt;&gt;</button>
             </div>
+          </div>
+        </form>
+        <form action="ToRegisterContract" method="GET" enctype="multipart/form-data">
+        	<button type="submit" class="btn btn-dark">Register</button>
+        </form>
+        <s:if test="#session['errorMsg'] != null">
+              <div class="alert alert-danger" role="alert"><s:property value="#session['errorMsg']"/></div>
+            </s:if>
             <s:if test="#session['failTimes'] == 1">
               <div class="alert alert-danger" role="alert"
                 >Fail 1 time, if more than 3 then you will be blocked for 10
@@ -66,11 +74,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="s" uri="/struts-tags"%>
                 >Fail 3 times, you will be blocked for 10 minutes</div
               >
             </s:elseif>
-          </div>
-        </form>
-        <form action="ToRegisterContract" method="GET" enctype="multipart/form-data">
-        	<button type="submit" class="btn btn-dark">Register</button>
-        </form>
       </div>
     </div>
 
