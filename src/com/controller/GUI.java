@@ -160,7 +160,6 @@ public class GUI { //GUI=V+C
 	}
 	public String login() {
 		String output = "error";
-		System.out.println(this);
 		if(auth.createSession()) {
 			if(auth.isAdmin()) {
 				output = "administrator";
