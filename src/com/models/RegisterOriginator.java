@@ -4,7 +4,7 @@ public class RegisterOriginator {
 	
 	private String pass;
 	private RegisterMemento registerMemento;
-	RegisterState registerState = null;
+	RegisterState registerState = new RegisterState();
 	
 	private boolean contract;
 	private String name;
@@ -23,11 +23,6 @@ public class RegisterOriginator {
 	
 	public RegisterMemento saveToMemento() {		
 		this.registerMemento = new RegisterMemento();
-		if(registerState == null) {
-			registerState = new RegisterState();
-			System.out.println("create registerState" + registerState);
-		}
-		System.out.println("registerState" + registerState);
 		registerState = (RegisterState) registerState.clone();
 		registerState.setAddress(address);
 		registerState.setContract(contract);
