@@ -4,7 +4,7 @@ public class RegisterOriginator {
 	
 	private String pass;
 	private RegisterMemento registerMemento;
-	RegisterState registerState = new RegisterState();
+	RegisterState registerState = null;
 	
 	private boolean contract;
 	private String name;
@@ -21,9 +21,14 @@ public class RegisterOriginator {
 		this.setState(0);
 	}
 	
-	public RegisterMemento saveToMemento() {
+	public RegisterMemento saveToMemento() {		
 		this.registerMemento = new RegisterMemento();
-		RegisterState registerState = (RegisterState) this.registerState.clone();
+		if(registerState == null) {
+			registerState = new RegisterState();
+			System.out.println("create registerState" + registerState);
+		}
+		System.out.println("registerState" + registerState);
+		registerState = (RegisterState) registerState.clone();
 		registerState.setAddress(address);
 		registerState.setContract(contract);
 		registerState.setEmail(email);
@@ -37,7 +42,7 @@ public class RegisterOriginator {
 	}
 	
 	public void restoreFromMemento(RegisterMemento m) throws IllegalAccessException {
-		RegisterState registerState = m.getRegisterState(pass);
+		registerState = m.getRegisterState(pass);
 		this.setValue(registerState);
 	}
 	
