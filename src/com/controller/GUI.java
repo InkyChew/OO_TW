@@ -339,7 +339,7 @@ public class GUI { //GUI=V+C
 		return result;
 	}
 	
-	public String toRegisterInfo() {
+	public String toRegisterInfo() throws IllegalAccessException {
 		this.orCtStored = OrCtStored.getInstance();
 		String result = "error";
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
@@ -413,7 +413,7 @@ public class GUI { //GUI=V+C
 		return result;
 	}
 	
-	public String toRegisterPassword() {
+	public String toRegisterPassword() throws IllegalAccessException {
 		this.orCtStored = OrCtStored.getInstance();
 		String result = "error";
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
