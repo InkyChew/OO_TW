@@ -1,60 +1,15 @@
 package com.models;
 
-public class RegisterOriginator {
-	
-	private String pass;
-	private RegisterMemento registerMemento;
-	RegisterState registerState = new RegisterState();
-	
-	private boolean contract;
+public class RegisterState implements Cloneable {
+	private boolean contract = false;
 	private String name;
 	private String telephone;
 	private String address;
 	private String email;
 	private String username;
 	private String password;
-	private int state;
+	private int state = 0;
 	
-	public RegisterOriginator(String pass) {
-		this.setPass(pass);
-		this.setContract(false);
-		this.setState(0);
-	}
-	
-	public RegisterMemento saveToMemento() {
-		this.registerMemento = new RegisterMemento();
-		RegisterState registerState = (RegisterState) this.registerState.clone();
-		registerState.setAddress(address);
-		registerState.setContract(contract);
-		registerState.setEmail(email);
-		registerState.setName(name);
-		registerState.setPassword(password);
-		registerState.setState(state);
-		registerState.setTelephone(telephone);
-		registerState.setUsername(username);
-		this.registerMemento.setRegisterState(registerState, pass);
-		return registerMemento;
-	}
-	
-	public void restoreFromMemento(RegisterMemento m) throws IllegalAccessException {
-		RegisterState registerState = m.getRegisterState(pass);
-		this.setValue(registerState);
-	}
-	
-	public void setValue(RegisterState registerState) {
-		this.setAddress(registerState.getAddress());
-		this.setContract(registerState.getContract());
-		this.setEmail(registerState.getEmail());
-		this.setName(registerState.getName());
-		this.setPassword(registerState.getPassword());
-		this.setTelephone(registerState.getTelephone());
-		this.setUsername(registerState.getUsername());
-		this.setState(registerState.getState());
-	}
-	
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
 	
 	public void setState(int state) {
 		this.state = state;
@@ -145,5 +100,16 @@ public class RegisterOriginator {
 	 */
 	public String getUsername() {
 		return username;
+	}
+	
+	
+	public Object clone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch(CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return clone;
 	}
 }
