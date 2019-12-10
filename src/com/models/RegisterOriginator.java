@@ -2,7 +2,7 @@ package com.models;
 
 public class RegisterOriginator {
 	
-	private String pass = "123";
+	private String pass;
 	private RegisterMemento registerMemento;
 	RegisterState registerState = new RegisterState();
 	
@@ -15,7 +15,8 @@ public class RegisterOriginator {
 	private String password;
 	private int state;
 	
-	public RegisterOriginator() {
+	public RegisterOriginator(String pass) {
+		this.setPass(pass);
 		this.setContract(false);
 		this.setState(0);
 	}
@@ -49,6 +50,10 @@ public class RegisterOriginator {
 		this.setTelephone(registerState.getTelephone());
 		this.setUsername(registerState.getUsername());
 		this.setState(registerState.getState());
+	}
+	
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 	
 	public void setState(int state) {
