@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class PasswordHandler extends LoginHandler {
 	Session session = HibernateUtil.getSessionFactory().openSession();
+	
 	PasswordHandler(LoginHandler s){
 		super(s);
 	}
@@ -22,6 +23,7 @@ public class PasswordHandler extends LoginHandler {
 	}
 	public void handleRequest() {
 		if(canHandle()) {
+			failTimes = this.getFailTimes();
 			failTimes += 1;
 			setFailTimes(failTimes);
 			setErrorMsg("Password is wrong.");

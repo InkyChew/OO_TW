@@ -13,6 +13,7 @@ public class InputHandler extends LoginHandler {
 	}
 	public void handleRequest() {
 		if(canHandle()) {
+			failTimes = this.getFailTimes();
 			failTimes += 1;
 			setFailTimes(failTimes);
 			setErrorMsg("Input cannot more than 10.");

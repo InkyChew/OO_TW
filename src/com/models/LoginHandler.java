@@ -35,10 +35,12 @@ public abstract class LoginHandler{
         }
     }
 	public int getFailTimes() {
+		Object x = httpSession.getAttribute("failTimes");
+		Object y = httpSession.getAttribute("failTimesExpire");
 		if(httpSession.getAttribute("failTimes") == null || httpSession.getAttribute("failTimesExpire") == null) {
 			 return 0;
 		 } else {
-			 int failTimes = (int) httpSession.getAttribute("failTimes");
+			 failTimes = (int) httpSession.getAttribute("failTimes");
 			 LocalDateTime expire = (LocalDateTime) httpSession.getAttribute("failTimesExpire");
 			 final LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("+8")));
 				if(now.isBefore(expire)) {
@@ -49,6 +51,10 @@ public abstract class LoginHandler{
 	}
 	public void setFailTimes(int failTimes) {
 		httpSession.setAttribute("failTimes", failTimes);
+		final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+		httpSession.setAttribute("failTimesExpire", expire);
+		int x = (int) httpSession.getAttribute("failTimes");
+		x = 0;
 	}
 	public void setErrorMsg(String error) {
 		httpSession.setAttribute("errorMsg", error);

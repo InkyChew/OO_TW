@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 public class AccountHandler extends LoginHandler {
 	Session session = HibernateUtil.getSessionFactory().openSession();
+	int failTimes = this.getFailTimes();
 	
 	AccountHandler(LoginHandler s){
 		super(s);
@@ -31,6 +32,7 @@ public class AccountHandler extends LoginHandler {
 	}
 	public void handleRequest() {
 		if(canHandle()) {
+			failTimes = this.getFailTimes();
 			failTimes += 1;
 			setFailTimes(failTimes);
 			setErrorMsg("Account is not available.");
