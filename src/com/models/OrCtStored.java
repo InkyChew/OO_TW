@@ -28,7 +28,7 @@ public class OrCtStored {
 	}
 	
 	public RegisterOriginator addRegisterOriginator(String key) {
-		RegisterOriginator originator = new RegisterOriginator();
+		RegisterOriginator originator = new RegisterOriginator(key);
 		OrMap.put(key, originator);
 		return originator;
 	}
