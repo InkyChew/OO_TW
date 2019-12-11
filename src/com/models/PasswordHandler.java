@@ -21,6 +21,12 @@ public class PasswordHandler extends LoginHandler {
 		}
 	}
 	public void handleRequest() {
-		super.handleTemplate("Password is wrong.");
+		if(canHandle()) {
+			failTimes += 1;
+			setFailTimes(failTimes);
+			setErrorMsg("Password is wrong.");
+		}else {
+			super.handleRequest();
+		}
 	}
 }

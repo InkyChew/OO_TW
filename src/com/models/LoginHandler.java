@@ -22,16 +22,7 @@ public abstract class LoginHandler{
         user.userName = (String) httpServletRequest.getAttribute("user.userName");
         user.userPass = (String) httpServletRequest.getAttribute("user.userPass");
     }
-	public void handleTemplate(String msg) {
-		if(canHandle()) {
-			handleFail();
-			setFailTimes(failTimes);
-			setErrorMsg(msg);
-		} else {
-			goNext();
-		}
-	}
-	public void goNext(){
+	public void handleRequest(){
         if(successor != null){
             successor.handleRequest();
         }else{
@@ -62,9 +53,5 @@ public abstract class LoginHandler{
 	public void setErrorMsg(String error) {
 		httpSession.setAttribute("errorMsg", error);
 	}
-	public void handleFail() {
-		failTimes += 1;
-	}
     public abstract boolean canHandle();
-    public abstract void handleRequest();
 }
