@@ -22,7 +22,7 @@ public abstract class LoginHandler{
         user.userName = (String) httpServletRequest.getAttribute("user.userName");
         user.userPass = (String) httpServletRequest.getAttribute("user.userPass");
     }
-	public void handleTemplate(String msg) {
+	public final void handleTemplate(String msg) {
 		if(canHandle()) {
 			handleFail();
 			setFailTimes(failTimes);
