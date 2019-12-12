@@ -31,12 +31,11 @@ public abstract class LoginHandler{
 	   		user = newUser;
 	   		failTimes = 0;
 	   		setFailTimes(failTimes);
+	   		setErrorMsg(null);
             System.out.println("login success.");
         }
     }
 	public int getFailTimes() {
-		Object x = httpSession.getAttribute("failTimes");
-		Object y = httpSession.getAttribute("failTimesExpire");
 		if(httpSession.getAttribute("failTimes") == null || httpSession.getAttribute("failTimesExpire") == null) {
 			 return 0;
 		 } else {
@@ -53,8 +52,6 @@ public abstract class LoginHandler{
 		httpSession.setAttribute("failTimes", failTimes);
 		final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
 		httpSession.setAttribute("failTimesExpire", expire);
-		int x = (int) httpSession.getAttribute("failTimes");
-		x = 0;
 	}
 	public void setErrorMsg(String error) {
 		httpSession.setAttribute("errorMsg", error);

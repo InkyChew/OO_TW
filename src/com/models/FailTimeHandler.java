@@ -10,8 +10,7 @@ public class FailTimeHandler extends LoginHandler {
 	}
 	public boolean canHandle() {
 		failTimes = this.getFailTimes();
-		System.out.println(failTimes);
-		if(failTimes > 3) {
+		if(failTimes >= 3) {
 			return true;
 		} else {
 			return false;
