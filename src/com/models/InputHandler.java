@@ -12,7 +12,14 @@ public class InputHandler extends LoginHandler {
 		}
 	}
 	public void handleRequest() {
-		super.handleTemplate("Input cannot more than 10.");
+		if(canHandle()) {
+			failTimes = this.getFailTimes();
+			failTimes += 1;
+			setFailTimes(failTimes);
+			setErrorMsg("Input cannot more than 10.");
+		} else {
+			super.handleRequest();
+		}
 	}
 	public boolean checkStr(String str) {
 		boolean result = false;

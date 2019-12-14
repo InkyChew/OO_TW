@@ -22,16 +22,7 @@ public abstract class LoginHandler{
         user.userName = (String) httpServletRequest.getAttribute("user.userName");
         user.userPass = (String) httpServletRequest.getAttribute("user.userPass");
     }
-	public void handleTemplate(String msg) {
-		if(canHandle()) {
-			handleFail();
-			setFailTimes(failTimes);
-			setErrorMsg(msg);
-		} else {
-			goNext();
-		}
-	}
-	public void goNext(){
+	public void handleRequest(){
         if(successor != null){
             successor.handleRequest();
         }else{
@@ -40,6 +31,7 @@ public abstract class LoginHandler{
 	   		user = newUser;
 	   		failTimes = 0;
 	   		setFailTimes(failTimes);
+	   		setErrorMsg(null);
             System.out.println("login success.");
         }
     }
@@ -47,7 +39,7 @@ public abstract class LoginHandler{
 		if(httpSession.getAttribute("failTimes") == null || httpSession.getAttribute("failTimesExpire") == null) {
 			 return 0;
 		 } else {
-			 int failTimes = (int) httpSession.getAttribute("failTimes");
+			 failTimes = (int) httpSession.getAttribute("failTimes");
 			 LocalDateTime expire = (LocalDateTime) httpSession.getAttribute("failTimesExpire");
 			 final LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("+8")));
 				if(now.isBefore(expire)) {
@@ -58,13 +50,11 @@ public abstract class LoginHandler{
 	}
 	public void setFailTimes(int failTimes) {
 		httpSession.setAttribute("failTimes", failTimes);
+		final LocalDateTime expire = LocalDateTime.now(Clock.system(ZoneId.of("+8"))).plusMinutes(10);
+		httpSession.setAttribute("failTimesExpire", expire);
 	}
 	public void setErrorMsg(String error) {
 		httpSession.setAttribute("errorMsg", error);
 	}
-	public void handleFail() {
-		failTimes += 1;
-	}
     public abstract boolean canHandle();
-    public abstract void handleRequest();
 }
