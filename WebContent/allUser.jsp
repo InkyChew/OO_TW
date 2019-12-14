@@ -20,7 +20,7 @@ prefix="s" uri="/struts-tags"%>
         class="text-center col-11 col-md-10 col-lg-8"
         style="background-color:#f0f0f0;"
       >
-        <h1>Administrator</h1>
+        <h1>UserInfomation</h1>
         <table class="table table-responsive-md m-auto">
           <thead>
             <tr>
