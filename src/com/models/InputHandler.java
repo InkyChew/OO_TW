@@ -16,7 +16,7 @@ public class InputHandler extends LoginHandler {
 			failTimes = this.getFailTimes();
 			failTimes += 1;
 			setFailTimes(failTimes);
-			setErrorMsg("Input cannot more than 10.");
+			setErrorMsg("Input cannot be empty or more than 10.");
 		} else {
 			super.handleRequest();
 		}

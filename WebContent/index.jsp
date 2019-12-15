@@ -31,7 +31,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="s" uri="/struts-tags"%>
                 class="form-control"
                 placeholder="Enter username"
                 name="user.userName"
-                required
               />
             </div>
             <div class="form-group">
@@ -41,7 +40,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="s" uri="/struts-tags"%>
                 class="form-control"
                 placeholder="Password"
                 name="user.userPass"
-                required
               />
             </div>
             <div class="text-center mb-2">
